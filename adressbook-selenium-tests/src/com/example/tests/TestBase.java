@@ -13,7 +13,6 @@ public class TestBase {
 
 	private static WebDriver driver;
 	private static String baseUrl;
-	//private boolean acceptNextAlert = true;
 	private static StringBuffer verificationErrors = new StringBuffer();
 
 	@BeforeTest
