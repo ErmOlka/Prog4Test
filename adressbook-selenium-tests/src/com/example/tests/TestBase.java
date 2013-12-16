@@ -17,6 +17,7 @@ public class TestBase {
 	private static WebDriver driver;
 	private static String baseUrl;
 	private static StringBuffer verificationErrors = new StringBuffer();
+	private static int countGroups;
 
 	@BeforeTest
 	public void setUp() throws Exception {
@@ -92,7 +93,10 @@ public class TestBase {
 	    new Select(driver.findElement(By.name("bmonth"))).selectByVisibleText(contact.bMonth);
 	    driver.findElement(By.name("byear")).clear();
 	    driver.findElement(By.name("byear")).sendKeys(contact.bYear);
-	    new Select(driver.findElement(By.name("new_group"))).getOptions(); //selectByVisibleText(contact.contactGroup); //надо найти все доступные варианты значений списка и выбрать одно рандомное
+	    countGroups = new Select(driver.findElement(By.name("new_group"))).getOptions().size();
+	    int randomIndex = randomNumeric(0, countGroups);
+	    new Select(driver.findElement(By.name("new_group"))).selectByIndex(randomIndex);
+	    //new Select(driver.findElement(By.name("new_group"))).selectByVisibleText(contact.contactGroup); сделать так чтобы вызывался либо рандом либо конкретное значение
 	    driver.findElement(By.name("address2")).clear();
 	    driver.findElement(By.name("address2")).sendKeys(contact.address2);
 	    driver.findElement(By.name("phone2")).clear();
@@ -113,5 +117,22 @@ public class TestBase {
 		}
 		return sb.toString();
 	}
-		
+	
+	protected String randomStringNumeric(final int length) {
+		char[] chars = "1234567890".toCharArray();
+		StringBuilder sb = new StringBuilder();
+		Random random = new Random();
+		for (int i = 0; i < 20; i++) {
+		    char c = chars[random.nextInt(chars.length)];
+		    sb.append(c);
+		}
+		return sb.toString();
+	}
+	
+	//рандомное число от min включительно до max
+	protected int randomNumeric(int min,int max) {
+		Random rnd = new Random(System.currentTimeMillis());
+		int randomNumber = min + rnd.nextInt(max - min + 1);
+		return randomNumber;
+	}		
 }

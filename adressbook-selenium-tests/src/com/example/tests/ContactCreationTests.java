@@ -1,44 +1,27 @@
 package com.example.tests;
 
-import org.openqa.selenium.By;
-import org.openqa.selenium.support.ui.Select;
 import org.testng.annotations.Test;
 
 public class ContactCreationTests extends TestBase {
 	
-	/*1) Получить количество всех элементов в списке (например, select.getOptions().size())
-	2) с помощью Random сгенерировать рандомный индекс в диапазоне от 1 до количества элементов
-	3) выбрать элемент списка по индексу
-
-	примерно код по идее будет выглядеть так:
-
-	List<WebElement> options = select.getOptions();
-	int count = options.size();
-	int randomIndex = getRandom(1, count); //как реализовать random можно посмотреть в интернете
-	options.get(randomIndex-1).select(); //-1 потому что индекс начинается с 1 
-	
-	http://software-testing.ru/forum/index.php?/topic/24837/
-	*/
-	
-	
   @Test
-  public void testNonEmptyContactCreation() throws Exception {
+  public void testRandomContactCreation() throws Exception {
     openMainPage();
     initCreationContact();
     ContactData contact = new ContactData();
 	contact.firstName = randomStringLatAlphaNumeric(5);
 	contact.lastName = randomStringLatAlphaNumeric(7);
-	contact.address1 = randomStringLatAlphaNumeric(200);
-	contact.homePhone1 = "1234567";
-	contact.mobilePhone = "7654321";
-	contact.workPhone = "0987654";
+	contact.address1 = randomStringLatAlphaNumeric(20);
+	contact.homePhone1 = randomStringNumeric(7);
+	contact.mobilePhone = randomStringNumeric(7);
+	contact.workPhone = randomStringNumeric(7);
 	contact.email1 = "qwerty@qwe.rty";
 	contact.email2 = "asdfg@as.dfg";
 	contact.bDay = "9";
 	contact.bMonth = "September";
 	contact.bYear = "1978";
-	contact.address2 = randomStringLatAlphaNumeric(100);
-	contact.homePhone2 = "3456789";
+	contact.address2 = randomStringLatAlphaNumeric(10);
+	contact.homePhone2 = randomStringNumeric(7);
 	fillContactForm(contact);
 	submitCreationContact();
     returnToHomePage();
