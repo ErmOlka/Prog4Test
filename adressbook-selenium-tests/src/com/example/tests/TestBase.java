@@ -1,7 +1,10 @@
 package com.example.tests;
 
 import static org.junit.Assert.fail;
+
+import java.util.Random;
 import java.util.concurrent.TimeUnit;
+
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
@@ -89,7 +92,7 @@ public class TestBase {
 	    new Select(driver.findElement(By.name("bmonth"))).selectByVisibleText(contact.bMonth);
 	    driver.findElement(By.name("byear")).clear();
 	    driver.findElement(By.name("byear")).sendKeys(contact.bYear);
-	    new Select(driver.findElement(By.name("new_group"))).selectByVisibleText(contact.contactGroup);
+	    new Select(driver.findElement(By.name("new_group"))).getOptions(); //selectByVisibleText(contact.contactGroup); //надо найти все доступные варианты значений списка и выбрать одно рандомное
 	    driver.findElement(By.name("address2")).clear();
 	    driver.findElement(By.name("address2")).sendKeys(contact.address2);
 	    driver.findElement(By.name("phone2")).clear();
@@ -99,4 +102,16 @@ public class TestBase {
 	protected void initCreationContact() {
 		driver.findElement(By.linkText("add new")).click();
 	  }
+
+	protected String randomStringLatAlphaNumeric(final int length) {
+		char[] chars = "abcdefghijklmnopqrstuvwxyzQWERTYUIOPASDFGHJKLZXCVBNM 1234567890".toCharArray();
+		StringBuilder sb = new StringBuilder();
+		Random random = new Random();
+		for (int i = 0; i < 20; i++) {
+		    char c = chars[random.nextInt(chars.length)];
+		    sb.append(c);
+		}
+		return sb.toString();
+	}
+		
 }

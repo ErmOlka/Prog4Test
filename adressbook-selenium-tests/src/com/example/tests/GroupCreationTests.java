@@ -3,15 +3,16 @@ package com.example.tests;
 import org.testng.annotations.Test;
 
 public class GroupCreationTests extends TestBase {
+	
   @Test
   public void testNonEmptyGroupCreation() throws Exception {
     openMainPage();
     gotoGroupsPage();
     initNewGroupCreation();
     GroupData group = new GroupData();
-    group.groupName = "Group name 1";
-    group.groupHeader = "Header 1";
-    group.groupFooter = "Footer 1";
+    group.groupName = randomStringLatAlphaNumeric(10);
+    group.groupHeader = randomStringLatAlphaNumeric(10);
+    group.groupFooter = randomStringLatAlphaNumeric(10);
 	fillGroupForm(group);
     submitGroupCreation();
     returnToGroupsPage();
