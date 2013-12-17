@@ -3,13 +3,13 @@
 <suite name="Failed suite [Default suite]">
   <test name="Default test(failed)">
     <classes>
-      <class name="com.example.tests.TestNN">
+      <class name="com.example.tests.ContactCreationTests">
         <methods>
+          <include name="testEmptyContactCreation"/>
           <include name="tearDown"/>
           <include name="setUp"/>
-          <include name="testRandomContactCreation"/>
         </methods>
-      </class> <!-- com.example.tests.TestNN -->
+      </class> <!-- com.example.tests.ContactCreationTests -->
     </classes>
   </test> <!-- Default test(failed) -->
 </suite> <!-- Failed suite [Default suite] -->

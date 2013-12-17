@@ -5,14 +5,14 @@ import org.testng.annotations.Test;
 public class GroupCreationTests extends TestBase {
 	
   @Test
-  public void testNonEmptyGroupCreation() throws Exception {
+  public void testRandomGroupCreation() throws Exception {
     openMainPage();
     gotoGroupsPage();
     initNewGroupCreation();
     GroupData group = new GroupData();
-    group.groupName = randomStringLatAlphaNumeric(10);
+    group.groupName = randomStringLatAlphaNumeric(20);
     group.groupHeader = randomStringLatAlphaNumeric(10);
-    group.groupFooter = randomStringLatAlphaNumeric(10);
+    group.groupFooter = randomStringLatAlphaNumeric(50);
 	fillGroupForm(group);
     submitGroupCreation();
     returnToGroupsPage();

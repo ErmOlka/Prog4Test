@@ -17,7 +17,7 @@ public class TestBase {
 	private static WebDriver driver;
 	private static String baseUrl;
 	private static StringBuffer verificationErrors = new StringBuffer();
-	private static int countGroups;
+	private int countGroups;
 
 	@BeforeTest
 	public void setUp() throws Exception {
@@ -35,14 +35,49 @@ public class TestBase {
 	    }
 	  }
 
-	protected void returnToGroupsPage() {
-		driver.findElement(By.linkText("group page")).click();
+	//общие методы
+	protected void openMainPage() {
+		driver.get(baseUrl + "/addressbookv4.1.4/");
 	  }
-
-	protected void submitGroupCreation() {
-		driver.findElement(By.name("submit")).click();
+	
+	protected String randomStringLatAlphaNumeric(final int length) {
+		char[] chars = "abcdefghijklmnopqrstuvwxyzQWERTYUIOPASDFGHJKLZXCVBNM 1234567890".toCharArray();
+		StringBuilder sb = new StringBuilder();
+		Random random = new Random();
+		for (int i = 0; i < length; i++) {
+		    char c = chars[random.nextInt(chars.length)];
+		    sb.append(c);
+		}
+		return sb.toString();
+	}
+	
+	protected String randomStringNumeric(final int length) {
+		char[] chars = "1234567890".toCharArray();
+		StringBuilder sb = new StringBuilder();
+		Random random = new Random();
+		for (int i = 0; i < length; i++) {
+		    char c = chars[random.nextInt(chars.length)];
+		    sb.append(c);
+		}
+		return sb.toString();
+	}
+	
+	//рандомное число int от min включительно до max
+	protected int randomNumeric(int min,int max) {
+		Random rnd = new Random(System.currentTimeMillis());
+		int randomNumber = min + rnd.nextInt(max - 1 - min + 1);
+		return randomNumber;
+	}	
+	
+	//методы для групп
+	protected void gotoGroupsPage() {
+		driver.findElement(By.linkText("groups")).click();
 	  }
-
+	
+	protected void initNewGroupCreation() {
+		driver.findElement(By.name("new")).click();
+	  }
+	
 	protected void fillGroupForm(GroupData group) {
 		driver.findElement(By.name("group_name")).clear();
 	    driver.findElement(By.name("group_name")).sendKeys(group.groupName);
@@ -51,27 +86,20 @@ public class TestBase {
 	    driver.findElement(By.name("group_footer")).clear();
 	    driver.findElement(By.name("group_footer")).sendKeys(group.groupFooter);
 	  }
-
-	protected void initNewGroupCreation() {
-		driver.findElement(By.name("new")).click();
-	  }
-
-	protected void gotoGroupsPage() {
-		driver.findElement(By.linkText("groups")).click();
-	  }
-
-	protected void openMainPage() {
-		driver.get(baseUrl + "/addressbookv4.1.4/");
-	  }
-
-	protected void returnToHomePage() {
-		driver.findElement(By.linkText("home page")).click();
-	  }
-
-	protected void submitCreationContact() {
+	
+	protected void submitGroupCreation() {
 		driver.findElement(By.name("submit")).click();
 	  }
+	
+	protected void returnToGroupsPage() {
+		driver.findElement(By.linkText("group page")).click();
+	  }
 
+	//методы для контактов
+	protected void initCreationContact() {
+		driver.findElement(By.linkText("add new")).click();
+	  }
+	
 	protected void fillContactForm(ContactData contact) {
 		driver.findElement(By.name("firstname")).clear();
 	    driver.findElement(By.name("firstname")).sendKeys(contact.firstName);
@@ -93,46 +121,25 @@ public class TestBase {
 	    new Select(driver.findElement(By.name("bmonth"))).selectByVisibleText(contact.bMonth);
 	    driver.findElement(By.name("byear")).clear();
 	    driver.findElement(By.name("byear")).sendKeys(contact.bYear);
-	    countGroups = new Select(driver.findElement(By.name("new_group"))).getOptions().size();
-	    int randomIndex = randomNumeric(0, countGroups);
-	    new Select(driver.findElement(By.name("new_group"))).selectByIndex(randomIndex);
-	    //new Select(driver.findElement(By.name("new_group"))).selectByVisibleText(contact.contactGroup); сделать так чтобы вызывался либо рандом либо конкретное значение
+	    randomContactGroup(); //выбор рандомной группы
+	    //new Select(driver.findElement(By.name("new_group"))).selectByVisibleText(contact.contactGroup); //выбор заданной группы
 	    driver.findElement(By.name("address2")).clear();
 	    driver.findElement(By.name("address2")).sendKeys(contact.address2);
 	    driver.findElement(By.name("phone2")).clear();
 	    driver.findElement(By.name("phone2")).sendKeys(contact.homePhone2);
 	  }
 
-	protected void initCreationContact() {
-		driver.findElement(By.linkText("add new")).click();
+	private void randomContactGroup() {
+		countGroups = new Select(driver.findElement(By.name("new_group"))).getOptions().size();
+	    int randomIndex = randomNumeric(0, countGroups);
+	    new Select(driver.findElement(By.name("new_group"))).selectByIndex(randomIndex);
 	  }
-
-	protected String randomStringLatAlphaNumeric(final int length) {
-		char[] chars = "abcdefghijklmnopqrstuvwxyzQWERTYUIOPASDFGHJKLZXCVBNM 1234567890".toCharArray();
-		StringBuilder sb = new StringBuilder();
-		Random random = new Random();
-		for (int i = 0; i < 20; i++) {
-		    char c = chars[random.nextInt(chars.length)];
-		    sb.append(c);
-		}
-		return sb.toString();
-	}
 	
-	protected String randomStringNumeric(final int length) {
-		char[] chars = "1234567890".toCharArray();
-		StringBuilder sb = new StringBuilder();
-		Random random = new Random();
-		for (int i = 0; i < 20; i++) {
-		    char c = chars[random.nextInt(chars.length)];
-		    sb.append(c);
-		}
-		return sb.toString();
-	}
+	protected void submitCreationContact() {
+		driver.findElement(By.name("submit")).click();
+	  }
 	
-	//рандомное число от min включительно до max
-	protected int randomNumeric(int min,int max) {
-		Random rnd = new Random(System.currentTimeMillis());
-		int randomNumber = min + rnd.nextInt(max - min + 1);
-		return randomNumber;
-	}		
+	protected void returnToHomePage() {
+		driver.findElement(By.linkText("home page")).click();
+	  }
 }
