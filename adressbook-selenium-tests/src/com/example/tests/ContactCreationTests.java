@@ -17,9 +17,9 @@ public class ContactCreationTests extends TestBase {
 	contact.workPhone = randomStringNumeric(7);
 	contact.email1 = "qwerty@qwe.rty";
 	contact.email2 = "asdfg@as.dfg";
-	contact.bDay = "9";
-	contact.bMonth = "September";
-	contact.bYear = "1978";
+	contact.birthDay = "9";
+	contact.birthMonth = "September";
+	contact.birthYear = "1978";
 	contact.address2 = randomStringLatAlphaNumeric(100);
 	contact.homePhone2 = randomStringNumeric(7);
 	fillContactForm(contact);
@@ -28,7 +28,7 @@ public class ContactCreationTests extends TestBase {
   }
   
   @Test
-  public void testDefoltContactCreation() throws Exception {
+  public void testDefaultContactCreation() throws Exception {
     openMainPage();
     initCreationContact();
 	submitCreationContact();
@@ -48,9 +48,9 @@ public class ContactCreationTests extends TestBase {
 		contact.workPhone = "";
 		contact.email1 = "";
 		contact.email2 = "";
-		contact.bDay = "-";
-		contact.bMonth = "-";
-		contact.bYear = "";
+		contact.birthDay = "-";
+		contact.birthMonth = "-";
+		contact.birthYear = "";
 		contact.address2 = "";
 		contact.homePhone2 = "";
 		fillContactForm(contact);

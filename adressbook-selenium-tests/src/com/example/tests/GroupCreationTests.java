@@ -10,16 +10,16 @@ public class GroupCreationTests extends TestBase {
     gotoGroupsPage();
     initNewGroupCreation();
     GroupData group = new GroupData();
-    group.groupName = randomStringLatAlphaNumeric(20);
-    group.groupHeader = randomStringLatAlphaNumeric(10);
-    group.groupFooter = randomStringLatAlphaNumeric(50);
+    group.name = randomStringLatAlphaNumeric(20);
+    group.header = randomStringLatAlphaNumeric(10);
+    group.footer = randomStringLatAlphaNumeric(50);
 	fillGroupForm(group);
     submitGroupCreation();
     returnToGroupsPage();
   }
   
   @Test
-  public void testDefoltGroupCreation() throws Exception {
+  public void testDefaultGroupCreation() throws Exception {
     openMainPage();
     gotoGroupsPage();
     initNewGroupCreation();
@@ -33,9 +33,9 @@ public class GroupCreationTests extends TestBase {
     gotoGroupsPage();
     initNewGroupCreation();
     GroupData group = new GroupData();
-    group.groupName = "";
-    group.groupHeader = "";
-    group.groupFooter = "";
+    group.name = "";
+    group.header = "";
+    group.footer = "";
 	fillGroupForm(group);
     submitGroupCreation();
     returnToGroupsPage();

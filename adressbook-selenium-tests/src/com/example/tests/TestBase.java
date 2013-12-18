@@ -80,11 +80,11 @@ public class TestBase {
 	
 	protected void fillGroupForm(GroupData group) {
 		driver.findElement(By.name("group_name")).clear();
-	    driver.findElement(By.name("group_name")).sendKeys(group.groupName);
+	    driver.findElement(By.name("group_name")).sendKeys(group.name);
 	    driver.findElement(By.name("group_header")).clear();
-	    driver.findElement(By.name("group_header")).sendKeys(group.groupHeader);
+	    driver.findElement(By.name("group_header")).sendKeys(group.header);
 	    driver.findElement(By.name("group_footer")).clear();
-	    driver.findElement(By.name("group_footer")).sendKeys(group.groupFooter);
+	    driver.findElement(By.name("group_footer")).sendKeys(group.footer);
 	  }
 	
 	protected void submitGroupCreation() {
@@ -117,10 +117,10 @@ public class TestBase {
 	    driver.findElement(By.name("email")).sendKeys(contact.email1);
 	    driver.findElement(By.name("email2")).clear();
 	    driver.findElement(By.name("email2")).sendKeys(contact.email2);
-	    new Select(driver.findElement(By.name("bday"))).selectByVisibleText(contact.bDay);
-	    new Select(driver.findElement(By.name("bmonth"))).selectByVisibleText(contact.bMonth);
+	    new Select(driver.findElement(By.name("bday"))).selectByVisibleText(contact.birthDay);
+	    new Select(driver.findElement(By.name("bmonth"))).selectByVisibleText(contact.birthMonth);
 	    driver.findElement(By.name("byear")).clear();
-	    driver.findElement(By.name("byear")).sendKeys(contact.bYear);
+	    driver.findElement(By.name("byear")).sendKeys(contact.birthYear);
 	    randomContactGroup(); //выбор рандомной группы
 	    //new Select(driver.findElement(By.name("new_group"))).selectByVisibleText(contact.contactGroup); //выбор заданной группы
 	    driver.findElement(By.name("address2")).clear();

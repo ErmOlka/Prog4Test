@@ -9,9 +9,9 @@ public class ContactData extends TestBase {
 	public String workPhone;
 	public String email1;
 	public String email2;
-	public String bDay;
-	public String bMonth;
-	public String bYear;
+	public String birthDay;
+	public String birthMonth;
+	public String birthYear;
 	public String address2;
 	public String homePhone2;
 	//public String contactGroup;
