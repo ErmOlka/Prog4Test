@@ -7,4 +7,12 @@ public class GroupData extends TestBase {
 
 	public GroupData() {
 	}
+
+	public GroupData(String groupName, String groupHeader, String groupFooter) {
+		this.name = groupName;
+		this.header = groupHeader;
+		this.footer = groupFooter;
+		
+	}
+
 }

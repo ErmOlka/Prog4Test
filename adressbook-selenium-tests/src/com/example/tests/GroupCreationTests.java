@@ -5,39 +5,39 @@ import org.testng.annotations.Test;
 public class GroupCreationTests extends TestBase {
 	
   @Test
-  public void testRandomGroupCreation() throws Exception {
-    openMainPage();
-    gotoGroupsPage();
-    initNewGroupCreation();
+  public void testNonEmptyGroupCreation() throws Exception {
+    app.getNavigationHelper().openMainPage();
+    app.getNavigationHelper().gotoGroupsPage();
+    app.getGroupHelper().initNewGroupCreation();
     GroupData group = new GroupData();
-    group.name = randomStringLatAlphaNumeric(20);
-    group.header = randomStringLatAlphaNumeric(10);
-    group.footer = randomStringLatAlphaNumeric(50);
-	fillGroupForm(group);
-    submitGroupCreation();
-    returnToGroupsPage();
+    group.name = app.randomStringLatAlphaNumeric(10);
+    group.header = app.randomStringLatAlphaNumeric(10);
+    group.footer = app.randomStringLatAlphaNumeric(10);
+	app.getGroupHelper().fillGroupForm(group);
+    app.getGroupHelper().submitGroupCreation();
+    app.getGroupHelper().returnToGroupsPage();
   }
   
   @Test
-  public void testDefaultGroupCreation() throws Exception {
-    openMainPage();
-    gotoGroupsPage();
-    initNewGroupCreation();
-    submitGroupCreation();
-    returnToGroupsPage();
+  public void testDefoltGroupCreation() throws Exception {
+    app.getNavigationHelper().openMainPage();
+    app.getNavigationHelper().gotoGroupsPage();
+    app.getGroupHelper().initNewGroupCreation();
+    app.getGroupHelper().submitGroupCreation();
+    app.getGroupHelper().returnToGroupsPage();
   }
   
   @Test
   public void testEmptyGroupCreation() throws Exception {
-    openMainPage();
-    gotoGroupsPage();
-    initNewGroupCreation();
+    app.getNavigationHelper().openMainPage();
+    app.getNavigationHelper().gotoGroupsPage();
+    app.getGroupHelper().initNewGroupCreation();
     GroupData group = new GroupData();
     group.name = "";
     group.header = "";
     group.footer = "";
-	fillGroupForm(group);
-    submitGroupCreation();
-    returnToGroupsPage();
+	app.getGroupHelper().fillGroupForm(group);
+    app.getGroupHelper().submitGroupCreation();
+    app.getGroupHelper().returnToGroupsPage();
   }
 }
