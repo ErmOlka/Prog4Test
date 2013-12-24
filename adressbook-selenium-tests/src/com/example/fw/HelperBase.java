@@ -46,12 +46,16 @@ public abstract class HelperBase {
 	}
 
 	protected void type(By locator, String text) {
-		driver.findElement(locator).clear();
-	    driver.findElement(locator).sendKeys(text);
+		if (text != null) {
+			driver.findElement(locator).clear();
+		    driver.findElement(locator).sendKeys(text);	
+		}
 	}
 	
 	protected void selectByText(By locator, String text) {
-		new Select(driver.findElement(locator)).selectByVisibleText(text);
+		if (text != null) {
+			new Select(driver.findElement(locator)).selectByVisibleText(text);
+		}
 	}
 	
 }
