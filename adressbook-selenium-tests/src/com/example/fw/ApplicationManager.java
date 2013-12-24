@@ -1,6 +1,5 @@
 package com.example.fw;
 
-import java.util.Random;
 import java.util.concurrent.TimeUnit;
 
 import org.openqa.selenium.WebDriver;
@@ -11,18 +10,20 @@ public class ApplicationManager {
 	
 	public WebDriver driver;
 	public String baseUrl;
-	public int countGroups;
 	
 	private NavigationHelper navigationHelper;
 	private GroupHelper groupHelper;
 	private ContactHelper contactHelper;
+	private RandomHelper randomHelper;
 	
+	//before
 	public ApplicationManager() {
 	    driver = new FirefoxDriver();
 	    baseUrl = "http://localhost/";
 	    driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
 	}	
 	
+	//after
 	public void stop() {
 	    driver.quit();
 	}
@@ -47,32 +48,11 @@ public class ApplicationManager {
 		}
 		return contactHelper;
 	}
-
-	public String randomStringLatAlphaNumeric(final int length) {
-		char[] chars = "abcdefghijklmnopqrstuvwxyzQWERTYUIOPASDFGHJKLZXCVBNM 1234567890".toCharArray();
-		StringBuilder sb = new StringBuilder();
-		Random random = new Random();
-		for (int i = 0; i < 20; i++) {
-		    char c = chars[random.nextInt(chars.length)];
-		    sb.append(c);
+	
+	public RandomHelper getRandomHelper() {
+		if (randomHelper == null) {
+			randomHelper = new RandomHelper(this);
 		}
-		return sb.toString();
-	}
-
-	public String randomStringNumeric(final int length) {
-		char[] chars = "1234567890".toCharArray();
-		StringBuilder sb = new StringBuilder();
-		Random random = new Random();
-		for (int i = 0; i < 20; i++) {
-		    char c = chars[random.nextInt(chars.length)];
-		    sb.append(c);
-		}
-		return sb.toString();
-	}
-
-	public int randomNumeric(int min, int max) {
-		Random rnd = new Random(System.currentTimeMillis());
-		int randomNumber = min + rnd.nextInt(max - min + 1);
-		return randomNumber;
+		return randomHelper;
 	}
 }

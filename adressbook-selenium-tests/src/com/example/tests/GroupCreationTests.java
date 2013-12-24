@@ -10,16 +10,16 @@ public class GroupCreationTests extends TestBase {
     app.getNavigationHelper().gotoGroupsPage();
     app.getGroupHelper().initNewGroupCreation();
     GroupData group = new GroupData();
-    group.name = app.randomStringLatAlphaNumeric(10);
-    group.header = app.randomStringLatAlphaNumeric(10);
-    group.footer = app.randomStringLatAlphaNumeric(10);
+    group.name = app.getRandomHelper().randomStringEngAlphaNumeric(10);
+    group.header = app.getRandomHelper().randomStringEngAlphaNumeric(20);
+    group.footer = app.getRandomHelper().randomStringEngAlphaNumeric(30);
 	app.getGroupHelper().fillGroupForm(group);
     app.getGroupHelper().submitGroupCreation();
     app.getGroupHelper().returnToGroupsPage();
   }
   
   @Test
-  public void testDefoltGroupCreation() throws Exception {
+  public void testDefaultGroupCreation() throws Exception {
     app.getNavigationHelper().openMainPage();
     app.getNavigationHelper().gotoGroupsPage();
     app.getGroupHelper().initNewGroupCreation();

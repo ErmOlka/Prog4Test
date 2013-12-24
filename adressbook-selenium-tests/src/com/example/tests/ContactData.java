@@ -12,9 +12,9 @@ public class ContactData extends TestBase {
 	public String birthDay;
 	public String birthMonth;
 	public String birthYear;
+	public String contactGroup;
 	public String address2;
 	public String homePhone2;
-	//public String contactGroup;
 
 	public ContactData() {
 	}

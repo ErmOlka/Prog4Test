@@ -15,9 +15,45 @@ public abstract class HelperBase {
 	public HelperBase(ApplicationManager manager) {
 		this.manager = manager;
 		this.driver = manager.driver;
-		
 	}
 	
+	protected void click(By locator) {
+		driver.findElement(locator).click();
+	}
+
+	protected void typeText(By locator, String text) {
+		if (text != null) {
+			driver.findElement(locator).clear();
+		    driver.findElement(locator).sendKeys(text);	
+		}
+	}
+	
+	protected void selectByText(By locator, String text) {
+		if (text != null) {
+			if (text != "RandomGroup" && text != "RandomDay" && text != "RandomMonth") {
+				new Select(driver.findElement(locator)).selectByVisibleText(text);
+			}
+			if (text == "RandomGroup") {
+				randomDropDownValue(By.name("new_group"));
+			}
+			if (text == "RandomDay") {
+				randomDropDownValue(By.name("bday"));
+			}
+			if (text == "RandomMonth") {
+				randomDropDownValue(By.name("bmonth"));
+			}
+		}
+	}
+	
+	public void randomDropDownValue(By locator) {
+		new Select(driver.findElement(locator)).selectByIndex(manager.getRandomHelper().randomNumeric(0, dropDownSize(locator)));
+	}
+
+	protected int dropDownSize(By locator) {
+		return new Select(driver.findElement(locator)).getOptions().size();
+	}
+	
+/**********************************************************************************************************************************/	
 	public boolean isElementPresent(By by) {
 		try{
 			driver.findElement(by);
@@ -38,23 +74,6 @@ public abstract class HelperBase {
 			return alert.getText();
 		} finally {
 			acceptNextAlert = true;
-		}
-	}
-
-	protected void click(By locator) {
-		driver.findElement(locator).click();
-	}
-
-	protected void type(By locator, String text) {
-		if (text != null) {
-			driver.findElement(locator).clear();
-		    driver.findElement(locator).sendKeys(text);	
-		}
-	}
-	
-	protected void selectByText(By locator, String text) {
-		if (text != null) {
-			new Select(driver.findElement(locator)).selectByVisibleText(text);
 		}
 	}
 	
