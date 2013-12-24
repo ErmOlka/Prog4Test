@@ -11,6 +11,8 @@ public abstract class HelperBase {
 	protected ApplicationManager manager;
 	protected WebDriver driver;
 	public boolean acceptNextAlert = true;
+	public String xpathGroupList = "//input[@name='selected[]']";
+	public String xpathContactList = "(//img[@alt='Edit'])";
 
 	public HelperBase(ApplicationManager manager) {
 		this.manager = manager;

@@ -2,6 +2,8 @@ package com.example.fw;
 
 import java.util.Random;
 
+import org.openqa.selenium.By;
+
 public class RandomHelper extends HelperBase {
 
 	public RandomHelper(ApplicationManager manager) {
@@ -72,4 +74,10 @@ public class RandomHelper extends HelperBase {
 		return randomPhoneNumber;
 	}
 
+	public int randomIndex(By locator) {
+		int maxIndex = driver.findElements(locator).size();
+		int index = randomNumeric(0, maxIndex);
+		return index;
+	}
+	
 }
