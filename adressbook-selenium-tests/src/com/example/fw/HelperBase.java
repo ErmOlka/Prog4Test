@@ -32,18 +32,14 @@ public abstract class HelperBase {
 	
 	protected void selectByText(By locator, String text) {
 		if (text != null) {
-			if (text != "RandomGroup" && text != "RandomDay" && text != "RandomMonth") {
+			if (text != "RandomGroup" && text != "RandomDay" && text != "RandomMonth") 
 				new Select(driver.findElement(locator)).selectByVisibleText(text);
-			}
-			if (text == "RandomGroup") {
+			else if (text == "RandomGroup")
 				randomDropDownValue(By.name("new_group"));
-			}
-			if (text == "RandomDay") {
+			else if (text == "RandomDay")
 				randomDropDownValue(By.name("bday"));
-			}
-			if (text == "RandomMonth") {
+			else if (text == "RandomMonth")
 				randomDropDownValue(By.name("bmonth"));
-			}
 		}
 	}
 	

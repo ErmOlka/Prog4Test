@@ -80,4 +80,106 @@ public class RandomHelper extends HelperBase {
 		return index;
 	}
 	
+	public String randomFirstName(String gender) {
+		String randFirstName = null;
+		String[] firstNames = null;
+		if (gender == "M") 
+			firstNames = maleFirstNames();
+		else if (gender == "F") 
+			firstNames = femaleFirstNames();
+		else firstNames = uniFirstNames();
+		Random random = new Random();
+		for (int i = 0; i < firstNames.length; i++) {
+			randFirstName = firstNames[random.nextInt(firstNames.length)];
+		}
+		return randFirstName;
+	}
+
+	public String randomLastName(String gender) {
+		String randLastName = null;
+		String[] lastNames = null;
+		if (gender == "M") 
+			lastNames = maleLastNames();
+		else if (gender == "F") 
+			lastNames = femaleLastNames();
+		else lastNames = uniLastNames();
+		Random random = new Random();
+		for (int i = 0; i < lastNames.length; i++) {
+			randLastName = lastNames[random.nextInt(lastNames.length)];
+		}
+		return randLastName;
+	}
+	
+	public String[] maleFirstNames() {
+		String[] maleFirstNames = null;
+		maleFirstNames = new String[] {
+				"Алексей",
+				"Сергей",
+				"Иван",
+				"Петр",
+				"Олег",
+		};
+		return maleFirstNames;
+	}
+
+	public String[] femaleFirstNames() {
+		String[] femaleFirstNames = null;
+		femaleFirstNames = new String[] {
+				"Анна",
+				"Валентина",
+				"Галина",
+				"Ирина",
+				"Екатерина",
+		};
+		return femaleFirstNames;
+	}
+	
+	public String[] uniFirstNames() {
+		String[] uniFirstNames = null;
+		uniFirstNames = new String[] {
+				"Алексей Анна",
+				"Сергей Валентина",
+				"Иван Галина",
+				"Петр Ирина",
+				"Олег Екатерина",
+		};
+		return uniFirstNames;
+	}
+
+	public String[] maleLastNames() {
+		String[] maleLastNames = null;
+		maleLastNames = new String[] {
+				"Смирнов",
+				"Лебедев",
+				"Волков",
+				"Семенов",
+				"Федоров",
+		};
+		return maleLastNames;
+	}
+
+	public String[] femaleLastNames() {
+		String[] femaleLastNames = null;
+		femaleLastNames = new String[] {
+				"Смирнова",
+				"Лебедева",
+				"Волкова",
+				"Семенова",
+				"Федорова",
+		};
+		return femaleLastNames;
+	}
+	
+	public String[] uniLastNames() {
+		String[] uniSurnames = null;
+		uniSurnames = new String[] {
+				"Кравченко",
+				"Череззабороногузадерищенко",
+				"Романейко",
+				"Швыдко",
+				"Гришко",
+		};
+		return uniSurnames;
+	}
+	
 }

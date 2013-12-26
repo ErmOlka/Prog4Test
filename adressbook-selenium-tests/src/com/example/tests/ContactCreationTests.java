@@ -5,12 +5,12 @@ import org.testng.annotations.Test;
 public class ContactCreationTests extends TestBase {
 	
   @Test
-  public void testRandomEngContactCreation() throws Exception {
+  public void testRandomMaleContactCreation() throws Exception {
     app.getNavigationHelper().openMainPage();
     app.getContactHelper().initCreationContact();
     ContactData contact = new ContactData();
-	contact.firstName = app.getRandomHelper().randomStringEngAlphaNumeric(5);
-	contact.lastName = app.getRandomHelper().randomStringEngAlphaNumeric(7);
+	contact.firstName = app.getRandomHelper().randomFirstName("M");
+	contact.lastName = app.getRandomHelper().randomLastName("M");
 	contact.address1 = app.getRandomHelper().randomStringEngAlphaNumeric(30);
 	contact.homePhone1 = app.getRandomHelper().randomPhoneNumber(1,3,7);
 	contact.mobilePhone = app.getRandomHelper().randomPhoneNumber(1,3,7);
@@ -29,12 +29,12 @@ public class ContactCreationTests extends TestBase {
   }
   
   @Test
-  public void testRandomRusContactCreation() throws Exception {
+  public void testRandomFemaleContactCreation() throws Exception {
     app.getNavigationHelper().openMainPage();
     app.getContactHelper().initCreationContact();
     ContactData contact = new ContactData();
-	contact.firstName = app.getRandomHelper().randomStringRusAlphaNumeric(5);
-	contact.lastName = app.getRandomHelper().randomStringRusAlphaNumeric(7);
+	contact.firstName = app.getRandomHelper().randomFirstName("F");
+	contact.lastName = app.getRandomHelper().randomLastName("F");
 	contact.address1 = app.getRandomHelper().randomStringRusAlphaNumeric(50);
 	contact.homePhone1 = app.getRandomHelper().randomPhoneNumber(1,3,7);
 	contact.mobilePhone = app.getRandomHelper().randomPhoneNumber(1,3,7);
