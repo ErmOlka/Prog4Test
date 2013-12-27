@@ -104,9 +104,11 @@ public class RandomHelper extends HelperBase {
 		else if (gender == "F") 
 			firstNames = manager.getNamesGeneratorHelper().femaleFirstNames();
 		else randFirstName = "”кажите корректный пол - M или F";
-		Random random = new Random();
-		for (int i = 0; i < firstNames.length; i++) {
-			randFirstName = firstNames[random.nextInt(firstNames.length)];
+		if (randFirstName == null) {
+			Random random = new Random();
+			for (int i = 0; i < firstNames.length; i++) {
+				randFirstName = firstNames[random.nextInt(firstNames.length)];
+			}
 		}
 		return randFirstName;
 	}
