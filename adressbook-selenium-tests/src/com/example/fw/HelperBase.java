@@ -51,7 +51,7 @@ public abstract class HelperBase {
 		return new Select(driver.findElement(locator)).getOptions().size();
 	}
 	
-/**********************************************************************************************************************************/	
+/*............................................................................................................................*/	
 	public boolean isElementPresent(By by) {
 		try{
 			driver.findElement(by);

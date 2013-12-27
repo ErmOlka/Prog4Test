@@ -15,6 +15,7 @@ public class ApplicationManager {
 	private GroupHelper groupHelper;
 	private ContactHelper contactHelper;
 	private RandomHelper randomHelper;
+	private NamesGeneratorHelper namesGeneratorHelper;
 	
 	//before
 	public ApplicationManager() {
@@ -54,5 +55,12 @@ public class ApplicationManager {
 			randomHelper = new RandomHelper(this);
 		}
 		return randomHelper;
+	}
+	
+	public NamesGeneratorHelper getNamesGeneratorHelper() {
+		if (namesGeneratorHelper == null) {
+			namesGeneratorHelper = new NamesGeneratorHelper(this);
+		}
+		return namesGeneratorHelper;
 	}
 }

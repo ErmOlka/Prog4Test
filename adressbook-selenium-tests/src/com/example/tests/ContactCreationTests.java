@@ -11,7 +11,7 @@ public class ContactCreationTests extends TestBase {
     ContactData contact = new ContactData();
 	contact.firstName = app.getRandomHelper().randomFirstName("M");
 	contact.lastName = app.getRandomHelper().randomLastName("M");
-	contact.address1 = app.getRandomHelper().randomStringEngAlphaNumeric(30);
+	contact.address1 = "Адрес 1: " + app.getRandomHelper().randomStringEngAlphaNumeric(30);
 	contact.homePhone1 = app.getRandomHelper().randomPhoneNumber(1,3,7);
 	contact.mobilePhone = app.getRandomHelper().randomPhoneNumber(1,3,7);
 	contact.workPhone = app.getRandomHelper().randomPhoneNumber(1,3,7);
@@ -21,7 +21,7 @@ public class ContactCreationTests extends TestBase {
 	contact.birthMonth = "RandomMonth";
 	contact.birthYear = "19" + app.getRandomHelper().randomStringNumeric(2);
 	contact.contactGroup = "RandomGroup";
-	contact.address2 = app.getRandomHelper().randomStringEngAlphaNumeric(100);
+	contact.address2 = "Адрес 2: " + app.getRandomHelper().randomStringEngAlphaNumeric(100);
 	contact.homePhone2 = app.getRandomHelper().randomPhoneNumber(1,3,7);
 	app.getContactHelper().fillContactForm(contact);
 	app.getContactHelper().submitCreationContact();
@@ -35,7 +35,7 @@ public class ContactCreationTests extends TestBase {
     ContactData contact = new ContactData();
 	contact.firstName = app.getRandomHelper().randomFirstName("F");
 	contact.lastName = app.getRandomHelper().randomLastName("F");
-	contact.address1 = app.getRandomHelper().randomStringRusAlphaNumeric(50);
+	contact.address1 = "Адрес 1: " + app.getRandomHelper().randomStringRusAlphaNumeric(50);
 	contact.homePhone1 = app.getRandomHelper().randomPhoneNumber(1,3,7);
 	contact.mobilePhone = app.getRandomHelper().randomPhoneNumber(1,3,7);
 	contact.workPhone = app.getRandomHelper().randomPhoneNumber(1,3,7);
@@ -45,7 +45,7 @@ public class ContactCreationTests extends TestBase {
 	contact.birthMonth = "RandomMonth";
 	contact.birthYear = "19" + app.getRandomHelper().randomStringNumeric(2);
 	contact.contactGroup = "RandomGroup";
-	contact.address2 = app.getRandomHelper().randomStringRusAlphaNumeric(70);
+	contact.address2 = "Адрес 2: " + app.getRandomHelper().randomStringRusAlphaNumeric(70);
 	contact.homePhone2 = app.getRandomHelper().randomPhoneNumber(1,3,7);
 	app.getContactHelper().fillContactForm(contact);
 	app.getContactHelper().submitCreationContact();

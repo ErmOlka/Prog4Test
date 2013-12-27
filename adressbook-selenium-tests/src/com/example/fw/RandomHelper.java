@@ -11,8 +11,13 @@ public class RandomHelper extends HelperBase {
 	}
 
 	public int randomNumeric(int min, int max) {
+		int randomNumber;
+		if (min == max) {
+			randomNumber = 1;
+			return randomNumber;
+		}
 		Random rnd = new Random(System.currentTimeMillis());
-		int randomNumber = min + rnd.nextInt(max - min);
+		randomNumber = min + rnd.nextInt(max - min);
 		return randomNumber;
 	}
 	
@@ -28,7 +33,7 @@ public class RandomHelper extends HelperBase {
 	}
 	
 	public String randomStringEngAlphaNumeric(final int length) {
-		char[] chars = "abcdefghijklmnopqrstuvwxyz QWERTYUIOPASDFGHJKLZXCVBNM 1234567890".toCharArray();
+		char[] chars = "abcdefghijklmnopqrstuvwxyz QWERTYUIOPASDFGHJKLZXCVBNM 1234567890 ._".toCharArray();
 		StringBuilder sb = new StringBuilder();
 		Random random = new Random();
 		for (int i = 0; i < length; i++) {
@@ -39,7 +44,7 @@ public class RandomHelper extends HelperBase {
 	}
 	
 	public String randomStringRusAlphaNumeric(final int length) {
-		char[] chars = "йцукенгшщзхъфывапролджэячсмитьбю ЙЦУКЕНГШЩЗХЪФЫВАПРОЛДЖЭЯЧСМИТЬБЮ 1234567890".toCharArray();
+		char[] chars = "йцукенгшщзхъфывапролджэячсмитьбю ЙЦУКЕНГШЩЗХЪФЫВАПРОЛДЖЭЯЧСМИТЬБЮ 1234567890 ._".toCharArray();
 		StringBuilder sb = new StringBuilder();
 		Random random = new Random();
 		for (int i = 0; i < length; i++) {
@@ -50,7 +55,7 @@ public class RandomHelper extends HelperBase {
 	}
 	
 	public String randomStringLatAlphaNumericWithoutSpace(final int length) {
-		char[] chars = "abcdefghijklmnopqrstuvwxyzQWERTYUIOPASDFGHJKLZXCVBNM1234567890".toCharArray();
+		char[] chars = "abcdefghijklmnopqrstuvwxyzQWERTYUIOPASDFGHJKLZXCVBNM1234567890._".toCharArray();
 		StringBuilder sb = new StringBuilder();
 		Random random = new Random();
 		for (int i = 0; i < length; i++) {
@@ -76,18 +81,29 @@ public class RandomHelper extends HelperBase {
 
 	public int randomIndex(By locator) {
 		int maxIndex = driver.findElements(locator).size();
-		int index = randomNumeric(0, maxIndex);
+		int index = randomNumeric(1, maxIndex);
 		return index;
+	}
+	
+	private String[] concatArray(String[] firstArray, String[] secondArray) {
+		if (firstArray == null)
+			return secondArray;
+		if (secondArray == null)
+			return firstArray;
+		String[] resultArray = new String[firstArray.length + secondArray.length];
+		System.arraycopy(firstArray, 0, resultArray, 0, firstArray.length);
+		System.arraycopy(secondArray, 0, resultArray, firstArray.length, secondArray.length);
+		return resultArray;
 	}
 	
 	public String randomFirstName(String gender) {
 		String randFirstName = null;
 		String[] firstNames = null;
 		if (gender == "M") 
-			firstNames = maleFirstNames();
+			firstNames = manager.getNamesGeneratorHelper().maleFirstNames();
 		else if (gender == "F") 
-			firstNames = femaleFirstNames();
-		else firstNames = uniFirstNames();
+			firstNames = manager.getNamesGeneratorHelper().femaleFirstNames();
+		else randFirstName = "Укажите корректный пол - M или F";
 		Random random = new Random();
 		for (int i = 0; i < firstNames.length; i++) {
 			randFirstName = firstNames[random.nextInt(firstNames.length)];
@@ -99,87 +115,15 @@ public class RandomHelper extends HelperBase {
 		String randLastName = null;
 		String[] lastNames = null;
 		if (gender == "M") 
-			lastNames = maleLastNames();
+			lastNames = concatArray(manager.getNamesGeneratorHelper().maleLastNames(),manager.getNamesGeneratorHelper().uniLastNames());
 		else if (gender == "F") 
-			lastNames = femaleLastNames();
-		else lastNames = uniLastNames();
+			lastNames = concatArray(manager.getNamesGeneratorHelper().femaleLastNames(),manager.getNamesGeneratorHelper().uniLastNames());
+		else lastNames = manager.getNamesGeneratorHelper().uniLastNames();
 		Random random = new Random();
 		for (int i = 0; i < lastNames.length; i++) {
 			randLastName = lastNames[random.nextInt(lastNames.length)];
 		}
 		return randLastName;
-	}
-	
-	public String[] maleFirstNames() {
-		String[] maleFirstNames = null;
-		maleFirstNames = new String[] {
-				"Алексей",
-				"Сергей",
-				"Иван",
-				"Петр",
-				"Олег",
-		};
-		return maleFirstNames;
-	}
-
-	public String[] femaleFirstNames() {
-		String[] femaleFirstNames = null;
-		femaleFirstNames = new String[] {
-				"Анна",
-				"Валентина",
-				"Галина",
-				"Ирина",
-				"Екатерина",
-		};
-		return femaleFirstNames;
-	}
-	
-	public String[] uniFirstNames() {
-		String[] uniFirstNames = null;
-		uniFirstNames = new String[] {
-				"Алексей Анна",
-				"Сергей Валентина",
-				"Иван Галина",
-				"Петр Ирина",
-				"Олег Екатерина",
-		};
-		return uniFirstNames;
-	}
-
-	public String[] maleLastNames() {
-		String[] maleLastNames = null;
-		maleLastNames = new String[] {
-				"Смирнов",
-				"Лебедев",
-				"Волков",
-				"Семенов",
-				"Федоров",
-		};
-		return maleLastNames;
-	}
-
-	public String[] femaleLastNames() {
-		String[] femaleLastNames = null;
-		femaleLastNames = new String[] {
-				"Смирнова",
-				"Лебедева",
-				"Волкова",
-				"Семенова",
-				"Федорова",
-		};
-		return femaleLastNames;
-	}
-	
-	public String[] uniLastNames() {
-		String[] uniSurnames = null;
-		uniSurnames = new String[] {
-				"Кравченко",
-				"Череззабороногузадерищенко",
-				"Романейко",
-				"Швыдко",
-				"Гришко",
-		};
-		return uniSurnames;
 	}
 	
 }
