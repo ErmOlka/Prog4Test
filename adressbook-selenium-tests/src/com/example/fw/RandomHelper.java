@@ -81,7 +81,7 @@ public class RandomHelper extends HelperBase {
 
 	public int randomIndex(By locator) {
 		int maxIndex = driver.findElements(locator).size();
-		int index = randomNumeric(1, maxIndex);
+		int index = randomNumeric(0, maxIndex);
 		return index;
 	}
 	

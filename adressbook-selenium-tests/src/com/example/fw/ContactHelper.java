@@ -1,10 +1,16 @@
 package com.example.fw;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.openqa.selenium.By;
+import org.openqa.selenium.WebElement;
 
 import com.example.tests.ContactData;
 
 public class ContactHelper extends HelperBase {
+	
+	public String xpathContactList = "(//img[@alt='Edit'])";
 
 	public ContactHelper(ApplicationManager manager) {
 		super(manager);
@@ -54,4 +60,15 @@ public class ContactHelper extends HelperBase {
 		
 	}
 
+	public List<ContactData> getContacts() {
+		List<ContactData> contacts = new ArrayList<ContactData>();
+		List<WebElement> checkboxes = driver.findElements(By.name("selected[]"));
+		for (WebElement checkbox : checkboxes) {
+			ContactData contact = new ContactData();
+			contact.firstName = checkbox.getAttribute("td[3]");
+			contacts.add(contact);
+		}
+		return contacts;
+	}
+	
 }
