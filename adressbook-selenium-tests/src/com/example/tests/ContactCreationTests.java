@@ -46,7 +46,7 @@ public class ContactCreationTests extends TestBase {
 	    assertEquals(newList, oldList);
   }
   
-  @Test
+  //@Test
   public void testRandomFemaleContactCreation() throws Exception {
     app.getNavigationHelper().openMainPage();
     app.getContactHelper().initCreationContact();
@@ -70,7 +70,7 @@ public class ContactCreationTests extends TestBase {
     app.getContactHelper().returnToHomePage();
   }
   
-  @Test
+  //@Test
   public void testDefaultContactCreation() throws Exception {
     app.getNavigationHelper().openMainPage();
     app.getContactHelper().initCreationContact();
@@ -78,7 +78,7 @@ public class ContactCreationTests extends TestBase {
     app.getContactHelper().returnToHomePage();
   }
 
-  @Test
+  //@Test
   public void testEmptyContactCreation() throws Exception {
 	  app.getNavigationHelper().openMainPage();
 	  app.getContactHelper().initCreationContact();

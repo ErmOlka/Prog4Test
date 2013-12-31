@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.openqa.selenium.By;
-import org.openqa.selenium.WebElement;
 
 import com.example.tests.ContactData;
 
@@ -62,13 +61,14 @@ public class ContactHelper extends HelperBase {
 
 	public List<ContactData> getContacts() {
 		List<ContactData> contacts = new ArrayList<ContactData>();
-		List<WebElement> checkboxes = driver.findElements(By.name("selected[]"));
-		for (WebElement checkbox : checkboxes) {
+		int tableRowsCount = driver.findElements(By.xpath("//tr[@name='entry']")).size();
+		for (int i = 0; i < tableRowsCount; i++) {
 			ContactData contact = new ContactData();
-			contact.firstName = checkbox.getAttribute("td[3]");
+			contact.lastName = driver.findElement(By.xpath("//tr[" + (i + 2) + "]/td[2]")).getText();
 			contacts.add(contact);
 		}
 		return contacts;
+
 	}
 	
 }
