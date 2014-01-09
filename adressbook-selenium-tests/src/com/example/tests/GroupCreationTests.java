@@ -23,36 +23,13 @@ public class GroupCreationTests extends TestBase {
 		app.getGroupHelper().submitGroupCreation();
 		app.getGroupHelper().returnToGroupsPage();
 		
-		//save new states
+		//save new state
 		List<GroupData> newList = app.getGroupHelper().getGroups();
 		
 		//compare states
 	    oldList.add(group);
 	    Collections.sort(oldList);
 	    assertEquals(newList, oldList);
-	}
-
-	@Test(dataProvider = "myRadomValidGroupGenerator") 
-	public void testGroupCreationWithMyRandomData(GroupData group) throws Exception {
-		app.getNavigationHelper().openMainPage();
-		app.getNavigationHelper().gotoGroupsPage();
-		   
-		//save old state
-		List<GroupData> oldList = app.getGroupHelper().getGroups();
-		
-		//actions
-		app.getGroupHelper().initNewGroupCreation();
-		app.getGroupHelper().fillGroupForm(group);
-		app.getGroupHelper().submitGroupCreation();
-		app.getGroupHelper().returnToGroupsPage();
-		
-		//save new states
-		List<GroupData> newList = app.getGroupHelper().getGroups();
-		
-		//compare states
-		oldList.add(group);
-		Collections.sort(oldList);
-		assertEquals(newList, oldList);
 	}
   
 }

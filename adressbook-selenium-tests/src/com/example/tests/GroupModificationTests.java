@@ -31,7 +31,7 @@ public class GroupModificationTests extends TestBase {
 		app.getGroupHelper().submitGroupModification();
 		app.getGroupHelper().returnToGroupsPage();
 	    
-	    //save new states
+	    //save new state
 	    List<GroupData> newList = app.getGroupHelper().getGroups();
 	    
 	    //compare states
@@ -40,38 +40,5 @@ public class GroupModificationTests extends TestBase {
 	    Collections.sort(oldList);
 	    assertEquals(newList, oldList);
 	}
-	
-	/*
-	* Оставила себе для сравнения
-	@Test
-	public void modifyMyRandomGroup() {
-	    app.getNavigationHelper().openMainPage();
-	    app.getNavigationHelper().gotoGroupsPage();
-	    
-	    //save old state
-	    List<GroupData> oldList = app.getGroupHelper().getGroups();
-	    
-	    //actions
-		if (app.driver.findElements(By.xpath(app.getGroupHelper().xpathGroupList)).isEmpty() == true) 
-	    	System.out.println("modifyMyRandomGroup: Групп нет, редактировать нечего");
-		
-		int randomIndex = app.getRandomHelper().randomIndex(By.xpath(app.getGroupHelper().xpathGroupList));
-		app.getGroupHelper().initGroupModification(randomIndex);
-	    GroupData group = new GroupData();
-		group.name = "new random group name";
-		app.getGroupHelper().fillGroupForm(group);
-		app.getGroupHelper().submitGroupModification();
-		app.getGroupHelper().returnToGroupsPage();
-	    
-	    //save new states
-	    List<GroupData> newList = app.getGroupHelper().getGroups();
-	    
-	    //compare states
-	    oldList.remove(randomIndex);
-	    oldList.add(group);
-	    Collections.sort(oldList);
-	    assertEquals(newList, oldList);
-	}
-	*/
-	
+
 }
