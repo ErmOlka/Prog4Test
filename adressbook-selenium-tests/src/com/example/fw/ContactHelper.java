@@ -9,6 +9,9 @@ import com.example.tests.ContactData;
 
 public class ContactHelper extends HelperBase {
 	
+	public static boolean CREATION = true;
+	public static boolean MODIFICATION = false;
+	
 	public ContactHelper(ApplicationManager manager) {
 		super(manager);
 	}
@@ -17,7 +20,7 @@ public class ContactHelper extends HelperBase {
 		click(By.linkText("add new"));
 	  }
 
-	public void fillContactForm(ContactData contact) {
+	public void fillContactForm(ContactData contact, boolean formType) {
 		typeText(By.name("firstname"),contact.firstName);
 		typeText(By.name("lastname"),contact.lastName);
 		typeText(By.name("address"),contact.address1);
@@ -29,7 +32,10 @@ public class ContactHelper extends HelperBase {
 		selectByText(By.name("bday"), contact.birthDay);
 	    selectByText(By.name("bmonth"), contact.birthMonth);
 	    typeText(By.name("byear"),contact.birthYear);
-	    selectByText(By.name("new_group"), contact.contactGroup);
+	    if (formType == CREATION)
+	    	selectByText(By.name("new_group"), contact.contactGroup);
+	    else if (driver.findElements(By.name("new_group")).size() != 0)
+	    	throw new Error("На форме редактирования присутствует выбор группы");
 	    typeText(By.name("address2"),contact.address2);
 	    typeText(By.name("phone2"),contact.homePhone2);
 	  }

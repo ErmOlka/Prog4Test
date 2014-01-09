@@ -12,8 +12,6 @@ public class GroupRemovalTests extends TestBase {
 	
 	@Test
 	public void deleteRandomGroup() {
-	    app.getNavigationHelper().openMainPage();
-	    app.getNavigationHelper().gotoGroupsPage();
 	    
 	    //save old state
 	    List<GroupData> oldList = app.getGroupHelper().getGroups();
@@ -25,8 +23,7 @@ public class GroupRemovalTests extends TestBase {
 	    if (oldList.isEmpty() == true) 
 	    	System.out.println("deleteFirstGroup: Групп нет, удалять нечего");
 	    
-		app.getGroupHelper().deleteGroup(index); 
-		app.getGroupHelper().returnToGroupsPage();
+		app.getGroupHelper().deleteGroup(index);
 	    
 	    //save new state
 	    List<GroupData> newList = app.getGroupHelper().getGroups();

@@ -29,7 +29,7 @@ public class ApplicationManager {
 	    driver.quit();
 	}
 	
-	public NavigationHelper getNavigationHelper() {
+	public NavigationHelper navigateTo() {
 		if (navigationHelper == null) {
 			navigationHelper = new NavigationHelper(this);
 		}

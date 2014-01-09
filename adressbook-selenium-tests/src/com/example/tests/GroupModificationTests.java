@@ -13,8 +13,6 @@ public class GroupModificationTests extends TestBase {
 	
 	@Test(dataProvider = "radomValidGroupGenerator")
 	public void modifyRandomGroup(GroupData group) {
-	    app.getNavigationHelper().openMainPage();
-	    app.getNavigationHelper().gotoGroupsPage();
 	    
 	    //save old state
 	    List<GroupData> oldList = app.getGroupHelper().getGroups();
@@ -23,13 +21,10 @@ public class GroupModificationTests extends TestBase {
 	    int index = rnd.nextInt(oldList.size()-1);
 	    
 	    //actions
-	    if (app.driver.findElements(By.xpath(app.getGroupHelper().xpathGroupList)).isEmpty() == true)
+	    if (app.driver.findElements(By.xpath("//input[@name='selected[]']")).isEmpty() == true)
 	    	System.out.println("modifyRandomGroup: Групп нет, редактировать нечего");
 	    
-	    app.getGroupHelper().initGroupModification(index);
-		app.getGroupHelper().fillGroupForm(group);
-		app.getGroupHelper().submitGroupModification();
-		app.getGroupHelper().returnToGroupsPage();
+	    app.getGroupHelper().modyfyGroup(index,group);
 	    
 	    //save new state
 	    List<GroupData> newList = app.getGroupHelper().getGroups();

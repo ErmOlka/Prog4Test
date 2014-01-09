@@ -11,17 +11,12 @@ public class GroupCreationTests extends TestBase {
 	
 	@Test(dataProvider = "radomValidGroupGenerator") 
 	public void testGroupCreationValidData(GroupData group) throws Exception {
-		app.getNavigationHelper().openMainPage();
-		app.getNavigationHelper().gotoGroupsPage();
 		    
 	    //save old state
 		List<GroupData> oldList = app.getGroupHelper().getGroups();
 		
 		//actions
-		app.getGroupHelper().initNewGroupCreation();
-		app.getGroupHelper().fillGroupForm(group);
-		app.getGroupHelper().submitGroupCreation();
-		app.getGroupHelper().returnToGroupsPage();
+		app.getGroupHelper().creationGroup(group);
 		
 		//save new state
 		List<GroupData> newList = app.getGroupHelper().getGroups();

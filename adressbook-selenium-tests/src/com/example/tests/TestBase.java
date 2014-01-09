@@ -30,10 +30,10 @@ public class TestBase {
 		List<Object[]> list = new ArrayList<Object[]>();
 		Random rnd = new Random();
 		for (int i = 0; i < 3; i++) {
-			GroupData group = new GroupData();
-			group.name = app.getRandomHelper().randomStringEngAlphaNumeric(rnd.nextInt(20));
-			group.header = app.getRandomHelper().randomStringEngAlphaNumeric(rnd.nextInt(30));
-			group.footer = app.getRandomHelper().randomStringEngAlphaNumeric(rnd.nextInt(40));
+			GroupData group = new GroupData()
+				.withName(app.getRandomHelper().randomStringEngAlphaNumeric(rnd.nextInt(20)))
+				.withHeader(app.getRandomHelper().randomStringEngAlphaNumeric(rnd.nextInt(30)))
+				.withFooter(app.getRandomHelper().randomStringEngAlphaNumeric(rnd.nextInt(40)));
 			list.add(new Object[] {group});
 		}
 		return list.iterator();

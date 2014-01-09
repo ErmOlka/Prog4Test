@@ -10,58 +10,90 @@ import com.example.tests.GroupData;
 
 public class GroupHelper extends HelperBase {
 
-	public String xpathGroupList = "//input[@name='selected[]']";
-	
 	public GroupHelper(ApplicationManager manager) {
 		super(manager);
 	}
+
+	public GroupHelper creationGroup(GroupData group) {
+		manager.navigateTo().groupsPage();
+		initNewGroupCreation();
+		fillGroupForm(group);
+		submitGroupCreation();
+		returnToGroupsPage();
+		return this;
+	}
 	
-	public void initNewGroupCreation() {
-		click(By.name("new"));
-	  }
-
-	public void fillGroupForm(GroupData group) {
-		typeText(By.name("group_name"), group.name);
-		typeText(By.name("group_header"), group.header);
-		typeText(By.name("group_footer"), group.footer);
-	  }
-
-	public void submitGroupCreation() {
-		click(By.name("submit"));
-	  }
-
-	public void returnToGroupsPage() {
-		click(By.linkText("group page"));
-	  }
-
-	public void deleteGroup(int index) {
+	public GroupHelper modyfyGroup(int index, GroupData group) {
+		manager.navigateTo().groupsPage();
+    	initGroupModification(index);
+    	fillGroupForm(group);
+    	submitGroupModification();
+    	returnToGroupsPage();	
+    	return this;
+	}
+	
+	public GroupHelper deleteGroup(int index) {
+		manager.navigateTo().groupsPage();
 		selectGroupByIndex(index);
-		click(By.name("delete"));
-	}
-
-	public void initGroupModification(int index) {
-		selectGroupByIndex(index);
-		click(By.name("edit"));
-	}
-
-	private void selectGroupByIndex(int index) {
-		click(By.xpath("//input[@name='selected[]'][" + (index+1) + "]"));
-	}
-
-	public void submitGroupModification() {
-		click(By.name("update"));		
+		submitGroupDeletion();
+		returnToGroupsPage();
+		return this;
 	}
 
 	public List<GroupData> getGroups() {
 		List<GroupData> groups = new ArrayList<GroupData>();
+		
+		manager.navigateTo().groupsPage();
 		List<WebElement> checkboxes = driver.findElements(By.name("selected[]"));
 		for (WebElement checkbox : checkboxes) {
-			GroupData group = new GroupData();
 			String title = checkbox.getAttribute("title");
-			group.name = title.substring("Select (".length(), title.length() - ")".length());
-			groups.add(group);
+			String name = title.substring("Select (".length(), title.length() - ")".length());
+			groups.add(new GroupData().withName(name));
 		}
 		return groups;
+	}
+	
+// ------------------------------------------------------------------------------------------------------------------------------------------------- //	
+	
+	public GroupHelper initNewGroupCreation() {
+		click(By.name("new"));
+		return this;
+	  }
+
+	public GroupHelper fillGroupForm(GroupData group) {
+		typeText(By.name("group_name"), group.getName());
+		typeText(By.name("group_header"), group.getHeader());
+		typeText(By.name("group_footer"), group.getFooter());
+		return this;
+	  }
+
+	public GroupHelper submitGroupCreation() {
+		click(By.name("submit"));
+		return this;
+	  }
+
+	public GroupHelper returnToGroupsPage() {
+		click(By.linkText("group page"));
+		return this;
+	  }
+
+	public GroupHelper initGroupModification(int index) {
+		selectGroupByIndex(index);
+		click(By.name("edit"));
+		return this;
+	}
+	
+	private void selectGroupByIndex(int index) {
+		click(By.xpath("//input[@name='selected[]'][" + (index+1) + "]"));
+	}
+	
+	public GroupHelper submitGroupModification() {
+		click(By.name("update"));		
+		return this;
+	}
+	
+	public void submitGroupDeletion() {
+		click(By.name("delete"));
 	}
 
 }
