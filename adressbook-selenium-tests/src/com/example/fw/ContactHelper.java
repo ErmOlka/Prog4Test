@@ -9,8 +9,6 @@ import com.example.tests.ContactData;
 
 public class ContactHelper extends HelperBase {
 	
-	public String xpathContactList = "(//img[@alt='Edit'])";
-
 	public ContactHelper(ApplicationManager manager) {
 		super(manager);
 	}
@@ -28,7 +26,7 @@ public class ContactHelper extends HelperBase {
 		typeText(By.name("work"),contact.workPhone);
 		typeText(By.name("email"),contact.email1);
 		typeText(By.name("email2"),contact.email2);
-	    selectByText(By.name("bday"), contact.birthDay);
+		selectByText(By.name("bday"), contact.birthDay);
 	    selectByText(By.name("bmonth"), contact.birthMonth);
 	    typeText(By.name("byear"),contact.birthYear);
 	    selectByText(By.name("new_group"), contact.contactGroup);
@@ -49,9 +47,7 @@ public class ContactHelper extends HelperBase {
 	}
 
 	public void initContactModification(int index) {
-		if (index == 0)
-			index = 1;
-		click(By.xpath("(//img[@alt='Edit'])[" + index + "]"));
+		click(By.xpath("(//img[@alt='Edit'])[" + (index + 1) + "]"));
 	}
 
 	public void submitContactModification() {

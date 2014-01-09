@@ -1,6 +1,11 @@
 package com.example.tests;
 
-import org.openqa.selenium.By;
+import static org.testng.Assert.assertEquals;
+
+import java.util.Collections;
+import java.util.List;
+import java.util.Random;
+
 import org.testng.annotations.Test;
 
 public class ContactRemovalTests extends TestBase{
@@ -8,23 +13,27 @@ public class ContactRemovalTests extends TestBase{
 	@Test
 	public void deleteFirstContact() {
 		app.getNavigationHelper().openMainPage();
-		if (app.driver.findElements(By.xpath(app.getContactHelper().xpathContactList)).isEmpty() == false) {
-			app.getContactHelper().initContactModification(1); 
-			app.getContactHelper().deleteContact(); 
-			app.getContactHelper().returnToHomePage();
-		}
-		else System.out.println("deleteFirstContact: Нет контактов, удалять нечего");
+	    
+	    //save old state
+    	List<ContactData> oldList = app.getContactHelper().getContacts();
+    	
+	    Random rnd = new Random();
+	    int index = rnd.nextInt(oldList.size()-1);
+	    
+    	//actions
+	    if (oldList.isEmpty() == true) 
+	    	System.out.println("modifyRandomContact: Нет контактов, редактировать нечего");
+	    app.getContactHelper().initContactModification(index); 
+		app.getContactHelper().deleteContact(); 
+		app.getContactHelper().returnToHomePage();
+	    
+		//save new states
+		List<ContactData> newList = app.getContactHelper().getContacts();
+		
+		//compare states
+		oldList.remove(index);
+	    Collections.sort(oldList);
+	    assertEquals(newList, oldList);
 	}
 	
-	@Test
-	public void deleteRandomContact() {
-		app.getNavigationHelper().openMainPage();
-		if (app.driver.findElements(By.xpath(app.getContactHelper().xpathContactList)).isEmpty() == false) {
-			app.getContactHelper().initContactModification(app.getRandomHelper().randomIndex(By.xpath(app.getContactHelper().xpathContactList)));
-			app.getContactHelper().deleteContact(); 
-			app.getContactHelper().returnToHomePage();
-		}
-		else System.out.println("deleteRandomContact: Нет контактов, удалять нечего");
-	}
-
 }

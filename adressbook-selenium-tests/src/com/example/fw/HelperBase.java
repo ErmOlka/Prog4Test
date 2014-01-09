@@ -1,5 +1,7 @@
 package com.example.fw;
 
+import java.util.Random;
+
 import org.openqa.selenium.Alert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.NoSuchElementException;
@@ -42,11 +44,9 @@ public abstract class HelperBase {
 	}
 	
 	public void randomDropDownValue(By locator) {
-		new Select(driver.findElement(locator)).selectByIndex(manager.getRandomHelper().randomNumeric(0, dropDownSize(locator)));
-	}
-
-	protected int dropDownSize(By locator) {
-		return new Select(driver.findElement(locator)).getOptions().size();
+		Random rnd = new Random();
+		int dropDownSize = new Select(driver.findElement(locator)).getOptions().size();
+		new Select(driver.findElement(locator)).selectByIndex(rnd.nextInt(dropDownSize));
 	}
 	
 /*............................................................................................................................*/	

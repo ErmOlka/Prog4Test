@@ -19,7 +19,7 @@ public class ContactModificationTests extends TestBase {
     	
 	    Random rnd = new Random();
 	    int index = rnd.nextInt(oldList.size()-1);
-    	
+	    
     	//actions
 	    if (oldList.isEmpty() == true) 
 	    	System.out.println("modifyRandomContact: Ќет контактов, редактировать нечего");

@@ -3,6 +3,7 @@ package com.example.fw;
 import java.util.Random;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.support.ui.Select;
 
 public class RandomHelper extends HelperBase {
 
@@ -10,17 +11,6 @@ public class RandomHelper extends HelperBase {
 		super(manager);
 	}
 
-	public int randomNumeric(int min, int max) {
-		int randomNumber;
-		if (min == max) {
-			randomNumber = 1;
-			return randomNumber;
-		}
-		Random rnd = new Random(System.currentTimeMillis());
-		randomNumber = min + rnd.nextInt(max - min);
-		return randomNumber;
-	}
-	
 	public String randomStringNumeric(final int length) {
 		char[] chars = "1234567890".toCharArray();
 		StringBuilder sb = new StringBuilder();
@@ -33,18 +23,12 @@ public class RandomHelper extends HelperBase {
 	}
 	
 	public String randomStringEngAlphaNumeric(final int length) {
-		char[] chars = "abcdefghijklmnopqrstuvwxyz QWERTYUIOPASDFGHJKLZXCVBNM 1234567890 ._".toCharArray();
-		StringBuilder sb = new StringBuilder();
-		Random random = new Random();
-		for (int i = 0; i < length; i++) {
-		    char c = chars[random.nextInt(chars.length)];
-		    sb.append(c);
-		}
-		return sb.toString();
-	}
-	
-	public String randomStringRusAlphaNumeric(final int length) {
-		char[] chars = "éöóêåíãøùçõúôûâàïðîëäæýÿ÷ñìèòüáþ ÉÖÓÊÅÍÃØÙÇÕÚÔÛÂÀÏÐÎËÄÆÝß×ÑÌÈÒÜÁÞ 1234567890 ._".toCharArray();
+		Random rnd = new Random();
+		if (rnd.nextInt(10) == 0)
+			return "";
+		else if (rnd.nextInt(10) == 0)
+			return null;
+		char[] chars = "abcdefghijklmnopqrstuvwxyz QWERTYUIOPASDFGHJKLZXCVBNM 1234567890 ._éöóêåíãøùçõúôûâàïðîëäæýÿ÷ñìèòüáþ ÉÖÓÊÅÍÃØÙÇÕÚÔÛÂÀÏÐÎËÄÆÝß×ÑÌÈÒÜÁÞ 1234567890 ._".toCharArray();
 		StringBuilder sb = new StringBuilder();
 		Random random = new Random();
 		for (int i = 0; i < length; i++) {
@@ -79,12 +63,6 @@ public class RandomHelper extends HelperBase {
 		return randomPhoneNumber;
 	}
 
-	public int randomIndex(By locator) {
-		int maxIndex = driver.findElements(locator).size();
-		int index = randomNumeric(0, maxIndex);
-		return index;
-	}
-	
 	private String[] concatArray(String[] firstArray, String[] secondArray) {
 		if (firstArray == null)
 			return secondArray;
@@ -127,5 +105,43 @@ public class RandomHelper extends HelperBase {
 		}
 		return randLastName;
 	}
+
+	public String randomValue(String randomValue) {
+		Random rnd = new Random();
+		if (rnd.nextInt(10) == 0)
+			return "";
+		if (rnd.nextInt(10) == 0)
+			return null;
+		else 
+			return randomValue;
+	}
 	
+	public String randomBirthDay() {
+		Random rnd = new Random();
+		if (rnd.nextInt(10) == 0)
+			return null;
+		int maxIndex = new Select(driver.findElement(By.xpath("//select[@name='bday']"))).getOptions().size();    
+		int index = rnd.nextInt(maxIndex-1);
+		String randomBirthDay = driver.findElement(By.xpath("//select[@name='bday']/option[" + (index + 1) + "]")).getText();
+		return randomBirthDay;
+	}
+	
+	public String randomBirthMonth() {
+		Random rnd = new Random();
+		if (rnd.nextInt(10) == 0)
+			return null;
+		int index = rnd.nextInt(new Select(driver.findElement(By.xpath("//select[@name='bmonth']"))).getOptions().size()-1);
+		String randomBirthDay = driver.findElement(By.xpath("//select[2]/option[" + (index + 1) + "]")).getText();
+		return randomBirthDay;
+	}
+	
+	public String randomContactGroup() {
+		Random rnd = new Random();
+		if (rnd.nextInt(10) == 0)
+			return null;
+		int index = rnd.nextInt(new Select(driver.findElement(By.xpath("//select[@name='new_group']"))).getOptions().size()-1);
+		String randomBirthDay = driver.findElement(By.xpath("//select[1]/option[" + (index + 1) + "]")).getText();
+		return randomBirthDay;
+	}
+
 }
