@@ -21,6 +21,12 @@ public class ContactHelper extends HelperBase {
 			rebuildCache();
 		return cachedContacts;
 	}
+	
+	public SortedListOf<ContactData> getPrintContacts() {
+		SortedListOf<ContactData> contacts = new SortedListOf<ContactData>();
+		//перебрать таблицу на странице print phones
+		return null;
+	}
 		
 	private void rebuildCache() {
 		cachedContacts = new SortedListOf<ContactData>();
@@ -28,9 +34,16 @@ public class ContactHelper extends HelperBase {
 		manager.navigateTo().mainPage();
 		int tableRowsCount = driver.findElements(By.xpath("//tr[@name='entry']")).size();
 		for (int i = 0; i < tableRowsCount; i++) {
-			String lastName = driver.findElement(By.xpath("//tr[" + (i + 2) + "]/td[2]")).getText();
 			String firstName = driver.findElement(By.xpath("//tr[" + (i + 2) + "]/td[3]")).getText();
-			cachedContacts.add(new ContactData().withLastName(lastName).withFirstName(firstName));
+			String lastName = driver.findElement(By.xpath("//tr[" + (i + 2) + "]/td[2]")).getText();
+			String email = driver.findElement(By.xpath("//tr[" + (i + 2) + "]/td[4]")).getText();
+			String homePhone = driver.findElement(By.xpath("//tr[" + (i + 2) + "]/td[5]")).getText();
+			cachedContacts.add(new ContactData()
+									.withFirstName(firstName)
+									.withLastName(lastName)
+									.withEmail1(email)
+									.withHomePhone1(homePhone)
+							);
 		}
 	}
 	
