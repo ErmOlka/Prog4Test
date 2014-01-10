@@ -1,13 +1,14 @@
 package com.example.tests;
 
-import static org.testng.Assert.assertEquals;
+import static org.junit.Assert.assertThat;
+import static org.hamcrest.Matchers.*;
 
-import java.util.Collections;
-import java.util.List;
 import java.util.Random;
 
 import org.openqa.selenium.By;
 import org.testng.annotations.Test;
+
+import com.example.utils.SortedListOf;
 
 public class GroupModificationTests extends TestBase {
 	
@@ -15,25 +16,22 @@ public class GroupModificationTests extends TestBase {
 	public void modifyRandomGroup(GroupData group) {
 	    
 	    //save old state
-	    List<GroupData> oldList = app.getGroupHelper().getGroups();
+		SortedListOf<GroupData> oldList = app.getGroupHelper().getGroups();
 	    
-	    Random rnd = new Random();
-	    int index = rnd.nextInt(oldList.size()-1);
-	    
+		Random rnd = new Random();
+		
 	    //actions
 	    if (app.driver.findElements(By.xpath("//input[@name='selected[]']")).isEmpty() == true)
-	    	System.out.println("modifyRandomGroup: Групп нет, редактировать нечего");
+	    	throw new Error("modifyRandomGroup: Групп нет, редактировать нечего");
+	    int index = rnd.nextInt(oldList.size()-1);
 	    
 	    app.getGroupHelper().modyfyGroup(index,group);
 	    
 	    //save new state
-	    List<GroupData> newList = app.getGroupHelper().getGroups();
+	    SortedListOf<GroupData> newList = app.getGroupHelper().getGroups();
 	    
 	    //compare states
-	    oldList.remove(index);
-	    oldList.add(group);
-	    Collections.sort(oldList);
-	    assertEquals(newList, oldList);
+		assertThat(newList, equalTo(oldList.without(index).withAdded(group)));
 	}
 
 }

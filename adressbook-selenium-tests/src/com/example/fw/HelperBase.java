@@ -48,7 +48,7 @@ public abstract class HelperBase {
 		int dropDownSize = new Select(driver.findElement(locator)).getOptions().size();
 		new Select(driver.findElement(locator)).selectByIndex(rnd.nextInt(dropDownSize));
 	}
-	
+
 /*............................................................................................................................*/	
 	public boolean isElementPresent(By by) {
 		try{

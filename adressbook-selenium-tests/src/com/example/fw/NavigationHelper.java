@@ -10,7 +10,7 @@ public class NavigationHelper extends HelperBase{
 
 	public void mainPage() {
 		if (! onMainPage())
-			driver.get(manager.baseUrl + "/addressbookv4.1.4/");
+			click(By.linkText("home"));
 	  }
 	
 	public void groupsPage() {
@@ -19,10 +19,7 @@ public class NavigationHelper extends HelperBase{
 	  }
 
 	private boolean onMainPage() {
-		if (driver.findElement(By.xpath("//input[@value='Send e-Mail']")).isDisplayed())
-			return true;
-		else
-			return false;
+		return driver.findElements(By.id("maintable")).size() > 0;
 	}
 
 	private boolean onGroupsPage() {

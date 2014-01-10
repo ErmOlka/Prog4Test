@@ -23,9 +23,7 @@ public class ContactData implements Comparable<ContactData> {
 	public String toString() {
 		return "ContactData [firstName=" + firstName + ", lastName=" + lastName
 				+ ", homePhone1=" + homePhone1 + ", mobilePhone=" + mobilePhone
-				+ ", email1=" + email1 + ", birthDay=" + birthDay
-				+ ", birthMonth=" + birthMonth + ", birthYear=" + birthYear
-				+ ", contactGroup=" + contactGroup + "]";
+				+ ", email1=" + email1 + "]";
 	}
 
 	@Override

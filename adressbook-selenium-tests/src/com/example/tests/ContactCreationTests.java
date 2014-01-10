@@ -11,18 +11,14 @@ import static com.example.fw.ContactHelper.CREATION;
 
 public class ContactCreationTests extends TestBase {
 	
-    @Test(dataProvider = "radomValidContactCreationGenerator")
+    @Test(dataProvider = "radomValidContactGenerator")
     public void testContactCreationValidData(ContactData contact) throws Exception {
-    	app.navigateTo().mainPage();
 	    
 	    //save old state
     	List<ContactData> oldList = app.getContactHelper().getContacts();
     	
     	//actions
-	    app.getContactHelper().initCreationContact();
-		app.getContactHelper().fillContactForm(contact,CREATION);
-		app.getContactHelper().submitCreationContact();
-	    app.getContactHelper().returnToHomePage();
+    	app.getContactHelper().creationContact(contact,CREATION);
 	    
 		//save new states
 		List<ContactData> newList = app.getContactHelper().getContacts();

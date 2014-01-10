@@ -12,23 +12,20 @@ import static com.example.fw.ContactHelper.MODIFICATION;
 
 public class ContactModificationTests extends TestBase {
 	
-	@Test(dataProvider = "radomValidContactModificationGenerator")
+	@Test(dataProvider = "radomValidContactGenerator")
 	public void modifyRandomContact(ContactData contact) {
-	    app.navigateTo().mainPage();
 	    
 	    //save old state
     	List<ContactData> oldList = app.getContactHelper().getContacts();
     	
-	    Random rnd = new Random();
-	    int index = rnd.nextInt(oldList.size()-1);
-	    
+    	Random rnd = new Random();
+    	
     	//actions
 	    if (oldList.isEmpty() == true) 
-	    	System.out.println("modifyRandomContact: Ќет контактов, редактировать нечего");
-	    app.getContactHelper().initContactModification(index);
-		app.getContactHelper().fillContactForm(contact,MODIFICATION);
-		app.getContactHelper().submitContactModification();
-		app.getContactHelper().returnToHomePage();
+	    	throw new Error("modifyRandomContact: Ќет контактов, редактировать нечего");
+	    int index = rnd.nextInt(oldList.size()-1);
+	    
+	    app.getContactHelper().modifyContact(index,contact,MODIFICATION);
 	    
 		//save new states
 		List<ContactData> newList = app.getContactHelper().getContacts();
