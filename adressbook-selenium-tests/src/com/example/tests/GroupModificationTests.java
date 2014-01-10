@@ -4,10 +4,7 @@ import static org.junit.Assert.assertThat;
 import static org.hamcrest.Matchers.*;
 
 import java.util.Random;
-
-import org.openqa.selenium.By;
 import org.testng.annotations.Test;
-
 import com.example.utils.SortedListOf;
 
 public class GroupModificationTests extends TestBase {
@@ -21,8 +18,8 @@ public class GroupModificationTests extends TestBase {
 		Random rnd = new Random();
 		
 	    //actions
-	    if (app.driver.findElements(By.xpath("//input[@name='selected[]']")).isEmpty() == true)
-	    	throw new Error("modifyRandomGroup: Групп нет, редактировать нечего");
+	    if (oldList.isEmpty())
+	    	throw new Error("Нет групп для редактирования");
 	    int index = rnd.nextInt(oldList.size()-1);
 	    
 	    app.getGroupHelper().modyfyGroup(index,group);

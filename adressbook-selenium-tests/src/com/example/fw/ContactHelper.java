@@ -28,14 +28,13 @@ public class ContactHelper extends HelperBase {
 		manager.navigateTo().mainPage();
 		int tableRowsCount = driver.findElements(By.xpath("//tr[@name='entry']")).size();
 		for (int i = 0; i < tableRowsCount; i++) {
-			ContactData contact = new ContactData();
-			contact.lastName = driver.findElement(By.xpath("//tr[" + (i + 2) + "]/td[2]")).getText();
-			contact.firstName = driver.findElement(By.xpath("//tr[" + (i + 2) + "]/td[3]")).getText();
-			cachedContacts.add(contact);
+			String lastName = driver.findElement(By.xpath("//tr[" + (i + 2) + "]/td[2]")).getText();
+			String firstName = driver.findElement(By.xpath("//tr[" + (i + 2) + "]/td[3]")).getText();
+			cachedContacts.add(new ContactData().withLastName(lastName).withFirstName(firstName));
 		}
 	}
 	
-	public ContactHelper creationContact(ContactData contact, boolean formType) {
+	public ContactHelper creationContact(ContactData contact) {
 		manager.navigateTo().mainPage();
 	    initCreationContact();
 		fillContactForm(contact,CREATION);
@@ -45,7 +44,7 @@ public class ContactHelper extends HelperBase {
 	    return this;
 	}
 	
-	public ContactHelper modifyContact(int index, ContactData contact, boolean formType) {
+	public ContactHelper modifyContact(int index, ContactData contact) {
 		manager.navigateTo().mainPage();
 	    initContactModification(index);
 		fillContactForm(contact,MODIFICATION);
@@ -72,23 +71,23 @@ public class ContactHelper extends HelperBase {
 	}
 
 	public ContactHelper fillContactForm(ContactData contact, boolean formType) {
-		typeText(By.name("firstname"),contact.firstName);
-		typeText(By.name("lastname"),contact.lastName);
-		typeText(By.name("address"),contact.address1);
-		typeText(By.name("home"),contact.homePhone1);
-		typeText(By.name("mobile"),contact.mobilePhone);
-		typeText(By.name("work"),contact.workPhone);
-		typeText(By.name("email"),contact.email1);
-		typeText(By.name("email2"),contact.email2);
-		selectByText(By.name("bday"), contact.birthDay);
-	    selectByText(By.name("bmonth"), contact.birthMonth);
-	    typeText(By.name("byear"),contact.birthYear);
+		typeText(By.name("firstname"),contact.getFirstName());
+		typeText(By.name("lastname"),contact.getLastName());
+		typeText(By.name("address"),contact.getAddress1());
+		typeText(By.name("home"),contact.getHomePhone1());
+		typeText(By.name("mobile"),contact.getMobilePhone());
+		typeText(By.name("work"),contact.getWorkPhone());
+		typeText(By.name("email"),contact.getEmail1());
+		typeText(By.name("email2"),contact.getEmail2());
+		selectByText(By.name("bday"), contact.getBirthDay());
+	    selectByText(By.name("bmonth"), contact.getBirthMonth());
+	    typeText(By.name("byear"),contact.getBirthYear());
 	    if (formType == CREATION)
-	    	selectByText(By.name("new_group"), contact.contactGroup);
+	    	selectByText(By.name("new_group"), contact.getContactGroup());
 	    else if (! driver.findElements(By.name("new_group")).isEmpty()) //с данным условием происходит задержка теста модификации контакта после заполнения года рождения, т.е. в том месте, где было бы поле группы
 	    	throw new Error("На форме редактирования присутствует выбор группы");//если условие else закомментировать, то задержки не происходит.
-	    typeText(By.name("address2"),contact.address2);
-	    typeText(By.name("phone2"),contact.homePhone2);
+	    typeText(By.name("address2"),contact.getAddress2());
+	    typeText(By.name("phone2"),contact.getHomePhone2());
 	    return this;
 	}
 

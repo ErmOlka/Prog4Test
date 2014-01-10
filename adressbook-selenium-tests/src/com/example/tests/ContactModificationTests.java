@@ -1,14 +1,11 @@
 package com.example.tests;
 
-import static org.testng.Assert.assertEquals;
+import static org.junit.Assert.assertThat;
+import static org.hamcrest.Matchers.*;
 
-import java.util.Collections;
-import java.util.List;
 import java.util.Random;
-
 import org.testng.annotations.Test;
-
-import static com.example.fw.ContactHelper.MODIFICATION;
+import com.example.utils.SortedListOf;
 
 public class ContactModificationTests extends TestBase {
 	
@@ -16,25 +13,22 @@ public class ContactModificationTests extends TestBase {
 	public void modifyRandomContact(ContactData contact) {
 	    
 	    //save old state
-    	List<ContactData> oldList = app.getContactHelper().getContacts();
+		SortedListOf<ContactData> oldList = app.getContactHelper().getContacts();
     	
     	Random rnd = new Random();
     	
     	//actions
-	    if (oldList.isEmpty() == true) 
-	    	throw new Error("modifyRandomContact: Нет контактов, редактировать нечего");
+	    if (oldList.isEmpty()) 
+	    	throw new Error("Нет контактов для редактирования");
 	    int index = rnd.nextInt(oldList.size()-1);
 	    
-	    app.getContactHelper().modifyContact(index,contact,MODIFICATION);
+	    app.getContactHelper().modifyContact(index,contact);
 	    
 		//save new states
-		List<ContactData> newList = app.getContactHelper().getContacts();
+	    SortedListOf<ContactData> newList = app.getContactHelper().getContacts();
 		
 		//compare states
-		oldList.remove(index);
-	    oldList.add(contact);
-	    Collections.sort(oldList);
-	    assertEquals(newList, oldList);
+		assertThat(newList, equalTo(oldList.without(index).withAdded(contact)));
 	}
 
 }
