@@ -62,15 +62,13 @@ public class TestBase {
 	public Iterator<Object[]> radomValidContactGenerator() {
 		List<Object[]> list = new ArrayList<Object[]>();
 		Random rnd = new Random();
-		String gender = "";
-		for (int i = 0; i < 3; i++) {
-			int rand = rnd.nextInt(11);
-			if (rand == 0)
-				gender = "U";
-			if (rand > 0 && rand <= 5)
-				gender = "M";
-			if (rand > 5) 
-				gender = "F";
+		boolean gender = true;
+		for (int i = 0; i < 1; i++) {
+			int rand = rnd.nextInt(10);
+			if (rand < 5)
+				gender = true; //male
+			if (rand >= 5) 
+				gender = false; //female
 			String birthDay = app.getRandomHelper().randomValue("RandomDay");
 			if (birthDay == null || birthDay == "")
 				birthDay = "-";
@@ -105,7 +103,7 @@ public class TestBase {
 	public Iterator<Object[]> deletionSomeContacts() {
 		List<Object[]> list = new ArrayList<Object[]>();
 		Random rnd = new Random();
-		int maxCount = app.getContactHelper().getContacts().size();
+		int maxCount = app.getContactHelper().getContacts(true).size();
 	    if (maxCount == 0) 
 	    	throw new Error("Нет контактов для удаления"); //почему-то очень долго обрабатывается
 		int countForDelete = rnd.nextInt(maxCount); //если надо удалить конкретное количество контактов, то вместо rnd надо подставить нужное число

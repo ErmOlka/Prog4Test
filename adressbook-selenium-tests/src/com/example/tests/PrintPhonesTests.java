@@ -11,10 +11,7 @@ public class PrintPhonesTests extends TestBase{
 	@Test
 	public void CheckPrintPhones() {
 		//save state on home page
-		SortedListOf<ContactData> homePageList = app.getContactHelper().getContacts();
-	    
-	    //actions
-
+		SortedListOf<ContactData> homePageList = app.getContactHelper().getContacts(false);
 		
 	    //save state on print page
 	    SortedListOf<ContactData> printPageList = app.getContactHelper().getPrintContacts();

@@ -2,9 +2,6 @@ package com.example.fw;
 
 import java.util.Random;
 
-import org.openqa.selenium.By;
-import org.openqa.selenium.support.ui.Select;
-
 public class RandomHelper extends HelperBase {
 
 	public RandomHelper(ApplicationManager manager) {
@@ -74,14 +71,13 @@ public class RandomHelper extends HelperBase {
 		return resultArray;
 	}
 	
-	public String randomFirstName(String gender) {
+	public String randomFirstName(boolean gender) {
 		String randFirstName = null;
 		String[] firstNames = null;
-		if (gender == "M") 
+		if (gender == true) //male
 			firstNames = manager.getNamesGeneratorHelper().maleFirstNames();
-		else if (gender == "F") 
+		else //female
 			firstNames = manager.getNamesGeneratorHelper().femaleFirstNames();
-		else randFirstName = "”кажите корректный пол - M или F";
 		if (randFirstName == null) {
 			Random random = new Random();
 			for (int i = 0; i < firstNames.length; i++) {
@@ -91,14 +87,13 @@ public class RandomHelper extends HelperBase {
 		return randFirstName;
 	}
 
-	public String randomLastName(String gender) {
+	public String randomLastName(boolean gender) {
 		String randLastName = null;
 		String[] lastNames = null;
-		if (gender == "M") 
+		if (gender == true) //male
 			lastNames = concatArray(manager.getNamesGeneratorHelper().maleLastNames(),manager.getNamesGeneratorHelper().uniLastNames());
-		else if (gender == "F") 
+		else //female
 			lastNames = concatArray(manager.getNamesGeneratorHelper().femaleLastNames(),manager.getNamesGeneratorHelper().uniLastNames());
-		else lastNames = manager.getNamesGeneratorHelper().uniLastNames();
 		Random random = new Random();
 		for (int i = 0; i < lastNames.length; i++) {
 			randLastName = lastNames[random.nextInt(lastNames.length)];
@@ -114,34 +109,6 @@ public class RandomHelper extends HelperBase {
 			return null;
 		else 
 			return randomValue;
-	}
-	
-	public String randomBirthDay() {
-		Random rnd = new Random();
-		if (rnd.nextInt(10) == 0)
-			return null;
-		int maxIndex = new Select(driver.findElement(By.xpath("//select[@name='bday']"))).getOptions().size();    
-		int index = rnd.nextInt(maxIndex-1);
-		String randomBirthDay = driver.findElement(By.xpath("//select[@name='bday']/option[" + (index + 1) + "]")).getText();
-		return randomBirthDay;
-	}
-	
-	public String randomBirthMonth() {
-		Random rnd = new Random();
-		if (rnd.nextInt(10) == 0)
-			return null;
-		int index = rnd.nextInt(new Select(driver.findElement(By.xpath("//select[@name='bmonth']"))).getOptions().size()-1);
-		String randomBirthDay = driver.findElement(By.xpath("//select[2]/option[" + (index + 1) + "]")).getText();
-		return randomBirthDay;
-	}
-	
-	public String randomContactGroup() {
-		Random rnd = new Random();
-		if (rnd.nextInt(10) == 0)
-			return null;
-		int index = rnd.nextInt(new Select(driver.findElement(By.xpath("//select[@name='new_group']"))).getOptions().size()-1);
-		String randomBirthDay = driver.findElement(By.xpath("//select[1]/option[" + (index + 1) + "]")).getText();
-		return randomBirthDay;
 	}
 
 }

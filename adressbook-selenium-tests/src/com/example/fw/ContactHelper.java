@@ -16,19 +16,13 @@ public class ContactHelper extends HelperBase {
 	
 	private SortedListOf<ContactData> cachedContacts;
 	
-	public SortedListOf<ContactData> getContacts() {
+	public SortedListOf<ContactData> getContacts(boolean withEmail) {
 		if (cachedContacts == null)
-			rebuildCache();
+			rebuildCache(withEmail);
 		return cachedContacts;
 	}
 	
-	public SortedListOf<ContactData> getPrintContacts() {
-		SortedListOf<ContactData> contacts = new SortedListOf<ContactData>();
-		//перебрать таблицу на странице print phones
-		return null;
-	}
-		
-	private void rebuildCache() {
+	private void rebuildCache(boolean withEmail) {
 		cachedContacts = new SortedListOf<ContactData>();
 		
 		manager.navigateTo().mainPage();
@@ -36,15 +30,82 @@ public class ContactHelper extends HelperBase {
 		for (int i = 0; i < tableRowsCount; i++) {
 			String firstName = driver.findElement(By.xpath("//tr[" + (i + 2) + "]/td[3]")).getText();
 			String lastName = driver.findElement(By.xpath("//tr[" + (i + 2) + "]/td[2]")).getText();
-			String email = driver.findElement(By.xpath("//tr[" + (i + 2) + "]/td[4]")).getText();
 			String homePhone = driver.findElement(By.xpath("//tr[" + (i + 2) + "]/td[5]")).getText();
-			cachedContacts.add(new ContactData()
+			if (withEmail) {
+				String email = driver.findElement(By.xpath("//tr[" + (i + 2) + "]/td[4]")).getText();
+				cachedContacts.add(new ContactData()
+										.withFirstName(firstName)
+										.withLastName(lastName)
+										.withEmail1(email)
+										.withHomePhone1(homePhone)
+								);
+			}
+			else 
+				cachedContacts.add(new ContactData()
+										.withFirstName(firstName)
+										.withLastName(lastName)
+										.withHomePhone1(homePhone)
+								);
+		}
+	}
+	
+	public SortedListOf<ContactData> getPrintContacts() {
+		manager.navigateTo().printPhonesPage();
+		SortedListOf<ContactData> contacts = new SortedListOf<ContactData>();
+		int tableRowsCount = driver.findElements(By.xpath("//tr")).size();
+		stop:
+		for (int i = 0; i < tableRowsCount; i++) {
+			int tableColumnsCount = driver.findElements(By.xpath("//tr[" + (i + 1) + "]/td")).size();
+			for (int j = 0; j < tableColumnsCount; j++) {
+				String firstName = null;
+				String lastName = null;
+				String homePhone = null;
+				
+				String contactInfo = driver.findElement(By.xpath("//tr[" + (i + 1) + "]/td[" + (j + 1) + "]")).getText();
+				if (contactInfo.equals(".")) //контакты в таблице закончились
+					break stop;
+				if (contactInfo.indexOf(":") == 0) { //если нет ни имени, ни фамилии
+					firstName = "";
+					lastName = "";
+				}
+				else {
+					firstName = contactInfo.substring(0,contactInfo.indexOf(":"));
+					if (firstName.length() == firstName.indexOf(" ") + 1) { //если есть только имя без фамилии
+						firstName = firstName.trim();
+						lastName = "";
+					}
+					else if (! firstName.contains(" ")) { //если есть только фамилия без имени
+						lastName = firstName;
+						firstName = "";
+					}
+					else {//есть и имя, и фамилия
+						firstName = contactInfo.substring(0,contactInfo.indexOf(" "));
+						lastName = contactInfo.substring(contactInfo.indexOf(" ") + 1,contactInfo.indexOf(":"));
+					}
+				}
+				
+				if (! contactInfo.contains("H: ")) //если нет домашнего телефона
+					homePhone = "";
+				else {
+					if (contactInfo.contains("M: ")) //если есть мобильный
+						homePhone = contactInfo.substring(contactInfo.indexOf("H: ") + 3, contactInfo.indexOf("M: ")).replace("\n", "");
+					else if (contactInfo.contains("W: ")) //нет мобильного, но есть рабочий
+						homePhone = contactInfo.substring(contactInfo.indexOf("H: ") + 3, contactInfo.indexOf("W: ")).replace("\n", "");
+					else if (contactInfo.contains("Birthday: ")) //нет мобильного и рабочего, но есть дата рождения
+						homePhone = contactInfo.substring(contactInfo.indexOf("H: ") + 3, contactInfo.indexOf("Birthday: ")).replace("\n", "");
+					else if (contactInfo.contains("P: ")) //нет мобильного, рабочего и даты рождения, но есть второй домашний
+						homePhone = contactInfo.substring(contactInfo.indexOf("H: ") + 3, contactInfo.indexOf("P: ")).replace("\n", "");
+					else homePhone = contactInfo.substring(contactInfo.indexOf("H: ") + 3); //нет никаких данных после домашнего телефона
+				}
+				
+				contacts.add(new ContactData()
 									.withFirstName(firstName)
 									.withLastName(lastName)
-									.withEmail1(email)
 									.withHomePhone1(homePhone)
 							);
+			}
 		}
+		return contacts;
 	}
 	
 	public ContactHelper creationContact(ContactData contact) {
@@ -53,7 +114,7 @@ public class ContactHelper extends HelperBase {
 		fillContactForm(contact,CREATION);
 		submitCreationContact();
 	    returnToHomePage();
-	    rebuildCache();
+	    rebuildCache(true);
 	    return this;
 	}
 	
@@ -63,7 +124,7 @@ public class ContactHelper extends HelperBase {
 		fillContactForm(contact,MODIFICATION);
 		submitContactModification();
 		returnToHomePage();
-		rebuildCache();
+		rebuildCache(true);
 		return this;
 	}
 	
@@ -72,7 +133,7 @@ public class ContactHelper extends HelperBase {
 		initContactModification(index); 
 		submitContactDeletion(); 
 		returnToHomePage();
-		rebuildCache();
+		rebuildCache(true);
 		return this;
 	}
 	
