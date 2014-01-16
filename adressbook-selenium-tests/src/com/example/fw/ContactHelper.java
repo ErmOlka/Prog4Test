@@ -1,6 +1,8 @@
 package com.example.fw;
 
 import org.openqa.selenium.By;
+import org.openqa.selenium.WebElement;
+
 import com.example.tests.ContactData;
 import com.example.utils.SortedListOf;
 
@@ -27,11 +29,12 @@ public class ContactHelper extends HelperBase {
 		manager.navigateTo().mainPage();
 		int tableRowsCount = driver.findElements(By.xpath("//tr[@name='entry']")).size();
 		for (int i = 0; i < tableRowsCount; i++) {
-			String firstName = driver.findElement(By.xpath("//tr[" + (i + 2) + "]/td[3]")).getText();
-			String lastName = driver.findElement(By.xpath("//tr[" + (i + 2) + "]/td[2]")).getText();
-			String phone = driver.findElement(By.xpath("//tr[" + (i + 2) + "]/td[5]")).getText();
+			WebElement row = driver.findElement(By.xpath("//tr[" + (i + 2) + "]"));
+			String firstName = row.findElement(By.xpath("./td[3]")).getText();
+			String lastName = row.findElement(By.xpath("./td[2]")).getText();
+			String phone = row.findElement(By.xpath("./td[5]")).getText();
 			if (withEmail) {
-				String email = driver.findElement(By.xpath("//tr[" + (i + 2) + "]/td[4]")).getText();
+				String email = row.findElement(By.xpath("./td[4]")).getText();
 				cachedContacts.add(new ContactData()
 										.withFirstName(firstName)
 										.withLastName(lastName)
