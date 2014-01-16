@@ -17,6 +17,7 @@ public class PrintPhonesTests extends TestBase{
 	    SortedListOf<ContactData> printPageList = app.getContactHelper().getPrintContacts();
 	    
 	    //compare states
+	    assertThat(printPageList.size(), equalTo(homePageList.size()));
 		assertThat(printPageList, equalTo(homePageList));
 	}
 }
