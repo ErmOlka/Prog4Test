@@ -1,10 +1,10 @@
 package com.example.fw;
 
 import java.util.Random;
+import java.util.concurrent.TimeUnit;
 
 import org.openqa.selenium.Alert;
 import org.openqa.selenium.By;
-import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.ui.Select;
 
@@ -24,10 +24,10 @@ public abstract class HelperBase {
 	}
 
 	protected void typeText(By locator, String text) {
-		if (text != null) {
+		//if (text != null) { //с данным условием сравнение данных при редактировании контакта работает некорректно
 			driver.findElement(locator).clear();
 		    driver.findElement(locator).sendKeys(text);	
-		}
+		//}
 	}
 	
 	protected void selectByText(By locator, String text) {
@@ -51,12 +51,12 @@ public abstract class HelperBase {
 
 /*............................................................................................................................*/	
 	public boolean isElementPresent(By by) {
-		try{
-			driver.findElement(by);
-			return true;
-		} catch (NoSuchElementException e) {
-			return false;
-		}
+	    driver.manage().timeouts().implicitlyWait(0, TimeUnit.SECONDS);
+	    try {
+	      return driver.findElements(by).size() > 0;
+	    } finally {
+	      driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
+	    }
 	}
 	
 	public String closeAlertAndGetItsText() {

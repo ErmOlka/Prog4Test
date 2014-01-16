@@ -10,6 +10,7 @@ import org.testng.annotations.BeforeTest;
 import org.testng.annotations.DataProvider;
 
 import com.example.fw.ApplicationManager;
+import com.example.utils.SortedListOf;
 
 public class TestBase {
 	
@@ -30,7 +31,7 @@ public class TestBase {
 	public Iterator<Object[]> radomValidGroupGenerator() {
 		List<Object[]> list = new ArrayList<Object[]>();
 		Random rnd = new Random();
-		for (int i = 0; i < 3; i++) {
+		for (int i = 0; i < 5; i++) {
 			GroupData group = new GroupData()
 				.withName(app.getRandomHelper().randomStringEngAlphaNumeric(rnd.nextInt(20)))
 				.withHeader(app.getRandomHelper().randomStringEngAlphaNumeric(rnd.nextInt(30)))
@@ -44,16 +45,8 @@ public class TestBase {
 	@DataProvider
 	public Iterator<Object[]> deletionSomeGroups() {
 		List<Object[]> list = new ArrayList<Object[]>();
-		Random rnd = new Random();
-		int maxCount = app.getGroupHelper().getGroups().size();
-	    if (maxCount == 0) 
-	    	throw new Error("Ќет групп дл€ удалени€"); //почему-то очень долго обрабатываетс€
-		int countForDelete = rnd.nextInt(maxCount); //если надо удалить конкретное количество групп, то вместо rnd надо подставить нужное число
-		for (int i = 0; i < countForDelete; i++) {
-			int index = 0;
-			index = rnd.nextInt(countForDelete);
-			list.add(new Object[] {index});
-		}
+		SortedListOf<Integer> indexesList = app.getRandomHelper().randomIndexesList();
+		list.add(new Object[] {indexesList});
 		return list.iterator();
 	}
 	
@@ -63,7 +56,7 @@ public class TestBase {
 		List<Object[]> list = new ArrayList<Object[]>();
 		Random rnd = new Random();
 		boolean gender = true;
-		for (int i = 0; i < 1; i++) {
+		for (int i = 0; i < 3; i++) {
 			int rand = rnd.nextInt(10);
 			if (rand < 5)
 				gender = true; //male
@@ -78,21 +71,48 @@ public class TestBase {
 			String contactGroup = app.getRandomHelper().randomValue("RandomGroup");
 			if (contactGroup == null || contactGroup == "")
 				contactGroup = "[none]";
+			
+			String homePhone1 = app.getRandomHelper().randomValue(app.getRandomHelper().randomPhoneNumber(1,3,7));
+			String mobilePhone = app.getRandomHelper().randomValue(app.getRandomHelper().randomPhoneNumber(1,3,7));
+			String workPhone = app.getRandomHelper().randomValue(app.getRandomHelper().randomPhoneNumber(1,3,7));
+			String email1 = app.getRandomHelper().randomValue(app.getRandomHelper().randomEMail(9,5,3));
+			String email2 = app.getRandomHelper().randomValue(app.getRandomHelper().randomEMail(7,4,2));
+
+			String phone = null;
+			if (homePhone1 == null || homePhone1.equals("")) {
+				if (mobilePhone != null && ! mobilePhone.equals(""))
+					phone = mobilePhone;
+				else if (workPhone != null && ! workPhone.equals(""))
+					phone = workPhone;
+				else phone = "";
+			}
+			else phone = homePhone1;
+						
+			String email = null;
+			if (email1 == null || email1.equals("")) {
+				if (email2 != null && ! email2.equals(""))
+					email = email2;
+				else email = "";
+			}
+			else email = email1;
+			
 			ContactData contact = new ContactData()
 				.withFirstName(app.getRandomHelper().randomValue(app.getRandomHelper().randomFirstName(gender)))
 				.withLastName(app.getRandomHelper().randomValue(app.getRandomHelper().randomLastName(gender)))
 				.withAddress1(app.getRandomHelper().randomValue("јдрес 1: " + app.getRandomHelper().randomStringEngAlphaNumeric(rnd.nextInt(30))))
-				.withHomePhone1(app.getRandomHelper().randomValue(app.getRandomHelper().randomPhoneNumber(1,3,7)))
-				.withMobilePhone(app.getRandomHelper().randomValue(app.getRandomHelper().randomPhoneNumber(1,3,7)))
-				.withWorkPhone(app.getRandomHelper().randomValue(app.getRandomHelper().randomPhoneNumber(1,3,7)))
-				.withEmail1(app.getRandomHelper().randomValue(app.getRandomHelper().randomEMail(9,5,3)))
-				.withEmail2(app.getRandomHelper().randomValue(app.getRandomHelper().randomEMail(7,4,2)))
+				.withHomePhone1(homePhone1)
+				.withMobilePhone(mobilePhone)
+				.withWorkPhone(workPhone)
+				.withEmail1(email1)
+				.withEmail2(email2)
 				.withBirthDay(birthDay)
 				.withBirthMonth(birthMonth)
 				.withBirthYear(app.getRandomHelper().randomValue("19" + app.getRandomHelper().randomStringNumeric(2)))
 				.withContactGroup(contactGroup)
 				.withAddress2(app.getRandomHelper().randomValue("јдрес 2: " + app.getRandomHelper().randomStringEngAlphaNumeric(rnd.nextInt(100))))
-				.withHomePhone2(app.getRandomHelper().randomValue(app.getRandomHelper().randomPhoneNumber(1,3,7)));
+				.withHomePhone2(homePhone1)
+				.withPhone(phone)
+				.withEmail(email);
 			list.add(new Object[] {contact});
 		}
 		return list.iterator();
@@ -106,10 +126,14 @@ public class TestBase {
 		int maxCount = app.getContactHelper().getContacts(true).size();
 	    if (maxCount == 0) 
 	    	throw new Error("Ќет контактов дл€ удалени€"); //почему-то очень долго обрабатываетс€
-		int countForDelete = rnd.nextInt(maxCount); //если надо удалить конкретное количество контактов, то вместо rnd надо подставить нужное число
+	    int countForDelete = rnd.nextInt(maxCount);//если надо удалить конкретное количество контактов, то вместо rnd надо подставить нужное число
+	    if (countForDelete == 0)
+	    	countForDelete = 1;
 		for (int i = 0; i < countForDelete; i++) {
-			int index = 0;
-			index = rnd.nextInt(countForDelete);
+			maxCount = maxCount - 1;
+			if (maxCount <=0)
+				throw new Error("Ќет контактов дл€ удалени€");
+			int index = rnd.nextInt(maxCount);
 			list.add(new Object[] {index});
 		}
 		return list.iterator();

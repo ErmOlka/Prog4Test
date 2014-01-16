@@ -1,7 +1,6 @@
 package com.example.fw;
 
 import org.openqa.selenium.By;
-
 import com.example.tests.ContactData;
 import com.example.utils.SortedListOf;
 
@@ -30,21 +29,22 @@ public class ContactHelper extends HelperBase {
 		for (int i = 0; i < tableRowsCount; i++) {
 			String firstName = driver.findElement(By.xpath("//tr[" + (i + 2) + "]/td[3]")).getText();
 			String lastName = driver.findElement(By.xpath("//tr[" + (i + 2) + "]/td[2]")).getText();
-			String homePhone = driver.findElement(By.xpath("//tr[" + (i + 2) + "]/td[5]")).getText();
+			String phone = driver.findElement(By.xpath("//tr[" + (i + 2) + "]/td[5]")).getText();
 			if (withEmail) {
 				String email = driver.findElement(By.xpath("//tr[" + (i + 2) + "]/td[4]")).getText();
 				cachedContacts.add(new ContactData()
 										.withFirstName(firstName)
 										.withLastName(lastName)
-										.withEmail1(email)
-										.withHomePhone1(homePhone)
+										.withPhone(phone)
+										.withEmail(email)
 								);
 			}
 			else 
 				cachedContacts.add(new ContactData()
 										.withFirstName(firstName)
 										.withLastName(lastName)
-										.withHomePhone1(homePhone)
+										.withPhone(phone)
+										.withEmail("")
 								);
 		}
 	}
@@ -59,7 +59,7 @@ public class ContactHelper extends HelperBase {
 			for (int j = 0; j < tableColumnsCount; j++) {
 				String firstName = null;
 				String lastName = null;
-				String homePhone = null;
+				String phone = null;
 				
 				String contactInfo = driver.findElement(By.xpath("//tr[" + (i + 1) + "]/td[" + (j + 1) + "]")).getText();
 				if (contactInfo.equals(".")) //контакты в таблице закончились
@@ -84,24 +84,43 @@ public class ContactHelper extends HelperBase {
 					}
 				}
 				
-				if (! contactInfo.contains("H: ")) //если нет домашнего телефона
-					homePhone = "";
-				else {
+				if (contactInfo.contains("H: ")) { //если есть домашний телефон
 					if (contactInfo.contains("M: ")) //если есть мобильный
-						homePhone = contactInfo.substring(contactInfo.indexOf("H: ") + 3, contactInfo.indexOf("M: ")).replace("\n", "");
+						phone = contactInfo.substring(contactInfo.indexOf("H: ") + 3, contactInfo.indexOf("M: ")).replace("\n", "");
 					else if (contactInfo.contains("W: ")) //нет мобильного, но есть рабочий
-						homePhone = contactInfo.substring(contactInfo.indexOf("H: ") + 3, contactInfo.indexOf("W: ")).replace("\n", "");
+						phone = contactInfo.substring(contactInfo.indexOf("H: ") + 3, contactInfo.indexOf("W: ")).replace("\n", "");
 					else if (contactInfo.contains("Birthday: ")) //нет мобильного и рабочего, но есть дата рождения
-						homePhone = contactInfo.substring(contactInfo.indexOf("H: ") + 3, contactInfo.indexOf("Birthday: ")).replace("\n", "");
+						phone = contactInfo.substring(contactInfo.indexOf("H: ") + 3, contactInfo.indexOf("Birthday: ")).replace("\n", "");
 					else if (contactInfo.contains("P: ")) //нет мобильного, рабочего и даты рождения, но есть второй домашний
-						homePhone = contactInfo.substring(contactInfo.indexOf("H: ") + 3, contactInfo.indexOf("P: ")).replace("\n", "");
-					else homePhone = contactInfo.substring(contactInfo.indexOf("H: ") + 3); //нет никаких данных после домашнего телефона
+						phone = contactInfo.substring(contactInfo.indexOf("H: ") + 3, contactInfo.indexOf("P: ")).replace("\n", "");
+					else phone = contactInfo.substring(contactInfo.indexOf("H: ") + 3); //нет никаких данных после домашнего телефона
 				}
+				
+				else if (contactInfo.contains("M: ")) { //если нет домашнего, но есть мобильный телефон
+					if (contactInfo.contains("W: ")) //есть рабочий телефон
+						phone = contactInfo.substring(contactInfo.indexOf("M: ") + 3, contactInfo.indexOf("W: ")).replace("\n", "");
+					else if (contactInfo.contains("Birthday: ")) //нет рабочего, но есть дата рождения
+						phone = contactInfo.substring(contactInfo.indexOf("M: ") + 3, contactInfo.indexOf("Birthday: ")).replace("\n", "");
+					else if (contactInfo.contains("P: ")) //нет рабочего и даты рождения, но есть второй домашний
+						phone = contactInfo.substring(contactInfo.indexOf("M: ") + 3, contactInfo.indexOf("P: ")).replace("\n", "");
+					else phone = contactInfo.substring(contactInfo.indexOf("M: ") + 3); //нет никаких данных после домашнего телефона
+				}
+				
+				else if (contactInfo.contains("W: ")) { //если нет домашнего и мобильного, но есть рабочий телефон
+					if (contactInfo.contains("Birthday: ")) //есть дата рождения
+						phone = contactInfo.substring(contactInfo.indexOf("W: ") + 3, contactInfo.indexOf("Birthday: ")).replace("\n", "");
+					else if (contactInfo.contains("P: ")) //нет даты рождения, но есть второй домашний
+						phone = contactInfo.substring(contactInfo.indexOf("W: ") + 3, contactInfo.indexOf("P: ")).replace("\n", "");
+					else phone = contactInfo.substring(contactInfo.indexOf("W: ") + 3); //нет никаких данных после домашнего телефона
+				}
+			
+				else phone = "";
 				
 				contacts.add(new ContactData()
 									.withFirstName(firstName)
 									.withLastName(lastName)
-									.withHomePhone1(homePhone)
+									.withPhone(phone)
+									.withEmail("")
 							);
 			}
 		}
@@ -158,8 +177,8 @@ public class ContactHelper extends HelperBase {
 	    typeText(By.name("byear"),contact.getBirthYear());
 	    if (formType == CREATION)
 	    	selectByText(By.name("new_group"), contact.getContactGroup());
-	    else if (! driver.findElements(By.name("new_group")).isEmpty()) //с данным условием происходит задержка теста модификации контакта после заполнения года рождения, т.е. в том месте, где было бы поле группы
-	    	throw new Error("На форме редактирования присутствует выбор группы");//если условие else закомментировать, то задержки не происходит.
+	    else if (isElementPresent(By.name("new_group")))
+	    	throw new Error("На форме редактирования присутствует выбор группы");
 	    typeText(By.name("address2"),contact.getAddress2());
 	    typeText(By.name("phone2"),contact.getHomePhone2());
 	    return this;

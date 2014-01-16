@@ -54,9 +54,9 @@ public class GroupHelper extends HelperBase {
     	return this;
 	}
 	
-	public GroupHelper deleteGroup(int index) {
+	public GroupHelper deleteGroup(SortedListOf<Integer> indexesList) throws InterruptedException {
 		manager.navigateTo().groupsPage();
-		selectGroupByIndex(index);
+		selectGroupsByIndexes(indexesList);
 		submitGroupDeletion();
 		returnToGroupsPage();
 		rebuildCache();
@@ -92,6 +92,16 @@ public class GroupHelper extends HelperBase {
 		selectGroupByIndex(index);
 		click(By.name("edit"));
 		return this;
+	}
+	
+	private void selectGroupsByIndexes(SortedListOf<Integer> indexesList) throws InterruptedException {
+		for (int i = 0; i < indexesList.size(); i++) {
+			int index = indexesList.get(i);
+			if (! manager.driver.findElement(By.xpath("//input[@name='selected[]'][" + (index+1) + "]")).isSelected()){
+				click(By.xpath("//input[@name='selected[]'][" + (index+1) + "]"));
+				Thread.sleep(3000);
+			}
+		}
 	}
 	
 	private void selectGroupByIndex(int index) {

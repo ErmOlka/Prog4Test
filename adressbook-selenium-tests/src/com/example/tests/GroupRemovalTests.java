@@ -11,19 +11,19 @@ public class GroupRemovalTests extends TestBase {
 	
 	//удаление некоторого рандомного количества рандомных групп
 	@Test(dataProvider = "deletionSomeGroups") 
-	public void deleteRandomNumberOfRandomGroups(int index) {
+	public void deleteRandomNumberOfRandomGroups(SortedListOf<Integer> indexesList) throws InterruptedException {
 	    
 	    //save old state
 		SortedListOf<GroupData> oldList = app.getGroupHelper().getGroups();
 	    
 	    //actions
-		app.getGroupHelper().deleteGroup(index);
+		app.getGroupHelper().deleteGroup(indexesList);
 	    
 	    //save new state
 		SortedListOf<GroupData> newList = app.getGroupHelper().getGroups();
 	    
 	    //compare states
-		assertThat(newList, equalTo(oldList.without(index)));
+		assertThat(newList, equalTo(oldList.without(indexesList))); //сравнение работает некорректно из-за метода without, в котором почему-то не удаляются данные (задала вопрос в скайп Алексею)
 	}
 
 }
