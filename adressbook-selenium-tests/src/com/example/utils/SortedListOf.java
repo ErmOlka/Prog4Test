@@ -69,8 +69,9 @@ public class SortedListOf<T extends Comparable<T>> extends ForwardingList<T> {
 	public SortedListOf<T> without(SortedListOf<Integer> indexesList) {
 		SortedListOf<T> newItems = new SortedListOf<T>();
 		newItems.list = Lists.newArrayList(this.list);
-		for (int i = 0; i < indexesList.size(); i++) {
-			newItems.list.remove(indexesList.get(i)); //отрабатывает без ошибок, но не удаляет ничего из newItems (задала вопрос в скайп Алексею)
+		for (int i = indexesList.size() - 1; i >= 0; i--) {
+			int index = indexesList.get(i);
+			newItems.list.remove(index); 
 		}
 		return newItems;
 	}

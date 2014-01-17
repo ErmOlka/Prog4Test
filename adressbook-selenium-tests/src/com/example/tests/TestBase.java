@@ -8,7 +8,6 @@ import java.util.Random;
 import org.testng.annotations.AfterTest;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.DataProvider;
-
 import com.example.fw.ApplicationManager;
 import com.example.utils.SortedListOf;
 
@@ -40,7 +39,7 @@ public class TestBase {
 		}
 		return list.iterator();
 	}
-	
+
 	//провайдер для удаления групп
 	@DataProvider
 	public Iterator<Object[]> deletionSomeGroups() {

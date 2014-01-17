@@ -122,11 +122,9 @@ public class RandomHelper extends HelperBase {
 		if (countForDelete == 0)
 	    	countForDelete = 1;
 		for (int i = 0; i < countForDelete; i++) {
-			maxCount = maxCount - 1;
 			int index = rnd.nextInt(maxCount);
 			indexesList.add(index);
 		}
-		maxCount = maxCount + countForDelete;
 		//удаляем повторы
 		for (int i = 0; i < indexesList.size() - 1; i++) {
 			for (int j = i + 1; j < indexesList.size();) {

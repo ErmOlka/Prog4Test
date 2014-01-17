@@ -40,17 +40,7 @@ public class ContactData implements Comparable<ContactData> {
 			email = "";
 		if (phone == null)
 			phone = "";
-		
-		/*if (other.firstName == null)
-			other.firstName = "";
-		if (other.lastName == null)
-			other.lastName = "";
-		if (other.email == null)
-			other.email = "";
-		if (other.phone == null)
-			other.phone = "";
-			*/
-		
+
 		int resultLastName = this.lastName.toLowerCase().compareTo(other.lastName.toLowerCase());
 		if (resultLastName != 0)
 			return resultLastName;

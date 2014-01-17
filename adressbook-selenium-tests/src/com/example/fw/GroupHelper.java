@@ -14,6 +14,7 @@ public class GroupHelper extends HelperBase {
 		super(manager);
 	}
 	
+	private String groups = "//input[@name='selected[]']";
 	private SortedListOf<GroupData> cachedGroups;
 	
 	public SortedListOf<GroupData> getGroups() {
@@ -26,11 +27,13 @@ public class GroupHelper extends HelperBase {
 		cachedGroups = new SortedListOf<GroupData>();
 		
 		manager.navigateTo().groupsPage();
-		List<WebElement> checkboxes = driver.findElements(By.name("selected[]"));
-		for (WebElement checkbox : checkboxes) {
-			String title = checkbox.getAttribute("title");
-			String name = title.substring("Select (".length(), title.length() - ")".length());
-			cachedGroups.add(new GroupData().withName(name));
+		if (isElementPresent(By.name("selected[]"))) {
+			List<WebElement> checkboxes = driver.findElements(By.name("selected[]"));
+			for (WebElement checkbox : checkboxes) {
+				String title = checkbox.getAttribute("title");
+				String name = title.substring("Select (".length(), title.length() - ")".length());
+				cachedGroups.add(new GroupData().withName(name));
+			}
 		}
 	}
 
@@ -54,7 +57,7 @@ public class GroupHelper extends HelperBase {
     	return this;
 	}
 	
-	public GroupHelper deleteGroup(SortedListOf<Integer> indexesList) throws InterruptedException {
+public GroupHelper deleteGroup(SortedListOf<Integer> indexesList) {
 		manager.navigateTo().groupsPage();
 		selectGroupsByIndexes(indexesList);
 		submitGroupDeletion();
@@ -94,18 +97,17 @@ public class GroupHelper extends HelperBase {
 		return this;
 	}
 	
-	private void selectGroupsByIndexes(SortedListOf<Integer> indexesList) throws InterruptedException {
+	private void selectGroupsByIndexes(SortedListOf<Integer> indexesList) {
 		for (int i = 0; i < indexesList.size(); i++) {
 			int index = indexesList.get(i);
-			if (! manager.driver.findElement(By.xpath("//input[@name='selected[]'][" + (index+1) + "]")).isSelected()){
-				click(By.xpath("//input[@name='selected[]'][" + (index+1) + "]"));
-				Thread.sleep(3000);
+			if (! manager.driver.findElement(By.xpath(groups + "[" + (index+1) + "]")).isSelected()){
+				click(By.xpath(groups + "[" + (index+1) + "]"));
 			}
 		}
 	}
-	
+
 	private void selectGroupByIndex(int index) {
-		click(By.xpath("//input[@name='selected[]'][" + (index+1) + "]"));
+		click(By.xpath(groups + "[" + (index+1) + "]"));
 	}
 	
 	public GroupHelper submitGroupModification() {
