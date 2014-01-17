@@ -22,7 +22,7 @@ public class ContactModificationTests extends TestBase {
 	    	throw new Error("Нет контактов для редактирования");
 	    int index = rnd.nextInt(oldList.size()-1);
 	    
-	    app.getContactHelper().modifyContact(index,contact);
+	    app.getContactHelper().modifyContactByIndex(index,contact);
 	    
 		//save new states
 	    SortedListOf<ContactData> newList = app.getContactHelper().getContacts(true);

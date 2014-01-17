@@ -1,6 +1,7 @@
 package com.example.tests;
 
 public class ContactData implements Comparable<ContactData> {
+	private int id;
 	private String firstName;
 	private String lastName;
 	private String address1;
@@ -104,6 +105,10 @@ public class ContactData implements Comparable<ContactData> {
 	}
 
 	//----------------------------getters---------------------------
+	public int getId() {
+		return id;
+	}
+	
 	public String getFirstName() {
 		return firstName;
 	}
@@ -169,6 +174,11 @@ public class ContactData implements Comparable<ContactData> {
 	}
 
 	//----------------------------setters---------------------------
+	public ContactData withId(int id) {
+		this.id = id;
+		return this;
+	}
+	
 	public ContactData withFirstName(String firstName) {
 		this.firstName = firstName;
 		return this;

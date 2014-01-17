@@ -1,5 +1,7 @@
 package com.example.fw;
 
+import java.util.List;
+
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 
@@ -27,30 +29,67 @@ public class ContactHelper extends HelperBase {
 		cachedContacts = new SortedListOf<ContactData>();
 		
 		manager.navigateTo().mainPage();
-		int tableRowsCount = driver.findElements(By.xpath("//tr[@name='entry']")).size();
-		for (int i = 0; i < tableRowsCount; i++) {
-			WebElement row = driver.findElement(By.xpath("//tr[" + (i + 2) + "]"));
-			String firstName = row.findElement(By.xpath("./td[3]")).getText();
-			String lastName = row.findElement(By.xpath("./td[2]")).getText();
-			String phone = row.findElement(By.xpath("./td[5]")).getText();
-			if (withEmail) {
-				String email = row.findElement(By.xpath("./td[4]")).getText();
-				cachedContacts.add(new ContactData()
-										.withFirstName(firstName)
-										.withLastName(lastName)
-										.withPhone(phone)
-										.withEmail(email)
-								);
+		if (isElementPresent(By.xpath("//tr[@name='entry']"))) {
+			List<WebElement> rows = driver.findElements(By.xpath("//tr[@name='entry']"));
+			for (int i = 0; i < rows.size(); i++) {
+				WebElement row = rows.get(i);
+				String firstName = row.findElement(By.xpath("./td[3]")).getText();
+				String lastName = row.findElement(By.xpath("./td[2]")).getText();
+				String phone = row.findElement(By.xpath("./td[5]")).getText();
+				if (withEmail) {
+					String email = row.findElement(By.xpath("./td[4]")).getText();
+					cachedContacts.add(new ContactData()
+											.withId(i + 1)
+											.withFirstName(firstName)
+											.withLastName(lastName)
+											.withPhone(phone)
+											.withEmail(email)
+									);
+				}
+				else 
+					cachedContacts.add(new ContactData()
+											.withId(i + 1)
+											.withFirstName(firstName)
+											.withLastName(lastName)
+											.withPhone(phone)
+											.withEmail("")
+									);
 			}
-			else 
-				cachedContacts.add(new ContactData()
-										.withFirstName(firstName)
-										.withLastName(lastName)
-										.withPhone(phone)
-										.withEmail("")
-								);
 		}
 	}
+	
+	/*
+	private void rebuildCache(boolean withEmail) {
+		cachedContacts = new SortedListOf<ContactData>();
+		
+		manager.navigateTo().mainPage();
+		if (isElementPresent(By.xpath("//tr[@name='entry']"))) {
+			int tableRowsCount = driver.findElements(By.xpath("//tr[@name='entry']")).size();
+			for (int i = 0; i < tableRowsCount; i++) {
+				WebElement row = driver.findElement(By.xpath("//tr[" + (i + 2) + "]"));
+				String firstName = row.findElement(By.xpath("./td[3]")).getText();
+				String lastName = row.findElement(By.xpath("./td[2]")).getText();
+				String phone = row.findElement(By.xpath("./td[5]")).getText();
+				if (withEmail) {
+					String email = row.findElement(By.xpath("./td[4]")).getText();
+					cachedContacts.add(new ContactData()
+											.withFirstName(firstName)
+											.withLastName(lastName)
+											.withPhone(phone)
+											.withEmail(email)
+									);
+				}
+				else 
+					cachedContacts.add(new ContactData()
+											.withFirstName(firstName)
+											.withLastName(lastName)
+											.withPhone(phone)
+											.withEmail("")
+									);
+			}
+		}
+	}
+	*/
 	
 	public SortedListOf<ContactData> getPrintContacts() {
 		manager.navigateTo().printPhonesPage();
@@ -140,9 +179,10 @@ public class ContactHelper extends HelperBase {
 	    return this;
 	}
 	
-	public ContactHelper modifyContact(int index, ContactData contact) {
+
+	public ContactHelper modifyContactByIndex(int index, ContactData contact) {
 		manager.navigateTo().mainPage();
-	    initContactModification(index);
+		initContactModificationByIndex(index);
 		fillContactForm(contact,MODIFICATION);
 		submitContactModification();
 		returnToHomePage();
@@ -150,9 +190,19 @@ public class ContactHelper extends HelperBase {
 		return this;
 	}
 	
-	public ContactHelper deleteContact(int index) {
+	
+	public ContactHelper deleteContact(ContactData contact) {
 		manager.navigateTo().mainPage();
-		initContactModification(index); 
+		initContactModification(contact); 
+		submitContactDeletion(); 
+		returnToHomePage();
+		rebuildCache(true);
+		return this;
+	}
+	
+	public ContactHelper deleteContactByIndex(int index) {
+		manager.navigateTo().mainPage();
+		initContactModificationByIndex(index); 
 		submitContactDeletion(); 
 		returnToHomePage();
 		rebuildCache(true);
@@ -193,7 +243,12 @@ public class ContactHelper extends HelperBase {
 		return this;
 	}
 	
-	public ContactHelper initContactModification(int index) {
+	public ContactHelper initContactModification(ContactData contact) {
+		click(By.xpath("(//img[@alt='Edit'])[" + (contact.getId()) + "]"));
+		return this;
+	}
+	
+	public ContactHelper initContactModificationByIndex(int index) {
 		click(By.xpath("(//img[@alt='Edit'])[" + (index + 1) + "]"));
 		return this;
 	}

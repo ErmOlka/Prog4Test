@@ -5,9 +5,11 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Random;
 
+import org.openqa.selenium.By;
 import org.testng.annotations.AfterTest;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.DataProvider;
+
 import com.example.fw.ApplicationManager;
 import com.example.utils.SortedListOf;
 
@@ -117,20 +119,34 @@ public class TestBase {
 		return list.iterator();
 	}
 	
-	//провайдер для удаления контактов
+	//провайдер для удаления контакта с выводом в отчет информации о нем
+	@DataProvider
+	public Iterator<Object[]> deletionSomeContact() {
+		List<Object[]> list = new ArrayList<Object[]>();
+		Random rnd = new Random();
+		int maxCount = app.getContactHelper().getContacts(true).size();
+		if (! app.getContactHelper().isElementPresent(By.xpath("(//img[@alt='Edit'])")))
+			throw new Error("Нет контактов");
+		int index = rnd.nextInt(maxCount);
+		ContactData contact = app.getContactHelper().getContacts(true).get(index);
+		list.add(new Object[] {contact});
+		return list.iterator();
+	}
+	
+	//провайдер для удаления некоторого количества контактов, но без вывода в отет информации о них
 	@DataProvider
 	public Iterator<Object[]> deletionSomeContacts() {
 		List<Object[]> list = new ArrayList<Object[]>();
 		Random rnd = new Random();
 		int maxCount = app.getContactHelper().getContacts(true).size();
 	    if (maxCount == 0) 
-	    	throw new Error("Нет контактов для удаления"); //почему-то очень долго обрабатывается
+	    	throw new Error("Нет контактов для удаления"); 
 	    int countForDelete = rnd.nextInt(maxCount);//если надо удалить конкретное количество контактов, то вместо rnd надо подставить нужное число
 	    if (countForDelete == 0)
 	    	countForDelete = 1;
 		for (int i = 0; i < countForDelete; i++) {
 			maxCount = maxCount - 1;
-			if (maxCount <=0)
+			if (maxCount == 0)
 				throw new Error("Нет контактов для удаления");
 			int index = rnd.nextInt(maxCount);
 			list.add(new Object[] {index});
