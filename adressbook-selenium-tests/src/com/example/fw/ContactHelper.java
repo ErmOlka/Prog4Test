@@ -6,6 +6,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
 
 import com.example.tests.ContactData;
+import com.example.utils.ListOf;
 import com.example.utils.SortedListOf;
 
 public class ContactHelper extends HelperBase {
@@ -58,114 +59,25 @@ public class ContactHelper extends HelperBase {
 		}
 	}
 	
-	/*
-	private void rebuildCache(boolean withEmail) {
-		cachedContacts = new SortedListOf<ContactData>();
-		
-		manager.navigateTo().mainPage();
-		if (isElementPresent(By.xpath("//tr[@name='entry']"))) {
-			int tableRowsCount = driver.findElements(By.xpath("//tr[@name='entry']")).size();
-			for (int i = 0; i < tableRowsCount; i++) {
-				WebElement row = driver.findElement(By.xpath("//tr[" + (i + 2) + "]"));
-				String firstName = row.findElement(By.xpath("./td[3]")).getText();
-				String lastName = row.findElement(By.xpath("./td[2]")).getText();
-				String phone = row.findElement(By.xpath("./td[5]")).getText();
-				if (withEmail) {
-					String email = row.findElement(By.xpath("./td[4]")).getText();
-					cachedContacts.add(new ContactData()
-											.withFirstName(firstName)
-											.withLastName(lastName)
-											.withPhone(phone)
-											.withEmail(email)
-									);
-				}
-				else 
-					cachedContacts.add(new ContactData()
-											.withFirstName(firstName)
-											.withLastName(lastName)
-											.withPhone(phone)
-											.withEmail("")
-									);
-			}
-		}
-	}
-	*/
-	
 	public SortedListOf<ContactData> getPrintContacts() {
 		manager.navigateTo().printPhonesPage();
 		SortedListOf<ContactData> contacts = new SortedListOf<ContactData>();
+		if (! isElementPresent(By.xpath("//tr")))
+			return contacts;
 		int tableRowsCount = driver.findElements(By.xpath("//tr")).size();
-		stop:
-		for (int i = 0; i < tableRowsCount; i++) {
-			int tableColumnsCount = driver.findElements(By.xpath("//tr[" + (i + 1) + "]/td")).size();
-			for (int j = 0; j < tableColumnsCount; j++) {
-				String firstName = null;
-				String lastName = null;
-				String phone = null;
-				
-				String contactInfo = driver.findElement(By.xpath("//tr[" + (i + 1) + "]/td[" + (j + 1) + "]")).getText();
-				if (contactInfo.equals(".")) //контакты в таблице закончились
-					break stop;
-				if (contactInfo.indexOf(":") == 0) { //если нет ни имени, ни фамилии
-					firstName = "";
-					lastName = "";
-				}
-				else {
-					firstName = contactInfo.substring(0,contactInfo.indexOf(":"));
-					if (firstName.length() == firstName.indexOf(" ") + 1) { //если есть только имя без фамилии
-						firstName = firstName.trim();
-						lastName = "";
-					}
-					else if (! firstName.contains(" ")) { //если есть только фамилия без имени
-						lastName = firstName;
-						firstName = "";
-					}
-					else {//есть и имя, и фамилия
-						firstName = contactInfo.substring(0,contactInfo.indexOf(" "));
-						lastName = contactInfo.substring(contactInfo.indexOf(" ") + 1,contactInfo.indexOf(":"));
-					}
-				}
-				
-				if (contactInfo.contains("H: ")) { //если есть домашний телефон
-					if (contactInfo.contains("M: ")) //если есть мобильный
-						phone = contactInfo.substring(contactInfo.indexOf("H: ") + 3, contactInfo.indexOf("M: ")).replace("\n", "");
-					else if (contactInfo.contains("W: ")) //нет мобильного, но есть рабочий
-						phone = contactInfo.substring(contactInfo.indexOf("H: ") + 3, contactInfo.indexOf("W: ")).replace("\n", "");
-					else if (contactInfo.contains("Birthday: ")) //нет мобильного и рабочего, но есть дата рождения
-						phone = contactInfo.substring(contactInfo.indexOf("H: ") + 3, contactInfo.indexOf("Birthday: ")).replace("\n", "");
-					else if (contactInfo.contains("P: ")) //нет мобильного, рабочего и даты рождения, но есть второй домашний
-						phone = contactInfo.substring(contactInfo.indexOf("H: ") + 3, contactInfo.indexOf("P: ")).replace("\n", "");
-					else phone = contactInfo.substring(contactInfo.indexOf("H: ") + 3); //нет никаких данных после домашнего телефона
-				}
-				
-				else if (contactInfo.contains("M: ")) { //если нет домашнего, но есть мобильный телефон
-					if (contactInfo.contains("W: ")) //есть рабочий телефон
-						phone = contactInfo.substring(contactInfo.indexOf("M: ") + 3, contactInfo.indexOf("W: ")).replace("\n", "");
-					else if (contactInfo.contains("Birthday: ")) //нет рабочего, но есть дата рождения
-						phone = contactInfo.substring(contactInfo.indexOf("M: ") + 3, contactInfo.indexOf("Birthday: ")).replace("\n", "");
-					else if (contactInfo.contains("P: ")) //нет рабочего и даты рождения, но есть второй домашний
-						phone = contactInfo.substring(contactInfo.indexOf("M: ") + 3, contactInfo.indexOf("P: ")).replace("\n", "");
-					else phone = contactInfo.substring(contactInfo.indexOf("M: ") + 3); //нет никаких данных после домашнего телефона
-				}
-				
-				else if (contactInfo.contains("W: ")) { //если нет домашнего и мобильного, но есть рабочий телефон
-					if (contactInfo.contains("Birthday: ")) //есть дата рождения
-						phone = contactInfo.substring(contactInfo.indexOf("W: ") + 3, contactInfo.indexOf("Birthday: ")).replace("\n", "");
-					else if (contactInfo.contains("P: ")) //нет даты рождения, но есть второй домашний
-						phone = contactInfo.substring(contactInfo.indexOf("W: ") + 3, contactInfo.indexOf("P: ")).replace("\n", "");
-					else phone = contactInfo.substring(contactInfo.indexOf("W: ") + 3); //нет никаких данных после домашнего телефона
-				}
-			
-				else phone = "";
-				
-				contacts.add(new ContactData()
-									.withFirstName(firstName)
-									.withLastName(lastName)
-									.withPhone(phone)
-									.withEmail("")
-							);
+		ListOf<String> cellsText = getCellsText(tableRowsCount);
+		for(String cellText : cellsText) {
+			String firstLastName = getFirstLastName(cellText);
+			String firstName = firstLastName.substring(0, firstLastName.indexOf("~"));
+			String lastName = firstLastName.substring(firstLastName.indexOf("~") + 1);
+			String phone = getPhone(cellText);
+			contacts.add(new ContactData()
+								.withFirstName(firstName)
+								.withLastName(lastName)
+								.withPhone(phone)
+								.withEmail("")
+						);
 			}
-		}
 		return contacts;
 	}
 	
@@ -268,6 +180,89 @@ public class ContactHelper extends HelperBase {
 	public ContactHelper returnToHomePage() {
 		click(By.linkText("home page"));
 		return this;
+	}
+	
+	private ListOf<String> getCellsText(int tableRowsCount) {
+		ListOf<String> cellsText = new ListOf<String>();
+		stop:
+		for (int i = 0; i < tableRowsCount; i++) {
+			int tableColumnsCount = driver.findElements(By.xpath("//tr[" + (i + 1) + "]/td")).size();
+			for (int j = 0; j < tableColumnsCount; j++) {
+				String contactInfo = driver.findElement(By.xpath("//tr[" + (i + 1) + "]/td[" + (j + 1) + "]")).getText();
+				if (contactInfo.equals(".")) //контакты в таблице закончились
+					break stop;
+				cellsText.add(contactInfo);
+			}
+		}
+		return cellsText;
+	}
+	
+	private String getFirstLastName(String cellText) {
+		String firstName = null;
+		String lastName = null;
+		
+		if (cellText.indexOf(":") == 0) { //если нет ни имени, ни фамилии
+			firstName = "";
+			lastName = "";
+		}
+		else {
+			firstName = cellText.substring(0,cellText.indexOf(":"));
+			if (firstName.length() == firstName.indexOf(" ") + 1) { //если есть только имя без фамилии
+				firstName = firstName.trim();
+				lastName = "";
+			}
+			else if (! firstName.contains(" ")) { //если есть только фамилия без имени
+				lastName = firstName;
+				firstName = "";
+			}
+			else {//есть и имя, и фамилия
+				firstName = cellText.substring(0,cellText.indexOf(" "));
+				lastName = cellText.substring(cellText.indexOf(" ") + 1,cellText.indexOf(":"));
+			}
+		}
+		
+		return firstName + "~" + lastName;
+	}
+	
+	private String getPhone(String cellText) {
+		String phone = null;
+		if (cellText.contains("H: ")) { //если есть домашний телефон
+			if (cellText.contains("M: ")) //если есть мобильный
+				phone = phone(cellText, "H: ", "M: ", "\n", "");
+			else if (cellText.contains("W: ")) //нет мобильного, но есть рабочий
+				phone = phone(cellText, "H: ", "W: ", "\n", "");
+			else if (cellText.contains("Birthday: ")) //нет мобильного и рабочего, но есть дата рождения
+				phone = phone(cellText, "H: ", "Birthday: ", "\n", "");
+			else if (cellText.contains("P: ")) //нет мобильного, рабочего и даты рождения, но есть второй домашний
+				phone = phone(cellText, "H: ", "P: ", "\n", "");
+			else phone = cellText.substring(cellText.indexOf("H: ") + 3); //нет никаких данных после домашнего телефона
+		}
+		
+		else if (cellText.contains("M: ")) { //если нет домашнего, но есть мобильный телефон
+			if (cellText.contains("W: ")) //есть рабочий телефон
+				phone = phone(cellText, "M: ", "W: ", "\n", "");
+			else if (cellText.contains("Birthday: ")) //нет рабочего, но есть дата рождения
+				phone = phone(cellText, "M: ", "Birthday: ", "\n", "");
+			else if (cellText.contains("P: ")) //нет рабочего и даты рождения, но есть второй домашний
+				phone = phone(cellText, "M: ", "P: ", "\n", "");
+			else phone = cellText.substring(cellText.indexOf("M: ") + 3); //нет никаких данных после домашнего телефона
+		}
+		
+		else if (cellText.contains("W: ")) { //если нет домашнего и мобильного, но есть рабочий телефон
+			if (cellText.contains("Birthday: ")) //есть дата рождения
+				phone = phone(cellText, "W: ", "Birthday: ", "\n", "");
+			else if (cellText.contains("P: ")) //нет даты рождения, но есть второй домашний
+				phone = phone(cellText, "W: ", "P: ", "\n", "");
+			else phone = cellText.substring(cellText.indexOf("W: ") + 3); //нет никаких данных после домашнего телефона
+		}
+	
+		else phone = "";
+		
+		return phone;
+	}
+
+	private String phone(String cellText, String textLable1, String textLable2, String textLable3, String textLable4) {
+		return cellText.substring(cellText.indexOf(textLable1) + 3, cellText.indexOf(textLable2)).replace(textLable3, textLable4);
 	}
 	
 }
