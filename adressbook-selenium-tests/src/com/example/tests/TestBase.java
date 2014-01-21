@@ -1,8 +1,11 @@
 package com.example.tests;
 
+import java.io.File;
+import java.io.FileReader;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Properties;
 import java.util.Random;
 
 import org.openqa.selenium.By;
@@ -21,7 +24,9 @@ public class TestBase {
 
 	@BeforeTest
 	public void setUp() throws Exception {
-		app = new ApplicationManager();
+		Properties properties = new Properties();
+		properties.load(new FileReader(new File("application.properties")));
+		app = new ApplicationManager(properties);
 	  }
 	
 	@AfterTest
@@ -134,7 +139,7 @@ public class TestBase {
 		return list.iterator();
 	}
 	
-	//провайдер для удаления некоторого количества контактов, но без вывода в отет информации о них
+	//провайдер для удаления некоторого количества контактов, но без вывода в отчет информации о них
 	@DataProvider
 	public Iterator<Object[]> deletionSomeContacts() {
 		List<Object[]> list = new ArrayList<Object[]>();
@@ -148,7 +153,7 @@ public class TestBase {
 		for (int i = 0; i < countForDelete; i++) {
 			maxCount = maxCount - 1;
 			if (maxCount == 0)
-				throw new Error("Нет контактов для удаления");
+				break;
 			int index = rnd.nextInt(maxCount);
 			list.add(new Object[] {index});
 		}
