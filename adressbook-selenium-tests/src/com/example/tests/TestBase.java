@@ -13,6 +13,8 @@ import org.testng.annotations.DataProvider;
 import com.example.fw.ApplicationManager;
 import com.example.utils.SortedListOf;
 
+import static com.example.tests.GroupDataGenerator.generateRandomGroups;
+
 public class TestBase {
 	
 	public ApplicationManager app;
@@ -30,16 +32,15 @@ public class TestBase {
 	//провайдер для создания, модификации групп
 	@DataProvider
 	public Iterator<Object[]> radomValidGroupGenerator() {
+		return wrapGroupsForDataProvider(generateRandomGroups(5)).iterator();
+	}
+
+	public static List<Object[]> wrapGroupsForDataProvider(List<GroupData> groups) {
 		List<Object[]> list = new ArrayList<Object[]>();
-		Random rnd = new Random();
-		for (int i = 0; i < 5; i++) {
-			GroupData group = new GroupData()
-				.withName(app.getRandomHelper().randomStringEngAlphaNumeric(rnd.nextInt(20)))
-				.withHeader(app.getRandomHelper().randomStringEngAlphaNumeric(rnd.nextInt(30)))
-				.withFooter(app.getRandomHelper().randomStringEngAlphaNumeric(rnd.nextInt(40)));
-			list.add(new Object[] {group});
+		for (GroupData group : groups) {
+			list.add(new Object[]{group});
 		}
-		return list.iterator();
+		return list;
 	}
 
 	//провайдер для удаления групп
