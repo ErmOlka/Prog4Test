@@ -24,6 +24,7 @@ public class GroupDataGenerator {
 		
 		if (file.exists()) {
 			System.out.println("File '" + file + "' already exists. Remove it manually or set new file name.");
+			return;
 		}
 		
 		List<GroupData> groups = generateRandomGroups(amount);

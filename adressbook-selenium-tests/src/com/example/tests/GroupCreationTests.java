@@ -1,5 +1,6 @@
 package com.example.tests;
 
+import static com.example.tests.GroupDataGenerator.loadGroupsFromCsvFile;
 import static com.example.tests.GroupDataGenerator.loadGroupsFromXmlFile;
 import static org.junit.Assert.assertThat;
 import static org.hamcrest.Matchers.*;
