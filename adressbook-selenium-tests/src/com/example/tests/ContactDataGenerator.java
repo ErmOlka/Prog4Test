@@ -2,17 +2,19 @@ package com.example.tests;
 
 import java.io.BufferedReader;
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.OutputStreamWriter;
+import java.io.Writer;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
-
 import com.thoughtworks.xstream.XStream;
 
 public class ContactDataGenerator {
-	//понять как корректно обрабатывать русские буквы в файлах
+
 	private static boolean male = true;
 	private static boolean female = false;
 
@@ -46,7 +48,7 @@ public class ContactDataGenerator {
 		XStream xstream = new XStream();
 		xstream.alias("contact", ContactData.class);
 		String xml = xstream.toXML(contacts);
-		FileWriter writer = new FileWriter(file);
+		Writer writer = new OutputStreamWriter(new FileOutputStream(file), "utf-8");
 		writer.write(xml);
 		writer.close();		
 	}
@@ -114,15 +116,10 @@ public class ContactDataGenerator {
 		Random rnd = new Random();
 		for (int i = 0; i < amount; i++) {
 			boolean gender = genderSelect();
-			String birthDay = randomValue("RandomDay");
-			if (birthDay == null || birthDay == "")
+			String birthDay = "" + rnd.nextInt(32);
+			if (birthDay == "0")
 				birthDay = "-";
-			String birthMonth = randomValue("RandomMonth");
-			if (birthMonth == null || birthMonth == "")
-				birthMonth = "-";
-			String contactGroup = randomValue("RandomGroup");
-			if (contactGroup == null || contactGroup == "")
-				contactGroup = "[none]";
+			String birthMonth = randomMonth();
 			String homePhone1 = randomValue(randomPhoneNumber(1,3,7));
 			String mobilePhone = randomValue(randomPhoneNumber(1,3,7));
 			String workPhone = randomValue(randomPhoneNumber(1,3,7));
@@ -142,7 +139,7 @@ public class ContactDataGenerator {
 				.withBirthDay(birthDay)
 				.withBirthMonth(birthMonth)
 				.withBirthYear(randomValue("19" + randomStringNumeric(2)))
-				.withContactGroup(contactGroup)
+				.withContactGroup("[none]")
 				.withAddress2(randomValue("Адрес 2: " + randomStringAlphaNumeric(rnd.nextInt(100))))
 				.withHomePhone2(randomValue(randomPhoneNumber(1,3,7)))
 				.withPhone(phone)
@@ -150,6 +147,38 @@ public class ContactDataGenerator {
 			list.add(contact);
 		}
 		return list;
+	}
+
+	private static String randomMonth() {
+		String month = null;
+		Random rnd = new Random();
+		if (rnd.nextInt(13) == 0)
+			month = "-";
+		if (rnd.nextInt(13) == 1)
+			month = "January";
+		if (rnd.nextInt(13) == 2)
+			month = "February";
+		if (rnd.nextInt(13) == 3)
+			month = "March";
+		if (rnd.nextInt(13) == 4)
+			month = "April";
+		if (rnd.nextInt(13) == 5)
+			month = "May";
+		if (rnd.nextInt(13) == 6)
+			month = "June";
+		if (rnd.nextInt(13) == 7)
+			month = "July";
+		if (rnd.nextInt(13) == 8)
+			month = "August";
+		if (rnd.nextInt(13) == 9)
+			month = "September";
+		if (rnd.nextInt(13) == 10)
+			month = "October";
+		if (rnd.nextInt(13) == 11)
+			month = "November";
+		if (rnd.nextInt(13) == 12)
+			month = "December";
+		return month;
 	}
 
 	private static boolean genderSelect() {

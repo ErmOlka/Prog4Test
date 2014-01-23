@@ -1,10 +1,8 @@
 package com.example.fw;
 
 import java.util.List;
-
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebElement;
-
 import com.example.tests.ContactData;
 import com.example.utils.ListOf;
 import com.example.utils.SortedListOf;
@@ -67,17 +65,17 @@ public class ContactHelper extends HelperBase {
 		int tableRowsCount = driver.findElements(By.xpath("//tr")).size();
 		ListOf<String> cellsText = getCellsText(tableRowsCount);
 		for(String cellText : cellsText) {
-			String firstLastName = getFirstLastName(cellText);
+			String firstLastName = findFirstLastName(cellText);
 			String firstName = firstLastName.substring(0, firstLastName.indexOf("~"));
 			String lastName = firstLastName.substring(firstLastName.indexOf("~") + 1);
-			String phone = getPhone(cellText);
+			String phone = findPhone(cellText);
 			contacts.add(new ContactData()
 								.withFirstName(firstName)
 								.withLastName(lastName)
 								.withPhone(phone)
 								.withEmail("")
 						);
-			}
+		}
 		return contacts;
 	}
 	
@@ -140,8 +138,9 @@ public class ContactHelper extends HelperBase {
 		selectByText(By.name("bday"), contact.getBirthDay());
 	    selectByText(By.name("bmonth"), contact.getBirthMonth());
 	    typeText(By.name("byear"),contact.getBirthYear());
-	    if (formType == CREATION)
-	    	selectByText(By.name("new_group"), contact.getContactGroup());
+	    if (formType == CREATION) {
+	    	randomDropDownValue(By.name("new_group"));
+	    }
 	    else if (isElementPresent(By.name("new_group")))
 	    	throw new Error("На форме редактирования присутствует выбор группы");
 	    typeText(By.name("address2"),contact.getAddress2());
@@ -197,7 +196,7 @@ public class ContactHelper extends HelperBase {
 		return cellsText;
 	}
 	
-	private String getFirstLastName(String cellText) {
+	private String findFirstLastName(String cellText) {
 		String firstName = null;
 		String lastName = null;
 		
@@ -224,7 +223,7 @@ public class ContactHelper extends HelperBase {
 		return firstName + "~" + lastName;
 	}
 	
-	private String getPhone(String cellText) {
+	private String findPhone(String cellText) {
 		String phone = null;
 		if (cellText.contains("H: ")) { //если есть домашний телефон
 			if (cellText.contains("M: ")) //если есть мобильный

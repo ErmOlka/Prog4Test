@@ -1,11 +1,13 @@
 package com.example.fw;
 
+import java.util.List;
 import java.util.Random;
 import java.util.concurrent.TimeUnit;
 
 import org.openqa.selenium.Alert;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.Select;
 
 public abstract class HelperBase {
@@ -31,22 +33,16 @@ public abstract class HelperBase {
 	}
 	
 	protected void selectByText(By locator, String text) {
-		if (text != null) {
-			if (text != "RandomGroup" && text != "RandomDay" && text != "RandomMonth") 
-				new Select(driver.findElement(locator)).selectByVisibleText(text);
-			else if (text == "RandomGroup")
-				randomDropDownValue(By.name("new_group"));
-			else if (text == "RandomDay")
-				randomDropDownValue(By.name("bday"));
-			else if (text == "RandomMonth")
-				randomDropDownValue(By.name("bmonth"));
-		}
+		if (text != null) 
+			new Select(driver.findElement(locator)).selectByVisibleText(text);
 	}
 	
-	public void randomDropDownValue(By locator) {
+	protected void randomDropDownValue(By locator) {
+		Select select = new Select(driver.findElement(locator));
+		List<WebElement> groups = select.getOptions();
 		Random rnd = new Random();
-		int dropDownSize = new Select(driver.findElement(locator)).getOptions().size();
-		new Select(driver.findElement(locator)).selectByIndex(rnd.nextInt(dropDownSize));
+		String group = groups.get(rnd.nextInt(groups.size())).getText();
+		selectByText(locator, group);
 	}
 
 /*............................................................................................................................*/	
