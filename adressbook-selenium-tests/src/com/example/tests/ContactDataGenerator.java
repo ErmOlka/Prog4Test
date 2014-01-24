@@ -41,7 +41,6 @@ public class ContactDataGenerator {
 			System.out.println("Unknown format " + format);
 			return;
 		}
-
 	}
 
 	private static void saveContactsToXmlFile(List<ContactData> contacts, File file) throws IOException {
@@ -52,7 +51,6 @@ public class ContactDataGenerator {
 		writer.write(xml);
 		writer.close();		
 	}
-	
 	
     public static List<ContactData> loadContactsFromXmlFile(File file) {
     	XStream xstream = new XStream();
@@ -151,32 +149,32 @@ public class ContactDataGenerator {
 
 	private static String randomMonth() {
 		String month = null;
-		Random rnd = new Random();
-		if (rnd.nextInt(13) == 0)
+		int monthCode = new Random().nextInt(13);
+		if (monthCode == 0)
 			month = "-";
-		if (rnd.nextInt(13) == 1)
+		if (monthCode == 1)
 			month = "January";
-		if (rnd.nextInt(13) == 2)
+		if (monthCode == 2)
 			month = "February";
-		if (rnd.nextInt(13) == 3)
+		if (monthCode == 3)
 			month = "March";
-		if (rnd.nextInt(13) == 4)
+		if (monthCode == 4)
 			month = "April";
-		if (rnd.nextInt(13) == 5)
+		if (monthCode == 5)
 			month = "May";
-		if (rnd.nextInt(13) == 6)
+		if (monthCode == 6)
 			month = "June";
-		if (rnd.nextInt(13) == 7)
+		if (monthCode == 7)
 			month = "July";
-		if (rnd.nextInt(13) == 8)
+		if (monthCode == 8)
 			month = "August";
-		if (rnd.nextInt(13) == 9)
+		if (monthCode == 9)
 			month = "September";
-		if (rnd.nextInt(13) == 10)
+		if (monthCode == 10)
 			month = "October";
-		if (rnd.nextInt(13) == 11)
+		if (monthCode == 11)
 			month = "November";
-		if (rnd.nextInt(13) == 12)
+		if (monthCode == 12)
 			month = "December";
 		return month;
 	}
@@ -277,7 +275,7 @@ public class ContactDataGenerator {
 		return sb.toString();
 	}
 	
-	private static List<String> concatArray(List<String> list1, List<String> list2) {
+	private static List<String> concatStringLists(List<String> list1, List<String> list2) {
 		if (list1 == null)
 			return list2;
 		if (list2 == null)
@@ -307,9 +305,9 @@ public class ContactDataGenerator {
 		String randLastName = null;
 		List<String> lastNames = null;
 		if (gender == male)
-			lastNames = concatArray(readNamesFromFile(new File("maleLastNames.txt")),readNamesFromFile(new File("uniLastNames.txt")));
+			lastNames = concatStringLists(readNamesFromFile(new File("maleLastNames.txt")),readNamesFromFile(new File("uniLastNames.txt")));
 		if (gender == female)
-			lastNames = concatArray(readNamesFromFile(new File("femaleLastNames.txt")),readNamesFromFile(new File("uniLastNames.txt")));
+			lastNames = concatStringLists(readNamesFromFile(new File("femaleLastNames.txt")),readNamesFromFile(new File("uniLastNames.txt")));
 		if (randLastName == null) {
 			Random random = new Random();
 			for (int i = 0; i < lastNames.size(); i++) {

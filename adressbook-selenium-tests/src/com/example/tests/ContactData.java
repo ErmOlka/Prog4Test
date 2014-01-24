@@ -32,14 +32,23 @@ public class ContactData implements Comparable<ContactData> {
 	public int compareTo(ContactData other) {
 		int result = 0;
 		
-		if (firstName == null)
-			firstName = "";
-		if (lastName == null)
-			lastName = "";
-		if (email == null)
-			email = "";
-		if (phone == null)
-			phone = "";
+		if (this.firstName == null)
+			this.firstName = "";
+		if (this.lastName == null)
+			this.lastName = "";
+		if (this.email == null)
+			this.email = "";
+		if (this.phone == null)
+			this.phone = "";
+		
+		if (other.firstName == null)
+			other.firstName = "";
+		if (other.lastName == null)
+			other.lastName = "";
+		if (other.email == null)
+			other.email = "";
+		if (other.phone == null)
+			other.phone = "";
 
 		int resultLastName = this.lastName.toLowerCase().compareTo(other.lastName.toLowerCase());
 		if (resultLastName != 0)
@@ -83,12 +92,12 @@ public class ContactData implements Comparable<ContactData> {
 		if (email == null) {
 			if (other.email != null)
 				return false;
-		} else if (!email.equals(other.email))
+		} else if (!email.replaceAll(" +", " ").trim().equals(other.email.replaceAll(" +", " ").trim()))
 			return false;
 		if (firstName == null) {
 			if (other.firstName != null)
 				return false;
-		} else if (!firstName.equals(other.firstName))
+		} else if (!firstName.replaceAll(" +", " ").trim().equals(other.firstName.replaceAll(" +", " ").trim()))
 			return false;
 		if (phone == null) {
 			if (other.phone != null)
@@ -98,7 +107,7 @@ public class ContactData implements Comparable<ContactData> {
 		if (lastName == null) {
 			if (other.lastName != null)
 				return false;
-		} else if (!lastName.equals(other.lastName))
+		} else if (!lastName.replaceAll(" +", " ").trim().equals(other.lastName.replaceAll(" +", " ").trim()))
 			return false;
 		return true;
 	}

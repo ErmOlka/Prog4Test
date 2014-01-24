@@ -40,7 +40,7 @@ public class GroupData implements Comparable<GroupData> {
 		if (name == null) {
 			if (other.name != null)
 				return false;
-		} else if (!name.equals(other.name))
+		} else if (!name.replaceAll(" +", " ").trim().equals(other.name.replaceAll(" +", " ").trim()))
 			return false;
 		return true;
 	}

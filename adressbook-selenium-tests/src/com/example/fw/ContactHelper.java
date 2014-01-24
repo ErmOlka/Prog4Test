@@ -89,7 +89,6 @@ public class ContactHelper extends HelperBase {
 	    return this;
 	}
 	
-
 	public ContactHelper modifyContactByIndex(int index, ContactData contact) {
 		manager.navigateTo().mainPage();
 		initContactModificationByIndex(index);
@@ -98,8 +97,7 @@ public class ContactHelper extends HelperBase {
 		returnToHomePage();
 		rebuildCache(true);
 		return this;
-	}
-	
+	}	
 	
 	public ContactHelper deleteContact(ContactData contact) {
 		manager.navigateTo().mainPage();
