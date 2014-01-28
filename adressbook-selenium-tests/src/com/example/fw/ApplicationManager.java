@@ -18,7 +18,6 @@ public class ApplicationManager {
 	private GroupHelper groupHelper;
 	private ContactHelper contactHelper;
 	private RandomHelper randomHelper;
-	private NamesGeneratorHelper namesGeneratorHelper;
 	private Properties properties;
 	
 	//before
@@ -69,11 +68,5 @@ public class ApplicationManager {
 		}
 		return randomHelper;
 	}
-	
-	public NamesGeneratorHelper getNamesGeneratorHelper() {
-		if (namesGeneratorHelper == null) {
-			namesGeneratorHelper = new NamesGeneratorHelper(this);
-		}
-		return namesGeneratorHelper;
-	}
+
 }
