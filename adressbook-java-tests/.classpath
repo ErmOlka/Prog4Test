@@ -3,5 +3,8 @@
 	<classpathentry kind="src" path="src"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="var" path="TESTNG_HOME/lib/testng.jar"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/Hamcrest"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/Jemmy2"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.USER_LIBRARY/AddressBook"/>
 	<classpathentry kind="output" path="bin"/>
 </classpath>
