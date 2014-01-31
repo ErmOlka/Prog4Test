@@ -12,6 +12,7 @@ public class ApplicationManager {
 	private FolderHelper folderHelper;
 	private JFrameOperator mainFrame;
 	private MenuHelper menuHelper;
+	private ToolBarHelper toolBarHelper;
 	
 	//before
 	public ApplicationManager(Properties properties) {
@@ -46,6 +47,12 @@ public class ApplicationManager {
 		if (menuHelper == null)
 			menuHelper = new MenuHelper(this);
 		return menuHelper;
+	}
+
+	public ToolBarHelper getToolBarHelper() {
+		if (toolBarHelper == null)
+			toolBarHelper = new ToolBarHelper(this);
+		return toolBarHelper;
 	}
 	
 }

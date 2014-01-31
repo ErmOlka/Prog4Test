@@ -17,6 +17,12 @@ public class Folders {
 		return newList;
 	}
 	
+	public Folders without(int index) {
+		Folders newList = new Folders(storedFolders);
+		newList.storedFolders.remove(index);
+		return newList;
+	}
+	
 	@Override
 	public String toString() {
 		return "Folders [" + storedFolders + "]";

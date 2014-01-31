@@ -2,6 +2,7 @@ package com.example.fw;
 
 import java.util.ArrayList;
 import java.util.List;
+
 import org.netbeans.jemmy.operators.JButtonOperator;
 import org.netbeans.jemmy.operators.JDialogOperator;
 import org.netbeans.jemmy.operators.JTextFieldOperator;
@@ -31,6 +32,26 @@ public class FolderHelper extends HelpersBase {
 		return waitMessageDialog("Warning", 3000);
 	}
 
+	public void deleteFolder(int index) {
+		JTreeOperator tree = new JTreeOperator(mainFrame);
+		List<String> childrenList = new ArrayList<String>();
+		Object[] children = tree.getChildren(tree.getRoot());
+		for (Object child : children) {
+			childrenList.add("" + child);
+		}
+		String child = childrenList.get(index);
+		
+		
+		//tree.clickMouse();
+		manager.getToolBarHelper().pushDeleteElement();
+		JDialogOperator dialog = new JDialogOperator(mainFrame);
+		new JButtonOperator(dialog, "Yes").push();
+	}
+
+	public int getTreeSize() {
+		JTreeOperator tree = new JTreeOperator(mainFrame);
+		return tree.getChildCount(tree);
+	}	
 	
 	
 

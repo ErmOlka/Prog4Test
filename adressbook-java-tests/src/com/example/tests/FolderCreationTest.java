@@ -10,7 +10,7 @@ import static org.hamcrest.Matchers.*;
 public class FolderCreationTest extends TestBase {
 	
 	@Test
-	public void testFolderCreation() {
+	public void testFolderCreationByMenu() {
 		String folder = "new folder";
 		Folders oldFolders = app.getFolderHelper().getFolders();
 		app.getFolderHelper().createFolder(folder);
@@ -19,7 +19,7 @@ public class FolderCreationTest extends TestBase {
 	}
 	
 	@Test
-	public void testVariousFoldersCreation() {
+	public void testVariousFoldersCreationByMenu() {
 		String folder1 = "new folder1";
 		String folder2 = "new folder2";
 		Folders oldFolders = app.getFolderHelper().getFolders();
@@ -32,7 +32,7 @@ public class FolderCreationTest extends TestBase {
 	}
 	
 	@Test
-	public void testFoldersWithSameNameCreation() {
+	public void testFoldersWithSameNameCreationByMenu() {
 		String folder = "new folder3";
 		Folders oldFolders = app.getFolderHelper().getFolders();
 		assertThat(app.getFolderHelper().createFolder(folder), is(nullValue()));
