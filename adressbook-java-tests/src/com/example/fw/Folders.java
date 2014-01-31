@@ -16,6 +16,11 @@ public class Folders {
 		newList.storedFolders.add(folder);
 		return newList;
 	}
+	
+	@Override
+	public String toString() {
+		return "Folders [" + storedFolders + "]";
+	}
 
 	@Override
 	public int hashCode() {
@@ -41,11 +46,6 @@ public class Folders {
 		} else if (!storedFolders.equals(other.storedFolders))
 			return false;
 		return true;
-	}
-
-	@Override
-	public String toString() {
-		return "Folders [" + storedFolders + "]";
 	}
 
 }
