@@ -14,10 +14,19 @@ public class FolderCreationTest extends TestBase {
 	Random rnd = new Random();
 	
 	@Test
+	public void testFolderCreationByToolBar() {
+		String folder = app.getFolderHelper().randomStringEngAlphaNumeric(rnd.nextInt(20));
+		Folders oldFolders = app.getFolderHelper().getFolders();
+		app.getFolderHelper().createFolderByToolBar(folder);
+		Folders newFolders = app.getFolderHelper().getFolders();
+		assertThat(newFolders, equalTo(oldFolders.withAdded(folder)));
+	}
+	
+	@Test
 	public void testFolderCreationByMenu() {
 		String folder = app.getFolderHelper().randomStringEngAlphaNumeric(rnd.nextInt(20));
 		Folders oldFolders = app.getFolderHelper().getFolders();
-		app.getFolderHelper().createFolder(folder);
+		app.getFolderHelper().createFolderByMenu(folder);
 		Folders newFolders = app.getFolderHelper().getFolders();
 		assertThat(newFolders, equalTo(oldFolders.withAdded(folder)));
 	}
@@ -27,10 +36,10 @@ public class FolderCreationTest extends TestBase {
 		String folder1 = app.getFolderHelper().randomStringEngAlphaNumeric(rnd.nextInt(20));
 		String folder2 = app.getFolderHelper().randomStringEngAlphaNumeric(rnd.nextInt(20));
 		Folders oldFolders = app.getFolderHelper().getFolders();
-		assertThat(app.getFolderHelper().createFolder(folder1), is(nullValue()));
+		assertThat(app.getFolderHelper().createFolderByMenu(folder1), is(nullValue()));
 		Folders newFolders = app.getFolderHelper().getFolders();
 		assertThat(newFolders, equalTo(oldFolders.withAdded(folder1)));
-		assertThat(app.getFolderHelper().createFolder(folder2), is(nullValue()));
+		assertThat(app.getFolderHelper().createFolderByMenu(folder2), is(nullValue()));
 		Folders newFolders2 = app.getFolderHelper().getFolders();
 		assertThat(newFolders2, equalTo(newFolders.withAdded(folder2)));
 	}
@@ -39,10 +48,10 @@ public class FolderCreationTest extends TestBase {
 	public void testFoldersWithSameNameCreationByMenu() {
 		String folder = app.getFolderHelper().randomStringEngAlphaNumeric(rnd.nextInt(20));
 		Folders oldFolders = app.getFolderHelper().getFolders();
-		assertThat(app.getFolderHelper().createFolder(folder), is(nullValue()));
+		assertThat(app.getFolderHelper().createFolderByMenu(folder), is(nullValue()));
 		Folders newFolders = app.getFolderHelper().getFolders();
 		assertThat(newFolders, equalTo(oldFolders.withAdded(folder)));
-		assertThat(app.getFolderHelper().createFolder(folder), containsString("Duplicated folder name"));
+		assertThat(app.getFolderHelper().createFolderByMenu(folder), containsString("Duplicated folder name"));
 		Folders newFolders2 = app.getFolderHelper().getFolders();
 		assertThat(newFolders2, equalTo(newFolders));
 	}

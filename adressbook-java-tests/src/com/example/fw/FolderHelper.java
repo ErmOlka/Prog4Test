@@ -25,8 +25,16 @@ public class FolderHelper extends HelpersBase {
 		return new Folders(list);
 	}
 
-	public String createFolder(String folderName) {
+	public String createFolderByMenu(String folderName) {
 		manager.getMenuHelper().pushCreateFolder();
+		JDialogOperator dialog = new JDialogOperator(mainFrame);
+		new JTextFieldOperator(dialog).setText(folderName);
+		new JButtonOperator(dialog, "OK").push();
+		return waitMessageDialog("Warning", 3000);
+	}
+	
+	public String createFolderByToolBar(String folderName) {
+		manager.getToolBarHelper().pushCreateFolder();
 		JDialogOperator dialog = new JDialogOperator(mainFrame);
 		new JTextFieldOperator(dialog).setText(folderName);
 		new JButtonOperator(dialog, "OK").push();
@@ -63,5 +71,5 @@ public class FolderHelper extends HelpersBase {
 		}
 		return sb.toString();
 	}
-	
+
 }
