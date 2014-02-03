@@ -17,7 +17,6 @@ public class ApplicationManager {
 	private NavigationHelper navigationHelper;
 	private GroupHelper groupHelper;
 	private ContactHelper contactHelper;
-	private RandomHelper randomHelper;
 	private Properties properties;
 	
 	//before
@@ -60,13 +59,6 @@ public class ApplicationManager {
 			contactHelper = new ContactHelper(this);
 		}
 		return contactHelper;
-	}
-	
-	public RandomHelper getRandomHelper() {
-		if (randomHelper == null) {
-			randomHelper = new RandomHelper(this);
-		}
-		return randomHelper;
 	}
 
 }

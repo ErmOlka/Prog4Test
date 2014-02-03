@@ -44,7 +44,7 @@ public class TestBase {
 	@DataProvider
 	public Iterator<Object[]> deletionSomeGroups() {
 		List<Object[]> list = new ArrayList<Object[]>();
-		SortedListOf<Integer> indexesList = app.getRandomHelper().randomIndexesList();
+		SortedListOf<Integer> indexesList = app.getGroupHelper().randomIndexesList();
 		list.add(new Object[] {indexesList});
 		return list.iterator();
 	}

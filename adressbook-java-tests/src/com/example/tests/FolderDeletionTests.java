@@ -11,11 +11,27 @@ import com.example.fw.Folders;
 
 public class FolderDeletionTests extends TestBase {
 	@Test
-	public void testFolderCreationByMenu() {
+	public void testFolderDeletionByToolBar() {
 		Folders oldFolders = app.getFolderHelper().getFolders();
+		int folderCount = app.getFolderHelper().getTreeSize();
+		if (folderCount == 0) 
+			throw new Error("No Folder for deletion");
 		Random rnd = new Random();
-		int index = rnd.nextInt(app.getFolderHelper().getTreeSize());
-		app.getFolderHelper().deleteFolder(index);
+		int index = rnd.nextInt(folderCount);
+		app.getFolderHelper().deleteFolderByToolBar(index);
+		Folders newFolders = app.getFolderHelper().getFolders();
+		assertThat(newFolders, equalTo(oldFolders.without(index)));
+	}
+	
+	@Test
+	public void testFolderDeletionByMenu() {
+		Folders oldFolders = app.getFolderHelper().getFolders();
+		int folderCount = app.getFolderHelper().getTreeSize();
+		if (folderCount == 0) 
+			throw new Error("No Folder for deletion");
+		Random rnd = new Random();
+		int index = rnd.nextInt(folderCount);
+		app.getFolderHelper().deleteFolderByMenu(index);
 		Folders newFolders = app.getFolderHelper().getFolders();
 		assertThat(newFolders, equalTo(oldFolders.without(index)));
 	}

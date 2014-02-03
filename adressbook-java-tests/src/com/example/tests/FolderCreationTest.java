@@ -1,5 +1,7 @@
 package com.example.tests;
 
+import java.util.Random;
+
 import org.testng.annotations.Test;
 
 import com.example.fw.Folders;
@@ -9,9 +11,11 @@ import static org.hamcrest.Matchers.*;
 
 public class FolderCreationTest extends TestBase {
 	
+	Random rnd = new Random();
+	
 	@Test
 	public void testFolderCreationByMenu() {
-		String folder = "new folder";
+		String folder = app.getFolderHelper().randomStringEngAlphaNumeric(rnd.nextInt(20));
 		Folders oldFolders = app.getFolderHelper().getFolders();
 		app.getFolderHelper().createFolder(folder);
 		Folders newFolders = app.getFolderHelper().getFolders();
@@ -20,8 +24,8 @@ public class FolderCreationTest extends TestBase {
 	
 	@Test
 	public void testVariousFoldersCreationByMenu() {
-		String folder1 = "new folder1";
-		String folder2 = "new folder2";
+		String folder1 = app.getFolderHelper().randomStringEngAlphaNumeric(rnd.nextInt(20));
+		String folder2 = app.getFolderHelper().randomStringEngAlphaNumeric(rnd.nextInt(20));
 		Folders oldFolders = app.getFolderHelper().getFolders();
 		assertThat(app.getFolderHelper().createFolder(folder1), is(nullValue()));
 		Folders newFolders = app.getFolderHelper().getFolders();
@@ -33,7 +37,7 @@ public class FolderCreationTest extends TestBase {
 	
 	@Test
 	public void testFoldersWithSameNameCreationByMenu() {
-		String folder = "new folder3";
+		String folder = app.getFolderHelper().randomStringEngAlphaNumeric(rnd.nextInt(20));
 		Folders oldFolders = app.getFolderHelper().getFolders();
 		assertThat(app.getFolderHelper().createFolder(folder), is(nullValue()));
 		Folders newFolders = app.getFolderHelper().getFolders();

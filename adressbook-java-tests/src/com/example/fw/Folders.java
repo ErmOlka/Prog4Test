@@ -51,6 +51,16 @@ public class Folders {
 				return false;
 		} else if (!storedFolders.equals(other.storedFolders))
 			return false;
+		
+		Object[] folders = storedFolders.toArray();
+		for (Object folder : folders) {
+			String folderString = folder.toString();
+			if (folderString == null)
+				folder = "";
+			if (folderString.contains("."))
+				folder = folderString.substring(folderString.indexOf("."));
+		}
+		
 		return true;
 	}
 

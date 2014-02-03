@@ -2,6 +2,7 @@ package com.example.fw;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 import org.netbeans.jemmy.operators.JButtonOperator;
 import org.netbeans.jemmy.operators.JDialogOperator;
@@ -32,27 +33,35 @@ public class FolderHelper extends HelpersBase {
 		return waitMessageDialog("Warning", 3000);
 	}
 
-	public void deleteFolder(int index) {
-		JTreeOperator tree = new JTreeOperator(mainFrame);
-		List<String> childrenList = new ArrayList<String>();
-		Object[] children = tree.getChildren(tree.getRoot());
-		for (Object child : children) {
-			childrenList.add("" + child);
-		}
-		String child = childrenList.get(index);
-		
-		
-		//tree.clickMouse();
+	public void deleteFolderByToolBar(int index) {
+		new JTreeOperator(mainFrame).selectRow(index);
 		manager.getToolBarHelper().pushDeleteElement();
-		JDialogOperator dialog = new JDialogOperator(mainFrame);
-		new JButtonOperator(dialog, "Yes").push();
+		new JButtonOperator(new JDialogOperator(mainFrame), "Yes").push();
+	}
+	
+	public void deleteFolderByMenu(int index) {
+		new JTreeOperator(mainFrame).selectRow(index);
+		manager.getMenuHelper().pushDeleteElement();
+		new JButtonOperator(new JDialogOperator(mainFrame), "Yes").push();
 	}
 
 	public int getTreeSize() {
 		JTreeOperator tree = new JTreeOperator(mainFrame);
-		return tree.getChildCount(tree);
+		return tree.getChildren(tree.getRoot()).length;
 	}	
 	
+	public String randomStringEngAlphaNumeric(final int length) {
+		Random rnd = new Random();
+		if (rnd.nextInt(10) == 0)
+			return "";
+		char[] chars = "abcdefghijklmnopqrstuvwxyz QWERTYUIOPASDFGHJKLZXCVBNM 1234567890_ éöóêåíãøùçõúôûâàïğîëäæıÿ÷ñìèòüáş ÉÖÓÊÅÍÃØÙÇÕÚÔÛÂÀÏĞÎËÄÆİß×ÑÌÈÒÜÁŞ 1234567890_ ".toCharArray();
+		StringBuilder sb = new StringBuilder();
+		Random random = new Random();
+		for (int i = 0; i < length; i++) {
+		    char c = chars[random.nextInt(chars.length)];
+		    sb.append(c);
+		}
+		return sb.toString();
+	}
 	
-
 }
