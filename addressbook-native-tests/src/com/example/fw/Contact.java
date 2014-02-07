@@ -19,10 +19,12 @@ public class Contact implements Comparable<Contact> {
 		
 	}
 	
+
 	@Override
 	public String toString() {
-		return "Contact [name=" + name + ", surname=" + surname + "]";
+		return "Contact [name=" + name + ", surname=" + surname + ", email=" + email + ", cell=" + cell + "]";
 	}
+
 
 	@Override
 	public int compareTo(Contact other) {

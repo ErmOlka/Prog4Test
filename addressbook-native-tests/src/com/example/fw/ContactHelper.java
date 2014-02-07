@@ -4,9 +4,6 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Random;
 
 import com.example.utils.SortedListOf;
 
@@ -42,7 +39,17 @@ public class ContactHelper extends HelpersBase {
 	private void fillContactForm(Contact contact) {
 		manager.getAutoItHelper()
 			.send("TDBEdit12", contact.name)
-			.send("TDBEdit11", contact.surname);
+			.send("TDBEdit11", contact.surname)
+			.send("TDBEdit8", contact.streetAddress)
+			.send("TDBEdit7", contact.city)
+			.send("TDBEdit6", contact.postalCode)
+			.send("TDBEdit5", contact.country)
+			.send("TDBEdit4", contact.phone)
+			.send("TDBEdit3", contact.fax)
+			.send("TDBEdit2", contact.cell)
+			.send("TDBEdit10", contact.email)
+			.send("TDBEdit1", contact.webPage)
+			.send("TDBEdit9", contact.internetContact);
 	}
 	
 	private void confirmContactCreation() {
@@ -58,7 +65,7 @@ public class ContactHelper extends HelpersBase {
 		manager.getAutoItHelper()
 			.send("{SPACE}")
 			.click("Delete");
-		System.out.println("Deleted contact: " + contact.name + " " + contact.surname);
+		System.out.println("DELETED CONTACT: [name=" + contact.name + ", surname=" + contact.surname + ", email=" + contact.email + ", cell=" + contact.cell + "]");
 	}
 	
 	public void confirmContactDeletion() {
@@ -69,22 +76,6 @@ public class ContactHelper extends HelpersBase {
 	
 //------------------------------------------------------------------------------------------------------------------------------------------------------
 
-	public int randomContactIndex(File file) throws IOException {
-		if (file.exists())
-		{
-			int contactCount = getContactCount(file);
-			int index = new Random().nextInt(contactCount);
-			if (index == 0)
-				index = 1;
-			System.out.println("index = " + index);
-			return index;
-		}
-		else {
-			System.out.println("FILE <" + file + "> NOT FOUND IN METHOD RANDOM INDEX");
-			return 0;
-		}
-	}
-	
 	public void exportContacts(File file, boolean isFirstExport) {
 		if (file.exists()) {
 			file.delete();
@@ -108,18 +99,6 @@ public class ContactHelper extends HelpersBase {
 			.winWaitAndActivate("AddressBook Portable", "", 5000);
 	}
 	
-	public int getContactCount(File file) throws IOException {
-		List<Contact> contacts = new ArrayList<Contact>();
-		if (file.exists()) {
-			contacts = loadExportedContactsFromFile(file);
-			return contacts.size() - 1;
-		}
-		else {
-			System.out.println("FILE <" + file + "> NOT FOUND IN METHOD GET COUNT");
-			return 0;
-		}		
-	}
-	
 	public SortedListOf<Contact> loadExportedContactsFromFile(File file) throws IOException {
 		if (!file.exists()) {
 			System.out.println("FILE FOR LOADING CONTACTS <" + file + "> NOT FOUND");
@@ -128,12 +107,21 @@ public class ContactHelper extends HelpersBase {
 		BufferedReader bufferedReader = new BufferedReader(new FileReader(file));
 		String line = bufferedReader.readLine();
 		while(line != null) {
+				line = line + ",!";
 			String[] part = line.split(",");
-			System.out.println("LINE: " + line);
-			System.out.println("PART: " + part.toString());
 			Contact contact = new Contact()
 				.setName(part[0])
-				.setSurname(part[1]);
+				.setSurname(part[1])
+				.setEmail(part[2])
+				.setInternetContact(part[3])
+				.setStreetAddress(part[4])
+				.setCity(part[5])
+				.setPostalCode(part[6])
+				.setCountry(part[7])
+				.setPhone(part[8])
+				.setFax(part[9])
+				.setCell(part[10])
+				.setWebPage(part[11]);
 			list.add(contact);
 			line = bufferedReader.readLine();
 		}
@@ -156,20 +144,22 @@ public class ContactHelper extends HelpersBase {
 			.winWaitAndActivate("Update Contact", "", 5000);
 		Contact contact = new Contact()
 			.setName(manager.getAutoItHelper().getText("TDBEdit12"))
-			.setSurname(manager.getAutoItHelper().getText("TDBEdit11"));
+			.setSurname(manager.getAutoItHelper().getText("TDBEdit11"))
+			.setStreetAddress(manager.getAutoItHelper().getText("TDBEdit8"))
+			.setCity(manager.getAutoItHelper().getText("TDBEdit7"))
+			.setPostalCode(manager.getAutoItHelper().getText("TDBEdit6"))
+			.setCountry(manager.getAutoItHelper().getText("TDBEdit5"))
+			.setPhone(manager.getAutoItHelper().getText("TDBEdit4"))
+			.setFax(manager.getAutoItHelper().getText("TDBEdit3"))
+			.setCell(manager.getAutoItHelper().getText("TDBEdit2"))
+			.setEmail(manager.getAutoItHelper().getText("TDBEdit10"))
+			.setWebPage(manager.getAutoItHelper().getText("TDBEdit1"))
+			.setInternetContact(manager.getAutoItHelper().getText("TDBEdit9"));
 		manager.getAutoItHelper()
 			.click("Cancel")
 			.winWaitAndActivate("AddressBook Portable", "", 5000);
+		System.out.println("SELECTED CONTACT: [name=" + contact.name + ", surname=" + contact.surname + ", email=" + contact.email + ", cell=" + contact.cell + "]");
 		return contact;
-	}
-	
-	public Contact getFirstContact() {
-		manager.getAutoItHelper()
-			.winWaitAndActivate("AddressBook Portable", "", 5000)
-			.click("TListView1")
-			.send("{DOWN}{SPACE}");
-		Contact contact = getSelectedContact();
-		return contact;		
 	}
 
 }
