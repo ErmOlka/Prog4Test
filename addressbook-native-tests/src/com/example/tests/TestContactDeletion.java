@@ -15,7 +15,7 @@ import com.example.utils.SortedListOf;
 public class TestContactDeletion extends TestBase {
 	
 	@Test
-	public void deleteContact() throws IOException {
+	public void deleteContactAssertExportedFiles() throws IOException {
 		File oldContacts = app.getContactHelper().oldContacts;
 		File newContacts = app.getContactHelper().newContacts;
 		Random rnd = new Random();
@@ -26,11 +26,32 @@ public class TestContactDeletion extends TestBase {
 		
 		//actions
 		int index = rnd.nextInt(oldList.size());
-		app.getContactHelper().deleteContact(index);
+		app.getContactHelper().deleteContact(index+1);
 		
 		//new states
 		app.getContactHelper().exportContacts(newContacts,false);
 		SortedListOf<Contact> newList = app.getContactHelper().loadExportedContactsFromFile(newContacts);
+		
+		//compare
+		assertThat(newList, equalTo(oldList.without(index)));
+	}
+	
+	@Test
+	public void deleteContactAssertContacts() throws IOException { //тест выполняется довольно долго, т.к. два раза перебирает все имеющиеся контакты
+		Random rnd = new Random();
+		SortedListOf<Contact> newList = new SortedListOf<Contact>();
+		
+		//old states
+		SortedListOf<Contact> oldList = app.getContactHelper().getContacts();
+		
+		//actions
+		int index = rnd.nextInt(oldList.size());
+		app.getContactHelper().deleteContact(index+1);
+		
+		//new states
+		if (oldList.size() <= 1)
+			newList = null;
+		else newList = app.getContactHelper().getContacts();
 		
 		//compare
 		assertThat(newList, equalTo(oldList.without(index)));

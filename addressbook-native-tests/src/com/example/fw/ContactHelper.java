@@ -140,8 +140,15 @@ public class ContactHelper extends HelpersBase {
 	}
 	
 	private Contact getSelectedContact() {
-		manager.getAutoItHelper().click("Edit")
-			.winWaitAndActivate("Update Contact", "", 5000);
+		manager.getAutoItHelper().click("Edit");
+		if (manager.getAutoItHelper().isWindow("Information","")) {
+			manager.getAutoItHelper()
+				.winWaitAndActivate("Information", "", 5000)
+				.click("OK");
+			System.out.println("getSelectedContact: THERE IS NO CONTACTS IN ADDRESSBOOK");
+			return null;
+		}
+		manager.getAutoItHelper().winWaitAndActivate("Update Contact", "", 5000);
 		Contact contact = new Contact()
 			.setName(manager.getAutoItHelper().getText("TDBEdit12"))
 			.setSurname(manager.getAutoItHelper().getText("TDBEdit11"))
@@ -160,6 +167,24 @@ public class ContactHelper extends HelpersBase {
 			.winWaitAndActivate("AddressBook Portable", "", 5000);
 		System.out.println("SELECTED CONTACT: [name=" + contact.name + ", surname=" + contact.surname + ", email=" + contact.email + ", cell=" + contact.cell + "]");
 		return contact;
+	}
+
+	public SortedListOf<Contact> getContacts() {
+		SortedListOf<Contact> contacts = new SortedListOf<Contact>();
+		Contact contact1 = new Contact().setName("1");
+		Contact contact2 = new Contact().setName("2");
+		int currentIndex = 0;
+		while (!contact1.equals(contact2)) {
+			currentIndex = currentIndex + 1;
+			selectContactByIndex(currentIndex);
+			contact1 = getSelectedContact();
+			if (contact1 == null) 
+				return null;
+			selectContactByIndex(currentIndex + 1);
+			contact2 = getSelectedContact();
+			contacts.add(contact1);
+	}
+		return contacts;
 	}
 
 }
