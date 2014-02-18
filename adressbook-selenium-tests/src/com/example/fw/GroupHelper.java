@@ -9,23 +9,16 @@ import org.openqa.selenium.WebElement;
 import com.example.tests.GroupData;
 import com.example.utils.SortedListOf;
 
-public class GroupHelper extends HelperBase {
+public class GroupHelper extends WebDriverHelperBase {
 
 	public GroupHelper(ApplicationManager manager) {
 		super(manager);
 	}
 	
-	private String groups = "//input[@name='selected[]']";
-	private SortedListOf<GroupData> cachedGroups;
+	private String xpathGroups = "//input[@name='selected[]']";
 	
-	public SortedListOf<GroupData> getGroups() {
-		if (cachedGroups == null)
-			rebuildCache();
-		return cachedGroups;
-	}
-
-	private void rebuildCache() {
-		cachedGroups = new SortedListOf<GroupData>();
+	public SortedListOf<GroupData> getUIGroups() {
+		SortedListOf<GroupData> groups = new SortedListOf<GroupData>();
 		
 		manager.navigateTo().groupsPage();
 		if (isElementPresent(By.name("selected[]"))) {
@@ -33,9 +26,10 @@ public class GroupHelper extends HelperBase {
 			for (WebElement checkbox : checkboxes) {
 				String title = checkbox.getAttribute("title");
 				String name = title.substring("Select (".length(), title.length() - ")".length());
-				cachedGroups.add(new GroupData().withName(name));
+				groups.add(new GroupData().withName(name));
 			}
 		}
+		return groups;
 	}
 
 	public GroupHelper creationGroup(GroupData group) {
@@ -44,7 +38,8 @@ public class GroupHelper extends HelperBase {
 		fillGroupForm(group);
 		submitGroupCreation();
 		returnToGroupsPage();
-		rebuildCache();
+		//update model
+    	manager.getModel().addGroup(group);
 		return this;
 	}
 	
@@ -54,7 +49,8 @@ public class GroupHelper extends HelperBase {
     	fillGroupForm(group);
     	submitGroupModification();
     	returnToGroupsPage();	
-    	rebuildCache();
+    	//update model
+    	manager.getModel().removeGroup(index).addGroup(group);
     	return this;
 	}
 	
@@ -63,7 +59,8 @@ public GroupHelper deleteGroup(SortedListOf<Integer> indexesList) {
 		selectGroupsByIndexes(indexesList);
 		submitGroupDeletion();
 		returnToGroupsPage();
-		rebuildCache();
+		//update model
+    	manager.getModel().removeGroups(indexesList);
 		return this;
 	}
 
@@ -83,7 +80,6 @@ public GroupHelper deleteGroup(SortedListOf<Integer> indexesList) {
 
 	public GroupHelper submitGroupCreation() {
 		click(By.name("submit"));
-		cachedGroups = null;
 		return this;
 	  }
 
@@ -101,30 +97,28 @@ public GroupHelper deleteGroup(SortedListOf<Integer> indexesList) {
 	private void selectGroupsByIndexes(SortedListOf<Integer> indexesList) {
 		for (int i = 0; i < indexesList.size(); i++) {
 			int index = indexesList.get(i);
-			if (! manager.driver.findElement(By.xpath(groups + "[" + (index+1) + "]")).isSelected()){
-				click(By.xpath(groups + "[" + (index+1) + "]"));
+			if (! manager.driver.findElement(By.xpath(xpathGroups + "[" + (index+1) + "]")).isSelected()){
+				click(By.xpath(xpathGroups + "[" + (index+1) + "]"));
 			}
 		}
 	}
 
 	private void selectGroupByIndex(int index) {
-		click(By.xpath(groups + "[" + (index+1) + "]"));
+		click(By.xpath(xpathGroups + "[" + (index+1) + "]"));
 	}
 	
 	public GroupHelper submitGroupModification() {
 		click(By.name("update"));
-		cachedGroups = null;
 		return this;
 	}
 	
 	public void submitGroupDeletion() {
 		click(By.name("delete"));
-		cachedGroups = null;
 	}
 	
 	public SortedListOf<Integer> randomIndexesList() {
 		Random rnd = new Random();
-		int maxCount = manager.getGroupHelper().getGroups().size();
+		int maxCount = manager.getModel().getGroups().size();
 		SortedListOf<Integer> indexesList = new SortedListOf<Integer>();
 	    if (maxCount == 0) 
 	    	throw new Error("Нет групп для удаления"); 

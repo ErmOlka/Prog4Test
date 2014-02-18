@@ -13,7 +13,7 @@ public class GroupModificationTests extends TestBase {
 	public void modifyRandomGroup(GroupData group) {
 	    
 	    //save old state
-		SortedListOf<GroupData> oldList = app.getGroupHelper().getGroups();
+		SortedListOf<GroupData> oldList = app.getGroupHelper().getUIGroups();
 	    
 		Random rnd = new Random();
 		
@@ -25,7 +25,7 @@ public class GroupModificationTests extends TestBase {
 	    app.getGroupHelper().modyfyGroup(index,group);
 	    
 	    //save new state
-	    SortedListOf<GroupData> newList = app.getGroupHelper().getGroups();
+	    SortedListOf<GroupData> newList = app.getGroupHelper().getUIGroups();
 	    
 	    //compare states
 		assertThat(newList, equalTo(oldList.without(index).withAdded(group)));
