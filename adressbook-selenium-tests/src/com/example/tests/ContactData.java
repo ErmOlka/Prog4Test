@@ -25,8 +25,8 @@ public class ContactData implements Comparable<ContactData> {
 
 	@Override
 	public String toString() {
-		return "ContactData [firstName=" + firstName + ", lastName=" + lastName	+ ", phone=" + phone + ", email=" + email + "]";
-	}	
+		return "ContactData [firstName=" + firstName + ", lastName=" + lastName + ", phone=" + phone + ", email=" + email + "]";
+	}
 
 	@Override
 	public int compareTo(ContactData other) {
@@ -89,6 +89,23 @@ public class ContactData implements Comparable<ContactData> {
 		if (getClass() != obj.getClass())
 			return false;
 		ContactData other = (ContactData) obj;
+		if (this.firstName == null)
+			this.firstName = "";
+		if (this.lastName == null)
+			this.lastName = "";
+		if (this.email == null)
+			this.email = "";
+		if (this.phone == null)
+			this.phone = "";
+		
+		if (other.firstName == null)
+			other.firstName = "";
+		if (other.lastName == null)
+			other.lastName = "";
+		if (other.email == null)
+			other.email = "";
+		if (other.phone == null)
+			other.phone = "";
 		if (email == null) {
 			if (other.email != null)
 				return false;
@@ -266,5 +283,75 @@ public class ContactData implements Comparable<ContactData> {
 		this.email = email;
 		return this;
 	}
+
+	public void setId(int id) {
+		this.id = id;
+	}
+
+	public void setFirstName(String firstName) {
+		this.firstName = firstName;
+	}
+
+	public void setLastName(String lastName) {
+		this.lastName = lastName;
+	}
+
+	public void setAddress1(String address1) {
+		this.address1 = address1;
+	}
+
+	public void setHomePhone1(String homePhone1) {
+		this.homePhone1 = homePhone1;
+	}
+
+	public void setMobilePhone(String mobilePhone) {
+		this.mobilePhone = mobilePhone;
+	}
+
+	public void setWorkPhone(String workPhone) {
+		this.workPhone = workPhone;
+	}
+
+	public void setEmail1(String email1) {
+		this.email1 = email1;
+	}
+
+	public void setEmail2(String email2) {
+		this.email2 = email2;
+	}
+
+	public void setBirthDay(String birthDay) {
+		this.birthDay = birthDay;
+	}
+
+	public void setBirthMonth(String birthMonth) {
+		this.birthMonth = birthMonth;
+	}
+
+	public void setBirthYear(String birthYear) {
+		this.birthYear = birthYear;
+	}
+
+	public void setContactGroup(String contactGroup) {
+		this.contactGroup = contactGroup;
+	}
+
+	public void setAddress2(String address2) {
+		this.address2 = address2;
+	}
+
+	public void setHomePhone2(String homePhone2) {
+		this.homePhone2 = homePhone2;
+	}
+
+	public void setPhone(String phone) {
+		this.phone = phone;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
+	}
+	
+	
 	
 }

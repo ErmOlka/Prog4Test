@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN" "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd" >
+<hibernate-mapping>
+ <class name="com.example.tests.ContactData" table="addressbook">
+	 <id name="id" column="id" ></id>
+	 <property name="firstName" 	column="firstname" />
+	 <property name="lastName" 		column="lastname" />
+	 <property name="address1" 		column="address" />
+	 <property name="homePhone1" 	column="home" />
+	 <property name="mobilePhone" 	column="mobile" />
+	 <property name="workPhone" 	column="work" />
+	 <property name="email1" 		column="email" />
+	 <property name="email2" 		column="email2" />
+	 <property name="birthDay" 		column="bday" />
+	 <property name="birthMonth" 	column="bmonth" />
+	 <property name="birthYear" 	column="byear" />
+	 <property name="address2" 		column="address2" />
+	 <property name="homePhone2" 	column="phone2" />
+	 <!--
+	 <property name="phone" 		column="home" insert="false" update="false"/>
+	 <property name="email" 		column="email" insert="false" update="false"/>
+	  не смогла разобраться как с этим правильно работать...
+	 	<set name="contactGroup" table="address_in_groups" lazy="false">
+	 	<key column="id"/>
+	 	<many-to-many column="group_id" class="com.example.tests.GroupData"/>
+	 </set>
+	 -->
+ </class>
+<sql-query name="phone">
+   <return alias="phone" class="com.example.tests.ContactData"/>
+   <![CDATA[SELECT 
+		case 
+			when home is not null
+			then home
+			when mobile is not null
+			then mobile
+			when work is not null
+			then work
+			else null
+		end as phone
+	FROM addressbook]]>
+</sql-query>
+<sql-query name="email">
+   <return alias="email" class="com.example.tests.ContactData"/>
+   <![CDATA[SELECT 
+		case 
+			when email is not null
+			then email
+			when email2 is not null
+			then email2
+			else null
+		end as email
+	FROM addressbook]]>
+</sql-query>
+</hibernate-mapping>

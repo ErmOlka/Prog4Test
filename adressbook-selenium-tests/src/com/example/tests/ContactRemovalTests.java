@@ -10,13 +10,13 @@ public class ContactRemovalTests extends TestBase{
 	@Test(dataProvider = "deletionSomeContact") //удаление одного контакта с выводом в отчет информации о нем
 	public void deleteRandomContact(ContactData contact) {
 		//save old state
-		SortedListOf<ContactData> oldList = app.getContactHelper().getContacts(true);
+		SortedListOf<ContactData> oldList = app.getContactHelper().getUIContacts(true);
 		
     	//actions
 	    app.getContactHelper().deleteContact(contact);
 	    
 		//save new states
-	    SortedListOf<ContactData> newList = app.getContactHelper().getContacts(true);
+	    SortedListOf<ContactData> newList = app.getContactHelper().getUIContacts(true);
 	    
 		//compare states
 	    assertThat(newList, equalTo(oldList.without(contact)));
@@ -25,13 +25,13 @@ public class ContactRemovalTests extends TestBase{
 	@Test(dataProvider = "deletionSomeContacts") //удаление нескольких контактов, но без вывода в отчет информации о них
 	public void deleteRandomContacts(int index) {
 		//save old state
-		SortedListOf<ContactData> oldList = app.getContactHelper().getContacts(true);
+		SortedListOf<ContactData> oldList = app.getContactHelper().getUIContacts(true);
 		
     	//actions
 	    app.getContactHelper().deleteContactByIndex(index);
 	    
 		//save new states
-	    SortedListOf<ContactData> newList = app.getContactHelper().getContacts(true);
+	    SortedListOf<ContactData> newList = app.getContactHelper().getUIContacts(true);
 	    
 		//compare states
 	    assertThat(newList, equalTo(oldList.without(index)));

@@ -75,11 +75,11 @@ public class TestBase {
 	public Iterator<Object[]> deletionSomeContact() {
 		List<Object[]> list = new ArrayList<Object[]>();
 		Random rnd = new Random();
-		int maxCount = app.getContactHelper().getContacts(true).size();
+		int maxCount = app.getModel().getContacts().size();
 		if (! app.getContactHelper().isElementPresent(By.xpath("(//img[@alt='Edit'])")))
 			throw new Error("Ќет контактов");
 		int index = rnd.nextInt(maxCount);
-		ContactData contact = app.getContactHelper().getContacts(true).get(index);
+		ContactData contact = app.getModel().getContacts().get(index);
 		list.add(new Object[] {contact});
 		return list.iterator();
 	}
@@ -89,7 +89,7 @@ public class TestBase {
 	public Iterator<Object[]> deletionSomeContacts() {
 		List<Object[]> list = new ArrayList<Object[]>();
 		Random rnd = new Random();
-		int maxCount = app.getContactHelper().getContacts(true).size();
+		int maxCount = app.getModel().getContacts().size();
 	    if (maxCount == 0) 
 	    	throw new Error("Ќет контактов дл€ удалени€"); 
 	    int countForDelete = rnd.nextInt(maxCount);//если надо удалить конкретное количество контактов, то вместо rnd надо подставить нужное число

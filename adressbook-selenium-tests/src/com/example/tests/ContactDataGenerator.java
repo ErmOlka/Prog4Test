@@ -11,6 +11,7 @@ import java.io.Writer;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
+
 import com.thoughtworks.xstream.XStream;
 
 public class ContactDataGenerator {
@@ -28,8 +29,8 @@ public class ContactDataGenerator {
 		String format = args[2];
 		
 		if (file.exists()) {
-			System.out.println("File '" + file + "' already exists. Remove it manually or set new file name.");
-			return;
+			file.delete();
+			System.out.println("File <" + file + "> has been deleted");
 		}
 		
 		List<ContactData> contacts = generateRandomContacts(amount);

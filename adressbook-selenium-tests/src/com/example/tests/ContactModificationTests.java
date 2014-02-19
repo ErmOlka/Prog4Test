@@ -25,7 +25,7 @@ public class ContactModificationTests extends TestBase {
 	public void modifyRandomContact(ContactData contact) {
 	    
 	    //save old state
-		SortedListOf<ContactData> oldList = app.getContactHelper().getContacts(true);
+		SortedListOf<ContactData> oldList = app.getContactHelper().getUIContacts(true);
     	
     	Random rnd = new Random();
     	
@@ -37,7 +37,7 @@ public class ContactModificationTests extends TestBase {
 	    app.getContactHelper().modifyContactByIndex(index,contact);
 	    
 		//save new states
-	    SortedListOf<ContactData> newList = app.getContactHelper().getContacts(true);
+	    SortedListOf<ContactData> newList = app.getContactHelper().getUIContacts(true);
 		
 		//compare states
 		assertThat(newList, equalTo(oldList.without(index).withAdded(contact)));

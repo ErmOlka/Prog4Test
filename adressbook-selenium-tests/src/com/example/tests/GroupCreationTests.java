@@ -25,8 +25,6 @@ public class GroupCreationTests extends TestBase {
 		    
 	    //save old state
 		SortedListOf<GroupData> oldList	= app.getModel().getGroups();
-		System.out.println("getGroups (old)" + app.getModel().getGroups());
-		System.out.println("oldList before create: <" + oldList + ">");
 		
 		//actions
 		app.getGroupHelper().creationGroup(group);
@@ -35,18 +33,18 @@ public class GroupCreationTests extends TestBase {
 		SortedListOf<GroupData> newList = app.getModel().getGroups();
 		
 		//compare states
-		System.out.println("group: <" + group + ">");
-		System.out.println("oldList after create: <" + oldList + ">");
-		System.out.println("oldList.withAdded " + oldList.withAdded(group));
-		System.out.println("newList: <" + newList + ">");
 		assertThat(newList, equalTo(oldList.withAdded(group)));
 		
 		//compare model to implementation
 		if (wantToCheck()) {
-			if ("yes".equals(app.getProperty("check.db"))) 
+			if ("yes".equals(app.getProperty("check.db"))) {
 				assertThat(app.getModel().getGroups(), equalTo(app.getHibernateHelper().listGroups()));
-			if ("yes".equals(app.getProperty("check.ui")))
+				System.out.println("check db has been implemented");
+			}
+			if ("yes".equals(app.getProperty("check.ui"))) {
 				assertThat(app.getModel().getGroups(), equalTo(app.getGroupHelper().getUIGroups()));
+				System.out.println("check ui has been implemented");
+			}
 		}
 	}
 	

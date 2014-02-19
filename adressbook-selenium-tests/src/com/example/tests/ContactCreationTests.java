@@ -23,16 +23,36 @@ public class ContactCreationTests extends TestBase {
     public void testContactCreationValidData(ContactData contact) throws Exception {
 	    
 	    //save old state
-    	SortedListOf<ContactData> oldList = app.getContactHelper().getContacts(true);
+		System.out.println("contact" + contact);
+    	SortedListOf<ContactData> oldList = app.getModel().getContacts();
+    	System.out.println("oldList" + oldList);
     	
     	//actions
     	app.getContactHelper().creationContact(contact);
 		
 		//save new states
-    	SortedListOf<ContactData> newList = app.getContactHelper().getContacts(true);
+    	SortedListOf<ContactData> newList = app.getModel().getContacts();
+    	System.out.println("newList" + newList);
 		
 		//compare states
     	assertThat(newList, equalTo(oldList.withAdded(contact)));
+    	
+		//compare model to implementation
+    	
+		if (wantToCheck()) {
+			if ("yes".equals(app.getProperty("check.db"))) {
+				SortedListOf<ContactData> modelContacts = app.getModel().getContacts();
+				SortedListOf<ContactData> dbContacts = new SortedListOf<ContactData>(app.getHibernateHelper().listContacts());
+				System.out.println("modelContacts" + modelContacts);
+				System.out.println("dbContacts" + dbContacts);
+				assertThat(modelContacts, equalTo(dbContacts));
+				System.out.println("check db has been implemented");
+			}
+			if ("yes".equals(app.getProperty("check.ui"))) {
+				assertThat(app.getModel().getContacts(), equalTo(app.getContactHelper().getUIContacts(true)));
+				System.out.println("check ui has been implemented");
+			}
+		}
     }
 	
 	/*
