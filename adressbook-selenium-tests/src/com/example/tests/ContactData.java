@@ -89,6 +89,33 @@ public class ContactData implements Comparable<ContactData> {
 		if (getClass() != obj.getClass())
 			return false;
 		ContactData other = (ContactData) obj;
+		
+		if (this.email1 != null && !this.email1.equals(""))
+			this.email = this.email1;
+		else this.email = this.email2;
+		
+		if (this.homePhone1 != null && !this.homePhone1.equals(""))
+			this.phone = this.homePhone1;
+		else {
+			if (this.mobilePhone != null && !this.mobilePhone.equals(""))
+				this.phone = this.mobilePhone;
+			else this.phone = this.workPhone;
+		}
+		
+		if (!email.replaceAll(" +", " ").trim().equals(other.email.replaceAll(" +", " ").trim()) && !phone.replaceAll(" ", "").equals(other.phone.replaceAll(" ", ""))) {
+				if (other.email1 != null && !other.email1.equals(""))
+					other.email = other.email1;
+				else other.email = other.email2;
+				
+				if (other.homePhone1 != null && !other.homePhone1.equals(""))
+					other.phone = other.homePhone1;
+				else {
+					if (other.mobilePhone != null && !other.mobilePhone.equals(""))
+						other.phone = other.mobilePhone;
+					else other.phone = other.workPhone;
+			}
+		}
+		
 		if (this.firstName == null)
 			this.firstName = "";
 		if (this.lastName == null)
@@ -106,6 +133,7 @@ public class ContactData implements Comparable<ContactData> {
 			other.email = "";
 		if (other.phone == null)
 			other.phone = "";
+				
 		if (email == null) {
 			if (other.email != null)
 				return false;

@@ -26,6 +26,7 @@
 	 </set>
 	 -->
  </class>
+ <!--
 <sql-query name="phone">
    <return alias="phone" class="com.example.tests.ContactData"/>
    <![CDATA[SELECT 
@@ -52,4 +53,5 @@
 		end as email
 	FROM addressbook]]>
 </sql-query>
+-->
 </hibernate-mapping>

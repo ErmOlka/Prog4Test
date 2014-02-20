@@ -1,56 +1,58 @@
 <list>
   <contact>
     <id>0</id>
-    <firstName></firstName>
-    <lastName>Акименко</lastName>
-    <address1></address1>
-    <homePhone1>1 (358) 5604101</homePhone1>
-    <workPhone>2 (542) 2992969</workPhone>
-    <email1>S_s_l32t9@baR6a.jtK</email1>
-    <email2>8j4Rdft@Rnxz..B</email2>
-    <birthDay>29</birthDay>
-    <birthMonth>December</birthMonth>
+    <firstName>Евсей</firstName>
+    <lastName>Ершов</lastName>
+    <address1>Адрес 1: 3 s5фoЫv5a</address1>
+    <homePhone1>9 (004) 1319556</homePhone1>
+    <mobilePhone>8 (565) 7103003</mobilePhone>
+    <workPhone>2 (462) 2790130</workPhone>
+    <email1></email1>
+    <birthDay>16</birthDay>
+    <birthMonth>August</birthMonth>
+    <birthYear>1938</birthYear>
     <contactGroup>[none]</contactGroup>
-    <address2>Адрес 2: </address2>
-    <homePhone2>1 (346) 4413628</homePhone2>
-    <phone>1 (358) 5604101</phone>
-    <email>S_s_l32t9@baR6a.jtK</email>
+    <address2>Адрес 2: null</address2>
+    <homePhone2>8 (594) 5765224</homePhone2>
+    <phone>9 (004) 1319556</phone>
+    <email></email>
   </contact>
   <contact>
     <id>0</id>
-    <firstName>Горислава</firstName>
-    <lastName>Федорченко</lastName>
-    <address1>Адрес 1: ц4з4Iu03DSMе</address1>
-    <homePhone1>0 (133) 1311181</homePhone1>
-    <mobilePhone>5 (960) 7290807</mobilePhone>
-    <workPhone>9 (175) 7556308</workPhone>
-    <email1>qA5LxPz3r@diCnW.AnT</email1>
-    <email2>S.OmFcR@yJwL.JG</email2>
-    <birthDay>14</birthDay>
-    <birthMonth>November</birthMonth>
-    <contactGroup>[none]</contactGroup>
-    <address2>Адрес 2: ж81е1m1лsGхx2sиъLwFlлЕзэрAМoКЫAB87тh1bKгиhoВZZ_ВЦ2бJ</address2>
-    <homePhone2>1 (394) 3739259</homePhone2>
-    <phone>0 (133) 1311181</phone>
-    <email>qA5LxPz3r@diCnW.AnT</email>
-  </contact>
-  <contact>
-    <id>0</id>
-    <firstName>Викентий</firstName>
-    <lastName>Матвеенко</lastName>
-    <address1>Адрес 1: 4Т3ЬBЪШа2EH5nIа au68ХК</address1>
+    <firstName>Лариса</firstName>
+    <lastName>Шуляк</lastName>
+    <address1>Адрес 1: аУjфX5ВkБ</address1>
     <homePhone1></homePhone1>
-    <mobilePhone>5 (529) 6072615</mobilePhone>
-    <workPhone>4 (672) 9643357</workPhone>
-    <email1>bQw2hCdve@bnX9W.MA3</email1>
-    <email2>cdY14Lr@IUv9.MO</email2>
-    <birthDay>28</birthDay>
-    <birthMonth>March</birthMonth>
-    <birthYear>1924</birthYear>
+    <mobilePhone>3 (402) 5114232</mobilePhone>
+    <workPhone>7 (255) 0506065</workPhone>
+    <email1>cGN04wCs1@oWUG7.Ih_</email1>
+    <email2></email2>
+    <birthDay>21</birthDay>
+    <birthMonth>July</birthMonth>
+    <birthYear>1981</birthYear>
     <contactGroup>[none]</contactGroup>
-    <address2>Адрес 2: MVЙRzWY2TБьЯф9UтюYфяtФХ4НdtPа l08d91oUNК3яz3хcЯциТъьъFаSгxйqC0qЯВЕ</address2>
-    <homePhone2>4 (645) 8748593</homePhone2>
-    <phone>5 (529) 6072615</phone>
-    <email>bQw2hCdve@bnX9W.MA3</email>
+    <address2>Адрес 2: КзVУэЫЩСqOLзА.RvКGь.ЯbZwоЭhR СОPo9NынЯрФЧnр н8ЗэзчpрА_8ИжЫUРz7d ьxxS6БYЯьx1БяйБ 3ФFХT хsNhyх Аy</address2>
+    <homePhone2>6 (993) 3612139</homePhone2>
+    <phone>3 (402) 5114232</phone>
+    <email>cGN04wCs1@oWUG7.Ih_</email>
+  </contact>
+  <contact>
+    <id>0</id>
+    <firstName>Агния</firstName>
+    <lastName>Задерко</lastName>
+    <address1>Адрес 1: UшiTDя1Ш7M4N3иJslЪыsWПж0гqУА0</address1>
+    <homePhone1>3 (495) 5806576</homePhone1>
+    <mobilePhone>8 (914) 2878122</mobilePhone>
+    <workPhone>1 (838) 7075601</workPhone>
+    <email1>YthAHISWx@a.HFE.FaY</email1>
+    <email2>TSqN93n@G3v8.6e</email2>
+    <birthDay>4</birthDay>
+    <birthMonth>September</birthMonth>
+    <birthYear>1969</birthYear>
+    <contactGroup>[none]</contactGroup>
+    <address2>Адрес 2: null</address2>
+    <homePhone2>9 (764) 6367111</homePhone2>
+    <phone>3 (495) 5806576</phone>
+    <email>YthAHISWx@a.HFE.FaY</email>
   </contact>
 </list>

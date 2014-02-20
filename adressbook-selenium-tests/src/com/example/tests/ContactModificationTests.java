@@ -25,7 +25,7 @@ public class ContactModificationTests extends TestBase {
 	public void modifyRandomContact(ContactData contact) {
 	    
 	    //save old state
-		SortedListOf<ContactData> oldList = app.getContactHelper().getUIContacts(true);
+		SortedListOf<ContactData> oldList = app.getModel().getContacts();
     	
     	Random rnd = new Random();
     	
@@ -37,10 +37,22 @@ public class ContactModificationTests extends TestBase {
 	    app.getContactHelper().modifyContactByIndex(index,contact);
 	    
 		//save new states
-	    SortedListOf<ContactData> newList = app.getContactHelper().getUIContacts(true);
+	    SortedListOf<ContactData> newList = app.getModel().getContacts();
 		
 		//compare states
 		assertThat(newList, equalTo(oldList.without(index).withAdded(contact)));
+		
+		//compare model to implementation
+    	if (wantToCheck()) {
+			if ("yes".equals(app.getProperty("check.db"))) {
+				assertThat(app.getModel().getContacts(), equalTo(app.getHibernateHelper().listContacts()));
+				System.out.println("check db has been implemented");
+			}
+			if ("yes".equals(app.getProperty("check.ui"))) {
+				assertThat(app.getModel().getContacts(), equalTo(app.getContactHelper().getUIContacts(true)));
+				System.out.println("check ui has been implemented");
+			}
+		}
 	}
 
 }

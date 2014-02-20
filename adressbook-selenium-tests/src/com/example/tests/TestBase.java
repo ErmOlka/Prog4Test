@@ -8,7 +8,6 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Properties;
 import java.util.Random;
-import org.openqa.selenium.By;
 import org.testng.annotations.AfterTest;
 import org.testng.annotations.BeforeTest;
 import org.testng.annotations.DataProvider;
@@ -76,7 +75,7 @@ public class TestBase {
 		List<Object[]> list = new ArrayList<Object[]>();
 		Random rnd = new Random();
 		int maxCount = app.getModel().getContacts().size();
-		if (! app.getContactHelper().isElementPresent(By.xpath("(//img[@alt='Edit'])")))
+		if (maxCount == 0)
 			throw new Error("Ќет контактов");
 		int index = rnd.nextInt(maxCount);
 		ContactData contact = app.getModel().getContacts().get(index);
@@ -91,7 +90,7 @@ public class TestBase {
 		Random rnd = new Random();
 		int maxCount = app.getModel().getContacts().size();
 	    if (maxCount == 0) 
-	    	throw new Error("Ќет контактов дл€ удалени€"); 
+	    	throw new Error("Ќет контактов");
 	    int countForDelete = rnd.nextInt(maxCount);//если надо удалить конкретное количество контактов, то вместо rnd надо подставить нужное число
 	    if (countForDelete == 0)
 	    	countForDelete = 1;
