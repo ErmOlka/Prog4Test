@@ -17,8 +17,6 @@
 	 <property name="address2" 		column="address2" />
 	 <property name="homePhone2" 	column="phone2" />
 	 <!--
-	 <property name="phone" 		column="home" insert="false" update="false"/>
-	 <property name="email" 		column="email" insert="false" update="false"/>
 	  не смогла разобраться как с этим правильно работать...
 	 	<set name="contactGroup" table="address_in_groups" lazy="false">
 	 	<key column="id"/>
@@ -26,32 +24,4 @@
 	 </set>
 	 -->
  </class>
- <!--
-<sql-query name="phone">
-   <return alias="phone" class="com.example.tests.ContactData"/>
-   <![CDATA[SELECT 
-		case 
-			when home is not null
-			then home
-			when mobile is not null
-			then mobile
-			when work is not null
-			then work
-			else null
-		end as phone
-	FROM addressbook]]>
-</sql-query>
-<sql-query name="email">
-   <return alias="email" class="com.example.tests.ContactData"/>
-   <![CDATA[SELECT 
-		case 
-			when email is not null
-			then email
-			when email2 is not null
-			then email2
-			else null
-		end as email
-	FROM addressbook]]>
-</sql-query>
--->
 </hibernate-mapping>
