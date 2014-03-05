@@ -1,4 +1,4 @@
-package com.example.fw;
+package com.example.utils;
 
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;

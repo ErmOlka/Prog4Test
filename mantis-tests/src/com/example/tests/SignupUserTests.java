@@ -8,20 +8,15 @@ import org.testng.annotations.AfterClass;
 import org.testng.annotations.BeforeClass;
 import org.testng.annotations.Test;
 
-import com.example.fw.AccountHelper;
-import com.example.fw.JamesHelper;
 import com.example.fw.User;
 
-public class SignupTest extends TestBase{
+public class SignupUserTests extends TestBase{
 	
 	public User user = new User()
 		.setLogin("testuser1")
 		.setPassword("123456")
 		.setEmail("testuser1@localhost.localdomain");
-	
-	private JamesHelper james;
-	private AccountHelper accHelper;
-	
+		
 	@BeforeClass
 	public void createMailUser() {
 		james = app.getJamesHelper();
@@ -41,12 +36,23 @@ public class SignupTest extends TestBase{
 	public void newUserShouldSignup() {
 		accHelper.signup(user);
 		accHelper.login(user);
-		assertThat(accHelper.loggedUser(user), equalTo(user.login));
+		assertThat(accHelper.loggedUserName(), equalTo(user.login));
+		
+		//compare model to implementation
+    	if ("yes".equals(app.getProperty("check.db"))) {
+			assertThat(app.getModel().getUsers(), equalTo(app.getHibernateHelper().listUsers()));
+			System.out.println("check db has been implemented");
+			}
+		if ("yes".equals(app.getProperty("check.ui"))) {
+			assertThat(app.getModel().getUsers(), equalTo(app.getAccountHelper().getUIUsers(admin)));
+			System.out.println("check ui has been implemented");
+		}
 	}
 	
 	@Test
-	public void existingUserShouldNotSignup() {
+	public void userShouldNotSignup() {
 		try {
+			accHelper.logout();
 			accHelper.signup(user);
 		} catch (Exception e) {
 			assertThat(e.getMessage(), containsString("That username is already being used"));
@@ -54,6 +60,8 @@ public class SignupTest extends TestBase{
 		}
 		fail("Exception expected");
 	}
+	
+	
 	
 
 }

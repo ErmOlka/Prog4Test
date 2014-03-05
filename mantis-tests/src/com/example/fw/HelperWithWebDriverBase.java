@@ -39,7 +39,7 @@ public abstract class HelperWithWebDriverBase extends HelperBase {
 		//}
 	}
 	
-	protected WebElement findElement(By locator) {
+	public WebElement findElement(By locator) {
 		try {
 			return driver.findElement(locator);
 		} catch (Exception e) {

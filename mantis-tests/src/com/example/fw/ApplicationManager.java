@@ -13,6 +13,7 @@ public class ApplicationManager {
 	
 	public WebDriver driver;
 	public String baseUrl;
+	private ApplicationModel model;
 	
 	private Properties properties;
 	private HibernateHelper hibernateHelper;
@@ -23,11 +24,17 @@ public class ApplicationManager {
 	//before
 	public ApplicationManager(Properties properties) {
 	    this.properties = properties;
+	    model = new ApplicationModel();
+	    model.setUsers(getHibernateHelper().listUsers());
 	}	
 	
 	//after
 	public void stop() {
 	    driver.quit();
+	}
+	
+	public ApplicationModel getModel() {
+		return model;
 	}
 	
 	public HibernateHelper getHibernateHelper() {

@@ -8,7 +8,7 @@ public class HelperBase {
 		this.manager = manager;
 	}
 	
-	protected void pause(int pause) {
+	public void pause(int pause) {
 		try {
 			Thread.sleep(pause);
 		} catch (InterruptedException e) {
